@@ -1,0 +1,111 @@
+<div class="advanced_filters">
+    <div class="container_large">
+        <div class="d-flex align-items-center justify-content-end">
+            <div class="filter_col">
+                <span>Filter By</span>
+            </div>
+            <div class="filter_col">
+                <select [(ngModel)]="rating" (change)="getList()">
+                    <option [value]="null">Select Rating</option>
+                    <option [value]="5">Min 5.0</option>
+                    <option [value]="4">Min 4.0</option>
+                    <option [value]="3">Min 3.0</option>
+                    <option [value]="2">Min 2.0</option>
+                    <option [value]="1">Min 1.0</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="inner_main listing_main">
+    <section class="business_listings all_listings">
+        <div class="container" *ngIf="dataStatus=='done'">
+            <div class="list_view_listing" *ngIf="results.length > 0 ; else noData">
+                <!-- List View Column -->
+                <div class="list_view_column" *ngFor="let d of results;let i = index">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="listing_column_img">
+                                <a href="#" [routerLink]="['/listing/details',d.id]"><img [src]="api.listingSmallThumbnailUrl(d.id)" class="img-fluid" alt=""></a>
+                                <div class="sponsored_badge">Sponsored</div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="listing_column_content">
+                                <div class="busniess_rating">
+                                    <div class="rating-container">
+                                        <irating [(value)]="d.avg_rating" [name]="'s-' +i" [size]="16" [readonly] = "true"></irating>
+                                    </div>
+                                    <span>({{d.review.length}} Reviews)</span>
+                                </div>
+                                <h2><a href="#" [routerLink]="['/listing/details',d.id]"> {{d.title}}</a></h2>
+                                <p class="mb-4">
+                                    <app-read-more [text]="d.description" [maxLength]="130"></app-read-more>
+                                </p>
+                                <ul class="list_view_info d-flex">
+                                    <li>
+                                        <p><img src="/assets/images/clock-icon.png" alt=""> Opened {{moment(d.created_at).fromNow()}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Page navigation example" *ngIf="dataStatus == 'done'">
+                    <ul class="pagination justify-content-left  mt-3">
+                        <li class="page-item">
+                            <small *ngIf="page<10">Current Page: 0{{page}}</small>
+                            <small *ngIf="page>=10">Current Page: {{page}}</small>
+                        </li>
+                    </ul>
+                    <ul class="pagination justify-content-left">
+                        <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                        </li>
+                        <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                        </li>
+                        <ng-container *ngIf="pagination.last_page <= 6">
+            
+                            <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                                <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+            
+                        </ng-container>
+            
+                        <ng-container *ngIf="pagination.last_page >= 7">
+            
+                            <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                                <li *ngIf="i<4" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                                </li>
+                                <li *ngIf="(pagination.last_page-i) == 3" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link">...</a>
+                                </li>
+                                <li *ngIf="(pagination.last_page-i)==1 || (pagination.last_page-i)==2" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+            
+                        </ng-container>
+            
+                        <li class="page-item" *ngIf="pagination.next_page_url != null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                        </li>
+                        <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <ng-template #noData>
+                <div class="list_view_listing">
+                    <h2 class="my-5 text-center">No Record Found</h2>
+                </div>
+            </ng-template>
+        </div>
+    </section>
+</main>

@@ -1,0 +1,95 @@
+<h2 class="heading">Listings</h2>
+<div class="owner_litings">
+    <div class="add_business"><a (click)="addNewList()" routerLinkActive="router-link-active">Add Listing</a></div>
+    <div class="table-responsive" *ngIf="dataStatus == 'done' && results.length > 0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Listing Status</th>
+                    <th>Actions</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of results; let i = index">
+                    <td width="100"><img [src]="api.listingSmallThumbnailUrl(d.id)" class="round_img" alt=""></td>
+                    <td>{{d.title}}</td>
+                    <td><p>
+                        <app-read-more [text]="d.description" [maxLength]="130"></app-read-more>
+                        </p>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm status_btn" (click)="changeStatus(d.id,i, 'active')" *ngIf="d.subscription_status == 'inactive'">Active</button>
+                        <button class="btn btn-danger btn-sm status_btn" (click)="changeStatus(d.id,i, 'inactive')"  *ngIf="d.subscription_status == 'active'">Inactive</button>
+                    </td>
+                    <td>
+                        <div class="table_actions">
+                            <a [routerLink]="['/business-owner/listing/edit', d.id]" routerLinkActive="router-link-active" class="edit_btn"><i class="fas fa-edit"></i></a>
+                            <a (click)="confirmingModal(listingConfirming, d.id,i)" class="del_btn"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left  mt-3">
+                <li class="page-item">
+                    <small *ngIf="page<10">Current Page: 0{{page}}</small>
+                    <small *ngIf="page>=10">Current Page: {{page}}</small>
+                </li>
+            </ul>
+            <ul class="pagination justify-content-left">
+                <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                </li>
+                <ng-container *ngIf="pagination.last_page <= 6">
+
+                    <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                        <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+                <ng-container *ngIf="pagination.last_page >= 7">
+
+                    <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                        <li *ngIf="i<4" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                        <li *ngIf="(pagination.last_page-i) == 3" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link">...</a>
+                        </li>
+                        <li *ngIf="(pagination.last_page-i)==1 || (pagination.last_page-i)==2" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+                <li class="page-item" *ngIf="pagination.next_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<ng-template #listingConfirming>
+    <div class="modal-body text-center">
+        <p class="mb-2">Do you want to Delete?</p>
+        <button type="button" class="primary mr-2 " (click)="deleteProduct()">Yes</button>
+        <button type="button" class="danger" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

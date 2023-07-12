@@ -1,0 +1,157 @@
+<div class="row justify-content-center" *ngIf="dataStatus=='done'">
+    <div class="col-md-11">
+        <h4  class="mb-2 text-center font-bold">View Busniess Owner</h4>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>First Name</b></label>
+                                <p>{{selectedCenterData.user.first_name}}</p>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Last Name</b></label>
+                                <p>{{selectedCenterData.user.last_name}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Email</b></label>
+                                <p>{{selectedCenterData.user.email}}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Contact</b></label>
+                                <p>{{selectedCenterData.contact}}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Opening Time</b></label>
+                                <p>
+                                    {{moment(selectedCenterData.opening_time).format(timeFormat)}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Closing Time</b></label>
+                                <p>
+                                    {{moment(selectedCenterData.closing_time).format(timeFormat)}}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Business Category</b></label>
+                                <p>
+                                    {{selectedCenterData.business_category.full_name}}
+                                    
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Established</b></label>
+                                <p>
+                                    {{moment(selectedCenterData.established_data).format(dateFormat)}}
+                                    
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Airport ID</b></label>
+                                <p>
+                                    {{selectedCenterData.airport_id}}
+                                    
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><b>Address#</b></label>
+                                <p>{{selectedCenterData.address}}</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row" *ngIf="selectedCenterData.business_services.length > 0">
+                        <hr>
+                        <h4  class="col-md-12 mb-2  font-bold">Services</h4>
+                        <div class="col-md-12">
+                            <span *ngFor="let list of selectedCenterData.business_services; let i = index">
+                                {{list.service.full_name}}<span *ngIf="i+1!=selectedCenterData.business_services.length">, </span>
+                            </span>
+                        </div>
+                        
+                    </div>
+                    <div class="row" *ngIf="selectedCenterData.business_schedule.length > 0">
+                        <h4  class="col-md-12 mb-2  font-bold">Schedule</h4>
+                        <div class="col-md-12">
+                            <table class="table table-sm table-hover">
+                                <tr>
+                                    <th width="50">Sunday</th>
+                                    <th width="50">Monday</th>
+                                    <th width="50">Tuesday</th>
+                                    <th width="50">Wednesday</th>
+                                    <th width="50">Thrusday</th>
+                                    <th width="50">Friday</th>
+                                    <th width="50">Staturday</th>
+                                </tr>
+                                <tr>
+                                    <td *ngFor="let s of selectedCenterData.business_schedule;" class="text-center">
+                                        <div *ngIf="s.holiday==1"><span class="activeDay">&#10003;</span></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </div>        
+                    <div class="row" *ngIf="selectedCenterData.user.listing.length > 0">
+                        <hr> 
+                        <h4  class="col-md-12 mb-2  font-bold">Listings</h4>
+                        <div class="col-md-12" *ngFor="let list of selectedCenterData.user.listing">
+                            <p>
+                                {{list.title}}
+                            </p>
+                            <br>
+                            <p>
+                                {{list.description}}
+                            </p>  
+                           
+                            <ng-container *ngIf="list.review.length > 0">
+                                <div class="row">
+                                    <div  class="col-md-12 mb-2  font-bold"><b>Reviews</b></div>
+                                    <div class="col-md-12 mb-2 " style="border: solid 1px #CCC;" *ngFor="let review of list.review">
+                                        <p class="mt-2">
+                                            <b>Rating:</b> {{review.rating}}<br>
+                                            <b>Feedback:</b> {{review.feedback}}<br>
+                                            <b>By:</b> {{review.user.first_name}} <br>
+                                            <b>On:</b> {{review.created_at}}
+                                            
+                                        </p>
+                                        <br>
+                                    </div>    
+
+                                </div>
+                            </ng-container>
+                            <hr>  
+                                                    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <img class="profile-image" [src]="api.userImageUrl(centerId)" alt="">
+                </div>
+            </div>
+        
+    </div>
+</div>

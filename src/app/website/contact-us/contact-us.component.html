@@ -1,0 +1,108 @@
+<!-- Main Content Start Here   -->
+<main>
+    <section class="contact_info">
+        <div class="container top-margin">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="info_col">
+                        <h2>Contact Us</h2>
+                        <div class="form_holder">
+                            <div class="alert alert-danger" role="alert" *ngIf="simpleError">
+                                {{ simpleError }}
+                            </div>
+                            <div *ngIf="isSubmitted==true" class="alert alert-success" role="alert">
+                                <h1>Thank You</h1>
+                                <p>Your submission is received and we will contact you soon</p>
+                            </div>
+                            <form [formGroup]="contactUs" (ngSubmit)="save(contactUs)" #f="ngForm" *ngIf="formShow">
+                                <input type="hidden" formControlName="id">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Name<span class="mendatory">*</span></label>
+                                        <input type="text" class="fadeIn w-100 mb-3" formControlName="name" placeholder="Full Name" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.name, f)" class="errors">
+                                            <p *ngIf="g.name.errors.required">Name is required</p>
+                                            <p *ngIf="g.name.errors.maxlength">Name limit is
+                                                {{ g.name.errors.maxlength.requiredLength }} Charaters</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Email<span class="mendatory">*</span></label>
+                                        <input type="text" class="fadeIn w-100  mb-3" formControlName="email" placeholder="Email" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.email, f)" class="errors">
+                                            <p *ngIf="g.email.errors.required">Email is required</p>
+                                            <p *ngIf="g.email.errors.email">E-mail is invalid</p>
+                                            <p *ngIf="g.email.errors.maxlength">Email limit is
+                                                {{ g.email.errors.maxlength.requiredLength }} Characters</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Contact Number <span class="mendatory">*</span></label>
+                                        <input type="text" class="fadeIn w-100  mb-3" formControlName="contact_no" placeholder="Contact Number" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.contact_no, f)" class="errors">
+                                            <p *ngIf="g.contact_no.errors.required">Contact Number is required</p>
+                                            <p *ngIf="g.contact_no.errors.maxlength">Contact Number Limit Is
+                                                {{ g.contact_no.errors.maxlength.requiredLength }} Characters</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Address</label>
+                                        <input type="text" class="fadeIn w-100  mb-3" formControlName="address" placeholder="Address" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.address, f)" class="errors">
+                                            <p *ngIf="g.address.errors.maxlength">Address Limit is
+                                                {{ g.address.errors.maxlength.requiredLength }} Characters</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>Message<span class="mendatory">*</span></label>
+                                        <textarea type="text" class="fadeIn w-100  mb-3" formControlName="description" placeholder="Type you message here" [ngClass]="{'form-submitted': f.submitted}"></textarea>
+                                        <div *ngIf="ui.checkErrors(g.description, f)" class="errors">
+                                            <p *ngIf="g.description.errors.required">Message is required</p>
+                                            <p *ngIf="g.description.errors.maxlength">Message limit is
+                                                {{ g.description.errors.maxlength.requiredLength }} Characters</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="secondary">Send Message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="col-md-6">
+                    <div class="info_col">
+                        <h2>Contact Info</h2>
+                        <p>
+                            <span><img src="assets/images/phone-icon-color.png" alt=""></span>
+                            <span> 043 722 0255</span>
+                        </p>
+                        <p>
+                            <span><img src="assets/images/fax-icon-color.png" alt=""></span>
+                            <span> 0866 114 197</span>
+                        </p>
+                        <p>
+                            <span><img src="assets/images/mail-icon-color.png" alt=""></span>
+                            <span> admin@propertyhuntsa.co.za</span>
+                        </p>
+                        <p>
+                            <span><img src="assets/images/address-icon-color.png" alt=""></span>
+                            <span> 9 Bowls Road, Arcadia, East London 5201</span>
+                        </p>
+                        <div class="follow_us">
+                            <ul>
+                                <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="#" target="_blank"><i class="fab fa-google-plus-g"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 -->
+            </div>
+        </div>
+    </section>
+</main>
+<!--   Main Content End Here   -->

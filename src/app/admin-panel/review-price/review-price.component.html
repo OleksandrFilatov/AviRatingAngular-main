@@ -1,0 +1,87 @@
+<!-- <p>
+  review-price works!
+</p> -->
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <h4>Review Reply Prices</h4>
+            <button class="green sm mb-2" (click)="openModal(reviewPrice, -1)">Add</button>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Replies</th>
+                        <th>Price </th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dbResponse.length > 0; else noDataFound">
+                    <tr *ngFor="let d of dbResponse; let i = index">
+                        <td>{{d.no_of_replies}} </td>
+                        <td>{{d.price | currency:'USD'}}  </td>
+                        <td class=" d-flex justify-content-center">
+                            
+                            <div class="px-1 edit">
+                                
+                                    <i class="fa fa-edit" (click)="openModal(reviewPrice,i)"></i>
+                                
+                            </div>
+                            <div class="px-1 delete">
+                                <i class="fa fa-trash" (click)="confirmingModal(delConfirming, d.id,i)"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+  
+            </table>
+        </div>
+    </div>
+  </div>
+  
+  <ng-template #reviewPrice>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Review Reply Price</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="reviewPriceForm" (ngSubmit)="save( f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <label class="mb-0">No of Replies <span class="mendatory">*</span></label>
+                    <input formControlName="no_of_replies" class="form-control mt-0" placeholder="Enter No of replies" [ngClass]="{'form-submitted': f.submitted}">
+                    <div *ngIf="ui.checkErrors(g.no_of_replies, f)" class="errors">
+                        <p *ngIf="g.no_of_replies.errors.required">No of replies is required</p>
+                    </div>
+                </div>
+  
+                <div class="col-md-6 mb-1">
+                    <label class="mb-0">Price <span class="mendatory">*</span></label>
+                    <input formControlName="price" type="number" class="form-control mt-0" placeholder="Enter Price" [ngClass]="{'form-submitted': f.submitted}">
+                    <div *ngIf="ui.checkErrors(g.price, f)" class="errors">
+                        <p *ngIf="g.price.errors.required">Price is required</p>
+                    </div>
+                </div>
+            </div>
+  
+            <button type="submit" class="red sm m-1">save</button>
+            <button type="button" class="black sm ml-1" (click)="cancelButton(f)">Cancel</button>
+        </form>
+    </div>
+  </ng-template>
+  
+  <ng-template #delConfirming>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="sm green" (click)="delete()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+  </ng-template>

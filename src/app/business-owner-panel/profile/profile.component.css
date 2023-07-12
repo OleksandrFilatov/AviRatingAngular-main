@@ -1,0 +1,33 @@
+#file_upload {
+    display: none;
+}
+.custom_file_upload span {
+    display: block;
+    margin-top: 20px;
+}
+.custom_file_upload {
+    display: block;
+    padding: 35px 0px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+    color: #C4C4C4;
+    font-size: 14px;
+}
+.signup_img h1 {
+    font-size: 24px;
+    font-family: 'Pangram-Bold';
+}
+.signup_img .custom_file_upload {
+    max-width: 300px;
+}
+.panel_content h2 {
+    font-size: 24px;
+    font-family: 'Pangram-Bold';
+    margin-bottom: 50px;
+}
+.marker {
+    cursor:pointer; line-height: 0.8; color:red; margin-left:6px;
+}

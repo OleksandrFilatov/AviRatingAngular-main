@@ -1,0 +1,187 @@
+<!---Home Page-->
+<header *ngIf="showSearch===false">
+    <div class="container_large">
+        <nav class="navbar navbar-expand-lg">
+            <!-- <a class="navbar-brand" href=""><img src="/assets/images/logo.png" alt="img"></a> -->
+            <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" data-toggle="collapse"
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="toggler_icon"></span>
+                <span class="toggler_icon"></span>
+                <span class="toggler_icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" id="navbarsExampleDefault"
+                [collapse]="isCollapsed" [isAnimated]="true">
+                <ul class="navbar-nav">
+                    <li><a [routerLink]="['/businesses']" routerLinkActive="active">Write a Review</a></li>
+                    <li><a [routerLink]="['/for-businesses']" routerLinkActive="active">For Businesses</a></li>
+                    <li class="nav-item dropdown" dropdown>
+                        <a class="nav-link dropdown-toggle" href (click)="false" id="navbarDropdown" role="button"
+                            aria-controls="navbarDropdown" dropdownToggle>
+                            Community
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu role="menu"
+                            aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" [routerLink]="['/airparks']"
+                                    routerLinkActive="active">Airports/Airparks</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" [routerLink]="['/my-posts']"
+                                    routerLinkActive="active">Posts</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a [routerLink]="['/about-us']" routerLinkActive="active">About Us</a></li>
+                    <li><a [routerLink]="['/contact-us']" routerLinkActive="active">Contact Us</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="account_links">
+            <a *ngIf="isCustomer && isAuthenticated" [routerLink]="['/notifications']"><i class="fa fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    *ngIf="api.newNotification > 0">
+                    {{ api.newNotification > 99 ? '99+' : api.newNotification }}
+                </span>
+            </a>
+            <a *ngIf="isCustomer" [routerLink]="['/customer/profile']">My Portal</a>
+            <a *ngIf="isBussinessOwner" [routerLink]="['/business-owner/profile']">My Portal</a>
+            <a *ngIf="isAdmin" [routerLink]="['/admin/dashboard']">My Portal</a>
+            <a *ngIf="isAuthenticated" href="javascript:void(0)" (click)="logOut()">Sign Out</a>
+            <a *ngIf="!isAuthenticated" [routerLink]="['/login']">Log In</a>
+            <a *ngIf="!isAuthenticated" [routerLink]="['/registration']"><img src="/assets/images/user.png" alt=""> Sign
+                Up</a>
+        </div>
+    </div>
+</header>
+<div class="home_banner" #header *ngIf="showSearch===false">
+    <div class="container">
+        <div class="banner_content">
+            <div class="banner_logo"><a [routerLink]="['/']"><img src="/assets/images/logo.png" alt=""></a></div>
+            <h1>Find The Best</h1>
+
+            <div class="search_form">
+                <div class="keyword_select">
+                    <select [(ngModel)]="filterBusiness.cat_name" class="radius-select">
+                        <option [value]="null">Select Business Type</option>
+                        <option *ngFor="let b of businessCategoriesList" [value]="b.full_name">{{b.full_name}}</option>
+                    </select>
+                </div>
+                <div class="keyword_select">
+                    <select [(ngModel)]="filterBusiness.dropdown_filter" (click)="selectOption($event)"
+                        class="radius-select">
+                        <option [value]="null">Select</option>
+                        <option value="state">State</option>
+                        <option value="city">City</option>
+                        <option value="airport">Airport ID</option>
+                    </select>
+                </div>
+                <div class="keyword_select" *ngIf="filterBusiness.dropdown_filter=='state'">
+                    <input type="search" class="location-filter" [(ngModel)]="filterBusiness.state"
+                        placeholder="Enter State">
+                </div>
+                <div class="keyword_select" *ngIf="filterBusiness.dropdown_filter=='city'">
+                    <input class="location-filter" type="search" [(ngModel)]="filterBusiness.city"
+                        placeholder="Enter City">
+                </div>
+                <div class="keyword_select" *ngIf="filterBusiness.dropdown_filter=='airport'">
+                    <input class="location-filter" type="search" [(ngModel)]="filterBusiness.airport_id"
+                        placeholder="Enter Airport">
+                </div>
+                <div class="keyword_select">
+                    <select [(ngModel)]="filterBusiness.radius" class="radius-select">
+                        <option [value]="null">Any</option>
+                        <option [value]="50">50 Mi</option>
+                        <option [value]="100">100 Mi</option>
+                        <option [value]="150">150 Mi</option>
+                        <option [value]="200">200 Mi</option>
+                        <option [value]="400">400 Mi</option>
+                        <option [value]="600">600 Mi</option>
+                        <option [value]="800">800 Mi</option>
+                        <option [value]="1000">1000 Mi</option>
+                        <option [value]="1200">1200 Mi</option>
+                        <option [value]="1500">1500 Mi</option>
+                    </select>
+                </div>
+                <input type="submit" value="Search" class="home-search-btn" (click)="searchBusiness()">
+            </div>
+        </div>
+    </div>
+</div>
+<!--Inner Pages-->
+<!--  Header Start Here   -->
+<header class="inner_header" *ngIf="showSearch===true">
+    <div class="container_large">
+        <div class="d-flex">
+            <div class="inner_logo"><a [routerLink]="['/']"><img src="/assets/images/logo-white.png" class="logo"
+                        alt="img"></a></div>
+            <div class="inner_search" *ngIf="pageName==''">
+                <div class="search_form">
+                    <div class="header-search-width">
+                        <input style="padding:8px 15px 8px 22px !important;" class="keyword_input_keyword" type="search"
+                            [(ngModel)]="filterBusiness.business_name" placeholder="Search By Business">
+                    </div>
+                    <div class="header-search-width">
+                        <select [(ngModel)]="filterBusiness.cat_name" class="keyword_input_new">
+                            <option [value]="null">Select Business</option>
+                            <option *ngFor="let b of businessCategoriesList" [value]="b.full_name">{{b.full_name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="header-search-width">
+                        <select [(ngModel)]="filterBusiness.dropdown_filter" (click)="selectOption($event)"
+                            class="keyword_input_new">
+                            <option [value]="null">Select</option>
+                            <option value="state">State</option>
+                            <option value="city">City</option>
+                            <option value="airport">Airport ID</option>
+                        </select>
+                    </div>
+                    <div class="header-search-width" *ngIf="filterBusiness.dropdown_filter=='state'">
+                        <input type="search" style="padding:8px 15px 8px 5px !important" class="keyword_input_keyword"
+                            [(ngModel)]="filterBusiness.state" placeholder="Enter State">
+                    </div>
+                    <div class="header-search-width" *ngIf="filterBusiness.dropdown_filter=='city'">
+                        <input type="search" style="padding:8px 15px 8px 5px !important" class="keyword_input_keyword"
+                            [(ngModel)]="filterBusiness.city" placeholder="Enter City">
+                    </div>
+                    <div class="header-search-width" *ngIf="filterBusiness.dropdown_filter=='airport'">
+                        <input type="search" style="padding:8px 15px 8px 5px !important" class="keyword_input_keyword"
+                            [(ngModel)]="filterBusiness.airport_id" placeholder="Enter Airport">
+                    </div>
+                    <input type="submit" value="Search" style="width: 25%;" (click)="searchBusiness()">
+                </div>
+
+            </div>
+
+            <div class="inner_search" *ngIf="pageName=='listings'">
+                <div class="search_form">
+
+                    <div class="keyword_input">
+                        <input type="search" [(ngModel)]="title" placeholder="Search By Keyword">
+                    </div>
+                    <div class="keyword_input">
+                        <input type="search" [(ngModel)]="businessName" placeholder="Search By Busniess">
+                    </div>
+                    <input type="submit" value="Search" (click)="searchList()">
+                </div>
+
+            </div>
+        </div>
+        <div class="account_links">
+            <a *ngIf="isCustomer && isAuthenticated" [routerLink]="['/notifications']"><i class="fa fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    *ngIf="api.newNotification > 0">
+                    {{ api.newNotification > 99 ? '99+' : api.newNotification }}
+                </span>
+            </a>
+            <a *ngIf="isCustomer" [routerLink]="['/customer/profile']">My Portal</a>
+            <a *ngIf="isBussinessOwner" [routerLink]="['/business-owner/profile']">My Portal</a>
+            <a *ngIf="isAdmin" [routerLink]="['/admin/dashboard']">My Portal</a>
+            <a *ngIf="isAuthenticated" href="javascript:void(0)" (click)="logOut()">Sign Out</a>
+            <a *ngIf="!isAuthenticated" [routerLink]="['/login']">Log In</a>
+            <a *ngIf="!isAuthenticated" [routerLink]="['/registration']"><img src="/assets/images/user.png" alt=""> Sign
+                Up</a>
+        </div>
+    </div>
+</header>

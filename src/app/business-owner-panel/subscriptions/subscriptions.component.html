@@ -1,0 +1,43 @@
+<section class="subscription_wraper">
+    <div class="container">
+        <div class="section_title">
+            <h2>Subscriptions</h2>
+            <ng-container *ngIf="subscriptionStatus=='active'">
+                <p class="mt-2"><b>Current subscription:</b> {{currentSubscription}}</p>
+                <p class="mt-2"><button (click)="confirmingModal(confirming)" type="button" class="update_btn">Click here</button> if you wish to unsubscribe</p>
+            </ng-container>
+        </div>
+        <div class="row" *ngIf="dataStatus=='done'">
+            <div class="col-md-4" *ngFor="let sub of subscriptionList; let i = index;">
+                <div class="subscription_col">
+                    <h1>{{sub.title}}</h1>
+                    <div class="subscription_icon"><img [src]="api.membershipImageUrl(sub.id)"></div>
+                    <div class="subscription_price">{{sub.monthly_price | currency:'$'}} <span>/ month</span></div>
+                    <div class="seprator"></div>
+                    <ul>
+                        <li> <span>{{sub.monthly_price}} USD a Month</span></li>
+                        <li> <span>{{sub.number_of_listings}} Sponsored Listings</span></li>
+                    </ul>
+                    <div class="radio_block">
+                        <ng-container *ngIf="i!=1">
+                            <input type="radio" name="subscription_type">
+                            <label for="{{i}}" class="button" (click)="setSubscription(sub.id,i)">Choose</label>
+                        </ng-container>
+                        <ng-container *ngIf="i==1">
+                            <input type="radio" name="subscription_type">
+                            <label for="{{i}}" class="button subscription_center" (click)="setSubscription(sub.id)">Choose</label>
+                        </ng-container>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ng-template #confirming>
+    <div class="modal-body text-center">
+        <p class="mb-2">Do you want to unsubscribe?</p>
+        <button type="button" class="primary mr-2 " (click)="unSubscribe()">Yes</button>
+        <button type="button" class="danger" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

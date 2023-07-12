@@ -1,0 +1,39 @@
+<!---Home Page-->
+<header class="inner_header" *ngIf="showSearch===true">
+    <div class="container_large">
+        <div class="d-flex">
+            <div class="inner_logo">
+                <a [routerLink]="['/']">
+                    <img src="/assets/images/logo-white.png" class="logo" alt="img">
+                </a>
+            </div>
+            <div class="inner_search" >
+                <div class="search_form">
+                    <div class="keyword_input">
+                        <input type="search" [(ngModel)]="filterBusiness.business_name" placeholder="Search By Business">
+                    </div>
+                    <div class="keyword_input">
+                        <input type="search" [(ngModel)]="filterBusiness.cat_name" placeholder="Search By Service Type">
+                    </div>
+                    <input type="submit" value="Search" (click)="searchBusiness()">
+                </div>
+
+            </div>
+        </div>
+        <div class="account_links">
+            <div class="user_menu">
+                <ul>
+                    <li class="dropdown">
+                    <a [routerLink] = "['/business-owner/profile']" class="" data-toggle="dropdown">
+                        <img [src]="userImage" class="user-image" alt="">
+                        <span class="hidden-xs username">{{api.user.first_name}}</span>
+                    </a>
+                    
+                    </li>
+                </ul>
+            </div>
+            <!-- <a href="#">Log In</a>
+            <a href="#"><img src="../images/user.png" alt=""> Sign Up</a> -->
+        </div>         
+    </div>
+</header>    

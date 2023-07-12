@@ -1,0 +1,83 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+a {
+    color: #000000;
+}
+a:hover {
+    text-decoration: none;
+    transition:all 0.3s ease-in-out;
+}
+del {
+    text-decoration: line-through;
+}
+abbr[title], dfn[title] {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+input, select {
+    vertical-align: middle;
+}
+input[type=text]:focus, input[type=email]:focus,
+input[type=search]:focus,
+input[type=password]:focus, select:focus,
+textarea:focus, input[type=submit]:focus{
+    outline: 0;
+}
+.btn.focus, .btn:focus {
+    box-shadow: none;
+}
+html, body {
+  height: 100%;
+}
+
+.table td, .table th {
+    vertical-align: middle !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+}
+
+/* google auto complete */
+.pac-container {
+    z-index: 1050 !important;
+}
+
+.page-link:focus {
+    box-shadow: none;
+}
+
+.autocomplete-container {
+    z-index: 400;
+}
+.mendatory{
+    color: red;
+    font-size: 20px;
+    margin-left:5px;
+}
+.inner_main{
+    margin-top: 100px;
+}

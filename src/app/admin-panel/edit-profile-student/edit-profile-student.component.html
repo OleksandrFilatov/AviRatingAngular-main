@@ -1,0 +1,135 @@
+<div class="row justify-content-center" *ngIf="formStatus === 'done'">
+    <div class="col-md-11">
+        <h4 *ngIf="studentId > -1" class="mb-2 text-center font-bold">Edit Student</h4>
+        <h4 *ngIf="studentId === -1" class="mb-2 text-center font-bold">Create Student Profile</h4>
+        <div class="">
+            <div class="">
+                <input type="file" style="display: none;" id="thumbnail-image" (change)="onThumbnailChange($event, cropperModal)">
+                <form [formGroup]="profileFG" (ngSubmit)="save(profileFG)" #f="ngForm">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Title <span class="mendatory">*</span></label>
+                                        <select formControlName="title" [ngClass]="{'form-submitted': f.submitted}">
+                                            <option [value]="null">Select Option</option>
+                                            <option value="Mr">Mr</option>
+                                            <option value="Ms">Ms</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="Miss">Miss</option>
+                                        </select>
+                                        <div *ngIf="ui.checkErrors(g.title, f)" class="errors">
+                                            <p *ngIf="g.title.errors.required">Gender Required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>First Name <span class="mendatory">*</span></label>
+                                        <input type="text" class="form-control" formControlName="first_name" placeholder="Enter First Name" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.first_name, f)" class="errors">
+                                            <p *ngIf="g.first_name.errors.required">First Name is required</p>
+                                            <p *ngIf="g.first_name.errors.maxlength">First Name should not exceeds {{ g.first_name.errors.maxlength.requiredLength }} characters</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Last Name <span class="mendatory">*</span></label>
+                                        <input type="text" class="form-control" formControlName="last_name" placeholder="Enter Last Name" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.last_name, f)" class="errors">
+                                            <p *ngIf="g.last_name.errors.required">Last Name is required</p>
+                                            <p *ngIf="g.last_name.errors.maxlength">Last Name should not exceeds {{ g.last_name.errors.maxlength.requiredLength }} characters</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>UserName <span class="mendatory">*</span></label>
+                                        <input type="text" class="form-control" formControlName="user_name" placeholder="Enter User Name" [readonly]="studentId > 0" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.user_name, f)" class="errors">
+                                            <p *ngIf="g.user_name.errors.required">Username is required</p>
+                                            <p *ngIf="g.user_name.errors.maxlength">Username should not exceeds {{ g.user_name.errors.maxlength.requiredLength }} characters</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Email <span class="mendatory">*</span></label>
+                                        <input type="text" class="form-control" formControlName="email" [readonly]="studentId > 0" placeholder="Enter Email" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.email, f)" class="errors">
+                                            <p *ngIf="g.email.errors.required">Email is required</p>
+                                            <p *ngIf="g.email.errors.email">Enter Valid Email</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile # 1</label>
+                                        <input type="text" class="form-control" formControlName="contact_1" placeholder="Mobile #" [ngClass]="{'form-submitted': f.submitted}" />
+                                        <div *ngIf="ui.checkErrors(g.contact_1, f)" class="errors">
+                                            <p *ngIf="g.contact_1.errors.required">Mobile # is required</p>
+                                            <p *ngIf="g.contact_1.errors.maxlength">Mobile # should not exceeds {{ g.contact_1.errors.maxlength.requiredLength }} characters</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Level <span class="mendatory">*</span></label>
+                                        <select formControlName="level_id" [ngClass]="{'form-submitted': f.submitted}">
+                                            <option disabled [value]="null">Level</option>
+                                            <option *ngFor="let d of educationLevelList" [value]="d.id">{{d.name}}</option>
+                                        </select>
+                                        <div *ngIf="ui.checkErrors(g.level_id, f)" class="errors">
+                                            <p *ngIf="g.level_id.errors.required">Level is Required</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="tut-pro-photo" style="width:70%;">
+                                <img id="banner-img" [src]="thumbnail">
+                                <button class="green sm" (click)="browseThumbnail($event)" type="button">Browse Picture</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="center-txt">
+                        <button *ngIf="studentId > -1" type="submit" class="blue">Update</button>
+                        <button *ngIf="studentId == -1" type="submit" class="blue">Save</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">Adjust Image Size</h2>
+                        <div>
+                            <button type="button" class="sm red" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="270/225" [onlyScaleDown]="true" [roundCropper]="false" format="png" outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>

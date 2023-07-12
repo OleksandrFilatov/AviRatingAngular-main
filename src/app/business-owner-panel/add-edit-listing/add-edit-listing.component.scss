@@ -1,0 +1,63 @@
+/*Listing Page*/
+.advanced_filters{
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+	margin-bottom: 20px;
+}
+.advanced_filters span{
+	font-size: 18px;
+	font-family: 'Pangram-Bold';
+}
+.advanced_filters label{
+	display: block;
+	margin-bottom: 5px;
+}
+.advanced_filters input[type="text"],
+.advanced_filters select{
+	border: none;
+	background: #fff;
+	border-radius: 5px;
+	min-width: 150px;
+    width: 100%;
+    padding: 10px 10px;
+}
+#file_upload {
+    display: none;
+}
+.custom_file_upload span {
+    display: block;
+    margin-top: 20px;
+}
+.custom_file_upload {
+    display: block;
+    padding: 35px 0px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+    color: #C4C4C4;
+    font-size: 14px;
+}
+.signup_img h1 {
+    font-size: 24px;
+    font-family: 'Pangram-Bold';
+}
+.signup_img .custom_file_upload {
+    max-width: 300px;
+}
+.heading {
+    font-size: 24px;
+    font-family: 'Pangram-Bold';
+    margin-bottom: 50px;
+}
+
+.tut-pro-photo{
+   text-align: center;
+   width: 250px;
+   max-width: 356px;
+   height: 250px;
+   margin: 0 auto;
+   border-radius: 6px;
+}

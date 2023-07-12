@@ -1,0 +1,15 @@
+<ng-container *ngIf="dataStatus === 'done'">
+    <div class="no-data-container" *ngIf="profileData.total_locations === 0 || profileData.total_subjects === 0 ">
+        <p *ngIf="profileData.total_locations === 0 && (profileData.total_subjects !== 0 && screenType !== 'location')">You dont have any teaching locations yet. To add teaching locations please click <a [routerLink]="['/tutor/teaching-locations']" routerLinkActive="router-link-active" >here</a></p>
+        <p *ngIf="profileData.total_subjects === 0 && (profileData.total_locations !== 0 && screenType !== 'subject')">You dont have any subjects yet. To add subjects please click <a [routerLink]="['/tutor/subjects']" routerLinkActive="router-link-active" >here</a></p>
+        <div *ngIf="profileData.total_locations === 0 &&  profileData.total_subjects === 0 ">
+            <p>You dont have any teaching locations and subjects yet.</p>
+            <p *ngIf="screenType !== 'location'">To add teaching locations please click <a [routerLink]="['/tutor/teaching-locations']" routerLinkActive="router-link-active">here</a></p>
+            <p *ngIf="screenType !== 'subject'">To add subjects please click <a [routerLink]="['/tutor/subjects']" routerLinkActive="router-link-active">here</a></p>
+        </div>
+        <p class="note-container">
+            <span class="note">Note:</span>
+            <span>You will not appear in search results without complete profile</span>
+        </p>
+    </div>
+</ng-container>

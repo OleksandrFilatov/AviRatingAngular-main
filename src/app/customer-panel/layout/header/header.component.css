@@ -1,0 +1,117 @@
+/*Header*/
+header{
+	position: fixed;
+	z-index: 2;
+	width: 100%;
+	padding: 15px 0 !important;
+}
+header .container_large{
+	position: relative;
+}
+.navbar{
+	padding: 0;
+}
+.navbar-nav li{
+	margin: 15px 40px 15px 0px;
+}
+.navbar-nav li a{
+	color: #fff;
+	font-size: 18px;
+}
+.navbar-nav li a:hover{
+	color: #0f75bc;
+}
+.account_links{
+	position: absolute;
+    right: 20px;
+    top: 5px;
+}
+.account_links a{
+	display: inline-block;
+}
+.account_links a:first-child{
+	color: #fff;
+	font-size: 18px;
+}
+.account_links a:first-child:hover{
+	color: #0f75bc;
+}
+.account_links a:last-child{
+	/*background: #fff;*/
+	border-radius: 3px;
+	padding: 8px 15px;
+	margin-left: 30px;
+}
+.account_links a:last-child img{
+	margin-right: 5px;
+}
+.account_links a:last-child:hover{
+	color: #222222;
+}
+.sticky_header{
+	background: #fff;
+	box-shadow: 0px 4px 10px rgb(0 0 0 / 6%);
+}
+.sticky_header .navbar-nav li a{
+	color: #222222;
+}
+.sticky_header .account_links a:first-child{
+	color: #222222;
+}
+.sticky_header .account_links a:last-child{
+	background: #0f75bc;
+	color: #fff;
+}
+.sticky_header .account_links a:last-child img{
+	-webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+    opacity: 1;
+}
+/*User Menu*/
+.user_menu {
+    text-align: right;
+    margin-top: 6px;
+}
+.account_links .user_menu ul li {
+    position: relative;
+}
+.account_links .user_menu ul li a{
+	font-size: 14px;
+}
+.account_links .user_menu ul li a:hover{
+	color: #fff;
+}
+.account_links .user_menu ul li img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: -5px;
+    vertical-align: middle;
+}
+.account_links .user_menu .dropdown-menu{
+    box-shadow: 0px 2px 3px #eaeaea;
+    border: none;
+    margin-top: 10px;
+    margin-left: -25px;
+}
+.account_links .user_menu .dropdown-menu li{
+    border-bottom: 1px solid #F1F1F1;
+    margin: 0 10px;
+}
+.account_links .user_menu .dropdown-menu li:last-child{
+	border-bottom: none;
+}
+.account_links .user_menu .dropdown-menu li a{
+    color: #85939d;
+    font-size: 14px;
+    padding: 15px 10px 15px 0;
+    display: block;
+    margin-left: 0;
+}
+.account_links .user_menu .dropdown-menu li a span{
+	margin-left: 10px;
+}
+.account_links .user_menu .dropdown-menu li a:hover{
+	color: #0f75bc;	
+}

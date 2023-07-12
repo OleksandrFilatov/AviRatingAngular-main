@@ -1,0 +1,69 @@
+/*Owner Listings*/
+.owner_litings{
+	position: relative;
+}
+.owner_litings table{
+	white-space: nowrap;
+}
+.owner_litings table tr th{}
+.owner_litings table tr td{
+	vertical-align: middle;
+}
+.owner_litings table tr td a{
+	color: #0f75bc;
+	font-family: 'Pangram-Bold';
+	font-size: 16px;
+}
+.owner_litings table tr td .round_img{
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+.owner_litings table tr td p{
+	color: #898989;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 400px;
+}
+.table_actions{}
+.owner_litings table tr td .table_actions a{
+	font-size: 16px;
+	width: 35px;
+	height: 35px;
+	display: inline-block;
+	border-radius: 50%;
+	color: #fff;
+	text-align: center;
+	margin-left: 5px;
+	padding-top: 5px;
+}
+.status_btn{
+	color: #fff;
+}
+.table_actions a.edit_btn{
+	background: #0f75bc;
+}
+.table_actions a.del_btn{
+	background: #F06868;
+}
+.add_business{
+	position: absolute;
+	right: 0;
+	top: -60px;
+}
+.add_business a{
+	border-radius: 5px;
+    display: block;
+    padding: 10px 20px;
+    background: #0f75bc;
+    color: #fff;
+    width: 100%;
+    max-width: 180px;
+}
+.heading {
+    font-size: 24px;
+    font-family: 'Pangram-Bold';
+    margin-bottom: 50px;
+}

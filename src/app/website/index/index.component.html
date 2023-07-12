@@ -1,0 +1,160 @@
+<main>
+    <section class="business_listings" *ngIf="dataStatus=='done'">
+        <div class="container_large" *ngIf="results.businesses.length">
+            <div class="section_title">
+                <h2>Assorted Businesses</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3 full_width" *ngFor="let b of results.businesses;  let i = index">
+                    <div class="listing_column">
+                        <div class="listing_column_img">
+                            <a href="#" [routerLink]="['/business-profile',b.user.id]"><img [src]="api.userImageUrl(b.user.id)" class="img-fluid" alt=""></a>
+                        </div>
+                        <div class="listing_column_content">
+                            <a href="#" [routerLink]="['/business-profile',b.user.id]">
+                                <div class="busniess_rating">
+                                    <div class="rating-container">
+                                        <irating [(value)]="b.user.avg_rating" [name]="'s-' +i" [size]="16" [readonly]="true"></irating>
+                                    </div> <span>({{b.business_reviews.length}} Reviews)</span>
+                                </div>
+                                <h2>{{b.user.first_name}}</h2>
+                                <div class="business_tags" *ngIf="b.business_category">
+                                    <ul>
+                                        <li>{{b.business_category.full_name}}</li>
+                                    </ul>
+                                </div>
+                                <p><img src="/assets/images/pin-icon.png" alt=""> {{b.address}}</p>
+                                <p style="display: none;"><img src="/assets/images/clock-icon.png" alt=""> Opened {{moment(b.created_at).fromNow()}}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="load_more" style="display: none;">
+                <a href="#">Load More <img src="/assets/images/loading.png" alt=""></a>
+            </div>
+        </div>
+    </section>
+    <section class="business_listings" *ngIf="dataStatus=='done'">
+        <div class="container_large" *ngIf="results.listings.length">
+            <div class="section_title">
+                <h2>Assorted Business Listings</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3 full_width" *ngFor="let d of results.listings;  let i = index">
+                    <div class="listing_column">
+                        <div class="listing_column_img">
+                            <a href="#" [routerLink]="['/listing/details',d.id]"><img [src]="api.listingSmallThumbnailUrl(d.id)" class="img-fluid" alt=""></a>
+                        </div>
+                        <div class="listing_column_content">
+                            <a href="#" [routerLink]="['/listing/details',d.id]">
+                                <div class="busniess_rating">
+                                    <div class="rating-container">
+                                        <irating [(value)]="d.avg_rating" [name]="'ll-' +i" [size]="16" [readonly]="true"></irating>
+                                    </div> <span>({{d.review.length}} Reviews)</span>
+                                </div>
+                                <h2>{{d.title}}</h2>
+                            </a>
+                            <a [routerLink]="['/business-profile/',d.user.id]">
+                            <div class="business_tags">
+                                <ul>
+                                    <li>{{d.user.first_name}}</li>
+                                </ul>
+                            </div>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+            <div class="load_more" style="display: none;">
+                <a href="#">Load More <img src="/assets/images/loading.png" alt=""></a>
+            </div>
+        </div>
+    </section>
+    <section class="business_categories">
+        <div class="container_large" *ngIf="dataStatus=='done'">
+            <div class="section_title" *ngIf="results.business_categories.length > 0">
+                <h2>Browse Businesses By Category</h2>
+                <p>Browse thousands of businesses and connect with great local resources.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-2 category_col_full_width" *ngFor="let c of results.business_categories">
+                    <div class="category_col">
+                        <a href="#" [routerLink]="['/businesses']" [queryParams]="{page: 1,cat_name: c.full_name}">
+                            <div class="category_icon">
+                                <img [src]="api.categoryImageUrl(c.id)" class="w-50" alt="">
+                            </div>
+                            <div class="category_title">{{c.full_name}}</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <ng-container *ngIf="dataStatus=='done'">
+        <section class="recent_ratings" *ngIf="results.business_reviews.length > 0">
+            <div class="container">
+                <div class="section_title">
+                    <h2>Recent Ratings</h2>
+                </div>
+                
+                <div class="row" *ngIf="results.business_reviews.length">
+                    <ng-container *ngFor="let r of results.business_reviews;  let i = index">
+
+                        <div class="col-md-4 full_width" *ngIf="r.business">
+                            <div class="recent_ratings_column">
+                                <div class="recent_ratings_column_img">
+                                    <a href="#" [routerLink]="['/business-profile/'+r.business_id]">
+                                        <img [src]="api.userImageUrl(r.business_id)" class="img-fluid" alt="">
+                                        <h2>{{r.business.first_name}}</h2>
+                                    </a>
+                                </div>
+                                <div class="recent_ratings_column_content" *ngIf="r.user">
+                                    <div class="rating_user">
+                                        <div class="rating_user_img"><img [src]="api.userImageUrl(r.user_id)" alt=""></div>
+                                        <div class="rating_user_name">
+                                            <h3>{{r.user.first_name+' '+r.user.last_name}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="busniess_rating">
+                                        <div class="rating-container">
+                                            <irating [(value)]="r.rating" [name]="'r-' +i" [size]="16" [readonly]="true"></irating>
+                                        </div> <span>({{r.rating}})</span>
+                                    </div>
+                                    <p>
+                                        <app-read-more [text]="r.feedback" [maxLength]="130"></app-read-more>
+                                    </p>
+                                    <p><a href="#" [routerLink]="['/business-profile/'+r.business_id]">Continue Reading</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                </div>
+                <div class="show_more"><a href="#" [routerLink]="['/businesses']">Show More <img src="/assets/images/long-arrow.png" alt=""></a></div>
+            </div>
+
+        </section>
+    </ng-container>
+    <section class="mb-5" *ngIf="bannerStatus=='done'">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="mb-3">{{banner.title}}</h2>
+                    <a [href]="banner.bannerLink" target="_blank"><img [src]="banner.id" class="w-100 mb-3"></a>
+                    <p>{{banner.description}}</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

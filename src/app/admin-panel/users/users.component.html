@@ -1,0 +1,176 @@
+<div class="container-fluid">
+    <h4>Users</h4>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label>Name</label>
+            <input style="max-height: 38px;" type="text" class="form-control" [(ngModel)]="name" placeholder="Enter Name">
+        </div>
+
+        <div class="col" style="display: none;">
+            <label>Registeration Date</label>
+            <select [(ngModel)]="registrationDate" class="form-control">
+                <option value="">Select Option</option>
+                <option value="asc">Accending</option>
+                <option value="desc">Decending</option>
+            </select>
+        </div>
+
+        <div class="col" style="display: none;">
+            <label>Name Order</label>
+            <select [(ngModel)]="nameOrder" class="form-control">
+                <option value="">Select Option</option>
+                <option value="asc">Accending</option>
+                <option value="desc">Decending</option>
+            </select>
+        </div>
+        <div class="col">
+            <label>Usertype</label>
+            <select [(ngModel)]="userType" class="form-control">
+                <option value="">All</option>
+                <option *ngFor="let d of userTypes | keyvalue" [value]="d.value">{{d.key}}</option>
+            </select>
+        </div>
+        <div class="col col d-flex align-items-end">
+            <label>&nbsp;</label>
+            <div class="btn-group" dropdown>
+                <button type="button" class="lg green" (click)="page = 1;search()">Search</button>
+            </div>      
+        </div>
+    </div>
+
+    <div class="table-responsive" *ngIf="dataStatus == 'done'">
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr>
+                    <th class="name-custom">Name</th>
+                    <th class="email-custom">Email Address</th>
+                    <th class="user-custom">User Type</th>
+                    <th class="user-custom">Membership</th>
+                    <th class="action-custom" width="200">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="results.length > 0; else noDataFound">
+                <tr *ngFor="let u of results; let i = index">
+                    <td>{{u.first_name}} {{u.last_name}}</td>
+                    <td>{{u.email}} </td>
+                    <td>
+                        <div *ngIf="u.user_type=='business'" class="button-user tutor">{{u.user_type | uppercase}}</div>
+                        <div *ngIf="u.user_type=='customer'" class="button-user center">{{u.user_type | uppercase}}</div>
+                        <div style="display:none" *ngIf="u.claim_business== 1" class="button-user playgroup">Claim</div>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="u.subscription">
+                            <b>{{u.subscription.membership.title}}</b><br>
+                            {{moment(u.subscription.created_at).format(dateFormat)}} - {{moment(u.subscription.end_date).format(dateFormat)}}<br>
+                            <button  class="sm red" type="button" (click)="confirmingModal(cancelMemberShipModal, u.id,i)" *ngIf="u.user_type=='business' && u.subscription">Cancel Membership</button> 
+                        </ng-container>
+                    </td>
+                    <td class="action-custom">
+                        
+                        <a   (click)="redirectToUserProfile(u)" title="View Profile"><i class="fa fa-eye px-2 primay"></i></a>
+                        <i class="fa fa-trash px-2 danger" (click)="confirmingModal(deleteUserModal, u.id,i)"></i>
+                        <a   style="display:none;" (click)="redirectToUserProfileEdit(u)"><button type="button" class="sm green">Edit Profile</button></a>
+                        <button style="display: none;" class="sm playgroup" type="button"  *ngIf="u.claim_business== 1" (click)="cancelClaim(u.id,i)">Cancel Claim</button>
+                        <ng-container *ngIf="u.user_type !== 'student'">
+                            <button type="button"  style="display:none;" *ngIf="u.featured == 0" class="sm green" (click)="confirmingModal(userFeatured, u.id,i)">Make Featured</button>
+                            <button type="button"  style="display:none;" *ngIf="u.featured == 1" class="sm red" (click)="confirmingModal(userFeaturedCancel, u.id,i)">Make UnFeatured</button>
+                        </ng-container>
+                    </td>
+                </tr>
+            </tbody>
+            <ng-template #noDataFound>
+                <tbody>
+                    <tr>
+                        <td colspan="4">
+                            <app-no-data-found></app-no-data-found>
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left  mt-3">
+                <li class="page-item">
+                    <small *ngIf="page<10">Current Page: 0{{page}}</small>
+                    <small *ngIf="page>=10">Current Page: {{page}}</small>
+                </li>
+            </ul>
+            <ul class="pagination justify-content-left">
+                <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                </li>
+                <ng-container *ngIf="pagination.last_page <= 6">
+
+                    <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                        <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+                <ng-container *ngIf="pagination.last_page >= 7">
+
+                    <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                        <li *ngIf="i<4" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                        <li *ngIf="(pagination.last_page-i) == 3" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link">...</a>
+                        </li>
+                        <li *ngIf="(pagination.last_page-i)==1 || (pagination.last_page-i)==2" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+                <li class="page-item" *ngIf="pagination.next_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<ng-template #userFeatured>
+    <div class="modal-body text-center">
+        <p>Do you want to Featured User?</p>
+        <button type="button" class="sm green" (click)="featuredUser()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #userFeaturedCancel>
+    <div class="modal-body text-center">
+        <p>Do you want to UnFeatured User?</p>
+        <button type="button" class="sm green" (click)="featuredUserCancel()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteUserModal>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete User?</p>
+        <button type="button" class="sm green" (click)="deleteUser()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #cancelMemberShipModal>
+    <div class="modal-body text-center">
+        <p>Do you want to cancel Membership?</p>
+        <button type="button" class="sm green" (click)="cancelMemberShip()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

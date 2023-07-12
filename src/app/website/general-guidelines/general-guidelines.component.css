@@ -1,0 +1,15 @@
+.margin-b-t {
+     margin-top:150px;
+     margin-bottom:75px ;
+}
+.ol-margin{
+    list-style-type:decimal;
+    margin-left:16px;
+}
+.ul-margin{
+    list-style-type:disc;
+    margin-left:16px;
+}
+.label-color{
+    color:#065790;
+}

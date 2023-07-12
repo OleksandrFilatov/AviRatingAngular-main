@@ -1,0 +1,175 @@
+<h2>Business Reviews</h2>
+<div class="my_reviews" *ngIf="dataStatus === 'done'">
+    <!-- Review Block -->
+    <ng-container *ngIf="reviewsList.length > 0; else noDataFound">
+        <div class="review_row" *ngFor="let m of reviewsList; let i = index">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="my_reviews_img">
+                        <img [src]="api.userImageUrl(m.user.id)" class="img-fluid" alt="">
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="business_review">
+                        <h3>{{m.user.first_name}} {{m.user.last_name}}</h3>
+                        <div class="busniess_rating">
+                            <div class="flex-space-x float-left small-rating">
+                                <irating [(value)]="m.rating" [name]="'s-' +m.id" [size]="15" [readonly]="true"></irating>
+                            </div>
+                            <span>({{m.rating}})</span>
+                        </div>
+                        <div class="review_date">{{m.created_at | date:'medium'}}</div>
+                        <p>
+                            <app-read-more [text]="m.feedback" [maxLength]="300"></app-read-more>
+                        </p>
+                        <ng-container *ngIf="m.review_images">
+                        
+                            <div class="gallery-thumbs">
+
+                                <div class="thumbs" *ngFor="let r of m.review_images; let i = index">
+                                    <img [src]="api.reviewImageUrl(r.id)" alt="" (click)="openGallery(i,'review',m.review_images)">
+                                </div>
+                            </div>
+                        </ng-container>
+                        <!-- <p *ngIf="m.reply==null"><button (click)="openModal(replyTemplate,i)" class="reply-btn" type="button">Reply</button></p> -->
+                        <p *ngIf="m.reply==null">
+                            <button (click)="checkRemainingReplies(replyTemplate,i)" class="reply-btn" type="button">Reply</button>
+                        </p>
+                        <div class="reply-box" *ngIf="m.reply">
+                            <p>
+                                <app-read-more [text]="m.reply" [maxLength]="300"></app-read-more>
+                            </p>
+                            <p class="text-right">{{m.reply_date | date:'medium'}}</p>
+
+                           
+                        </div>
+                        <ng-container *ngIf="m.reply_images">
+                        
+                            <div class="gallery-thumbs">
+
+                                <div class="thumbs" *ngFor="let r of m.reply_images; let i = index">
+                                    <img [src]="api.replyImageUrl(r.id)" alt="" (click)="openGallery(i,'reply',m.reply_images)">
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-left">
+                    <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                        <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </ng-container>
+    <ng-template #noDataFound>
+        <div class="review_row">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-no-data-found></app-no-data-found>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #replyTemplate>
+        <ng-container *ngIf="repliesLeft">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Reply</h4>
+            </div>
+            <div class="modal-body model-body-scroll">
+                <form [formGroup]="replyForm" (ngSubmit)="save(replyForm, f)" #f="ngForm">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 mb-1">{{feedbackValue}}</div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control mt-0" formControlName="reply" rows="5" placeholder="Enter Reply" [ngClass]="{'form-submitted': f.submitted}"></textarea>
+                                    <div *ngIf="ui.checkErrors(g.reply, f)" class="errors">
+                                        <p *ngIf="g.reply.errors.required">Reply is required</p>
+                                        <p *ngIf="g.reply.errors.maxlength">Reply limit is {{ g.reply.errors.maxlength.requiredLength }} Charaters</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="file" style="display: none;" id="other-images" (change)="onImagesChange($event)" multiple>
+                        <div class="col-md-12 mb-1 mt-2">
+                            <button (click)="browseImages($event)" class="info sm mb-2  mr-2" *ngIf="uploadedImages.length > 0">Add Image</button>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="images-containers-wrapper">
+                                <div class="images-container">
+                                    <div class="image-thumbnail" *ngFor="let img of uploadedImages; let i = index">
+                                        <img [defaultImage]="spinnerSVG" [lazyLoad]="img.image">
+                                        <button type="button" class="xs red delete-image" (click)="deleteImage(i)"><i class="fas fa-trash"></i></button>
+                                        <div class="uploader-progress" *ngIf="img.uploading">
+                                            <img src="/assets/images/spinner.svg">
+                                        </div>
+                                    </div>
+
+                                    <div class="upload-images-container" *ngIf="uploadedImages.length === 0">
+                                        <div class="icons">
+                                            <button (click)="browseImages($event)" class="primary sm mb-2 info">Add Image</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-danger" (click)="cancelMembershipButton(f)">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!repliesLeft">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Buy Replies</h4>
+            </div>
+            <div class="modal-body">
+                <p class="warning-custom">You don't have replies left to reply. Please purchase replies below.</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Sr. #</th>
+                                <th>No. Of Replies</th>
+                                <th>Price</th>
+                                <th class="col-actions">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="reviewPriceList.length > 0">
+                            <tr *ngFor="let row of reviewPriceList; let i = index">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ row.no_of_replies }}</td>
+                                <td>{{row.price | currency:'USD'}}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <button type="button" class="sm green" (click)="purchaseReplies(row)">Purchase</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="reviewPriceList.length == 0">
+                            <tr>
+                                <td colspan="100">
+                                    <app-no-data-found></app-no-data-found>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="cancelMembershipButton()">Cancel</button>
+            </div>
+        </ng-container>
+
+    </ng-template>
+
+</div>

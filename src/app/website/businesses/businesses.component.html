@@ -1,0 +1,168 @@
+<div class="advanced_filters">
+    <div class="container_large">
+        <div class="d-flex align-items-center justify-content-end set-margin">
+            <div class="filter_col">
+                <span>Filter By</span>
+            </div>
+            <div class="filter_col">
+                <select [(ngModel)]="rating" (change)="getList()">
+                    <option [value]="null">Select Rating</option>
+                    <option [value]="5">Min 5.0</option>
+                    <option [value]="4">Min 4.0</option>
+                    <option [value]="3">Min 3.0</option>
+                    <option [value]="2">Min 2.0</option>
+                    <option [value]="1">Min 1.0</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="inner_main listing_main">
+    <section class="business_listings all_listings">
+        <div class="container" *ngIf="dataStatus=='done'">
+            <h1 class="heading">Assorted Businesses</h1>
+            <div class="list_view_listing" *ngIf="results.length > 0;">
+                <!-- List View Column -->
+                <div class="list_view_column" *ngFor="let d of results;let i = index">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="listing_column_img">
+                                <a href="#" [routerLink]="['/business-profile',d.id]"><img [src]="api.userImageUrl(d.id)" class="img-fluid" alt=""></a>
+                                <!--<div class="sponsored_badge">Sponsored</div>-->
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="listing_column_content">
+                                <div class="busniess_rating">
+                                    <div class="rating-container">
+                                        <irating [(value)]="d.user.avg_rating" [name]="'s-' +i" [size]="16" [readonly]="true"></irating>
+                                    </div>
+                                </div>
+                                <h2><a href="#" [routerLink]="['/business-profile/',d.id]"> {{d.user.first_name}}</a></h2>
+
+                                <b>Category:</b> {{d.business_category?.full_name}}<br>
+                                <b>AirPort ID:</b> {{d.airport_id}}<br>
+                                <b>State:</b> {{d.state}}<br>
+                                <b>City:</b> {{d.city}}<br>
+                                <b>Zip:</b> {{d.zip_code}}<br>
+                                <ng-container *ngIf="d.business_services.length > 0">
+                                    <h5>Services</h5>
+                                    <div class="business_tags">
+                                        <ul>
+                                            <li *ngFor="let b of d.business_services">
+                                                {{b.service.full_name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </ng-container>
+                                <p class="mb-4">
+                                    <app-read-more [text]="d.user.description" [maxLength]="130"></app-read-more>
+                                </p>
+                                <ul class="list_view_info d-flex">
+                                    <li style="display: none;">
+                                        <p><img src="/assets/images/clock-icon.png" alt=""> Opened {{moment(d.created_at).fromNow()}}</p>
+                                    </li>
+                                    <!-- <li>
+                                        <p><img src="./assets/images/pin-icon.png" alt=""> {{d.state}} </p>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-container>
+                <div class="list_view_listing">
+                    <section class="business_categories">
+                        <div class="section_title">
+                            <h2>Not here? Tell us what we're missing.</h2>
+                            <p>If the business you're looking for isn't here, add it!</p>
+                            <p>
+                                <input *ngIf="customerCheck=='login' || customerCheck=='customer'" type="button" class="btn btn-primary" value="Add A Business" (click)="openModal(business, -1)">
+                                <a *ngIf="customerCheck=='business'" [routerLink]="['/add-a-business']"><input  type="button" class="btn btn-primary" value="Add A Business"></a>
+                            </p>
+                        </div>
+                    </section>
+                </div>
+            </ng-container>
+            <div class="list_view_listing">
+                <nav aria-label="Page navigation example" *ngIf="dataStatus == 'done' && results.length > 0">
+                    <ul class="pagination justify-content-left  mt-3">
+                        <li class="page-item">
+                            <small *ngIf="page<10">Current Page: 0{{page}}</small>
+                            <small *ngIf="page>=10">Current Page: {{page}}</small>
+                        </li>
+                    </ul>
+                    <ul class="pagination justify-content-left">
+                        <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                        </li>
+                        <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                        </li>
+                        <ng-container *ngIf="pagination.last_page <= 6">
+
+                            <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                                <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+
+                        </ng-container>
+
+                        <ng-container *ngIf="pagination.last_page >= 7">
+
+                            <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                                <li *ngIf="i<4" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                                </li>
+                                <li *ngIf="(pagination.last_page-i) == 3" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link">...</a>
+                                </li>
+                                <li *ngIf="(pagination.last_page-i)==1 || (pagination.last_page-i)==2" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                    <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+
+                        </ng-container>
+
+                        <li class="page-item" *ngIf="pagination.next_page_url != null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                        </li>
+                        <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                            <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </section>
+</main>
+<ng-template #business>
+    <div class="modal-header">
+        <span class="pull-left"><h4>Add A Business</h4></span> <span class="pull-right"><i class="fa fa-close cursor" (click)="cancel()"></i></span>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Are you a customer or the owner/manager of the business you'd like to add?</p>
+            </div>
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary w-100" (click)="checkLogin('customer')">I am a customer</button>
+                <button type="button" class="btn btn-primary w-100" (click)="checkLogin('business')">This is my business</button>
+                <div class="w-100 loggin-only" *ngIf="customerCheck=='login' && userType=='customer'">
+                    You need to login to add a new business. <a href="" (click)="cancel()" [routerLink]="['/login']">Click here</a> to login now
+                </div>
+                <div class="w-100 loggin-only" *ngIf="customerCheck=='login' && userType=='business'">
+                    <a href="" (click)="cancel()" [routerLink]="['/login']">Click here</a> to login as business
+                </div>
+
+                <div class="w-100 loggin-only" *ngIf="customerCheck=='customer' && userType=='business'">
+                    You need to logout to register your own business. Click here to <a href=""(click)="logOut()">Logout</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+  </ng-template>

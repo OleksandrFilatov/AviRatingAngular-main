@@ -1,0 +1,37 @@
+<form [formGroup]="adminGroup"  #f="ngForm">
+    <input type="hidden" formControlName="id">
+    
+    <div class="title-wrapper">
+        <h4 class="title">Add Admin</h4>
+        <div>
+            <button type="button" class="sm black pull-right" aria-label="Close" (click)="modalRef.hide()">Cancel</button>
+            <button type="button" class="sm red pull-right" appSmartClick (smartClick)="save(adminGroup)">Save</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" class="fadeIn" formControlName="user_name" placeholder="Enter UserName" [ngClass]="{'form-submitted': f.submitted}"/>
+            <div *ngIf="ui.checkErrors(g.user_name, f)" class="errors">
+                <p *ngIf="g.user_name.errors.required">UserName is required</p>
+                <p *ngIf="g.user_name.errors.maxlength">UserName should not exceeds {{ g.user_name.errors.maxlength.requiredLength }} characters</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <input type="text" class="fadeIn" formControlName="email" placeholder="Enter E-mail" [ngClass]="{'form-submitted': f.submitted}"/>
+            <div *ngIf="ui.checkErrors(g.email, f)" class="errors">
+                <p *ngIf="g.email.errors.required">E-mail is required</p>
+                <p *ngIf="g.email.errors.email">E-mail is invalid</p>
+                <p *ngIf="g.email.errors.maxlength">E-mail should not exceeds {{ g.email.errors.maxlength.requiredLength }} characters</p>
+            </div>
+        </div>
+
+        <div *ngIf="index === -1" class="col-md-6">
+            <input type="text" class="fadeIn" formControlName="password" placeholder="Enter Password" [ngClass]="{'form-submitted': f.submitted}"/>
+            <div *ngIf="ui.checkErrors(g.password, f)" class="errors">
+                <p *ngIf="g.password.errors.required">Password is required</p>
+            </div>
+        </div>
+    </div>
+</form>

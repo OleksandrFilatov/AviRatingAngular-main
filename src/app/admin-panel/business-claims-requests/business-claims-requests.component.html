@@ -1,0 +1,112 @@
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <h4>Business Claims Requests</h4>
+            <div>
+                <button *ngIf="dataList.length > 0" class="sm black" (click)="selectAll()">Select All</button>
+                <button *ngIf="selectedIds.length > 0" class="sm green" (click)="approveSelectedConfirmation(approveSelectedTemplate)">Approve Selected</button>
+                <button *ngIf="selectedIds.length > 0" class="sm red" (click)="rejectSelectedConfirmation(rejectSelectedTemplate)">Reject Selected</button>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Contact Person Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Claim Date </th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataList.length > 0; else noDataFound">
+                    <tr *ngFor="let d of dataList; let i = index">
+                        <ng-container *ngIf="d.status == 'pending'">
+                            <td>{{d.user.first_name}}</td>
+                            <td>{{d.name}} </td>
+                            <td>{{d.email}} </td>
+                            <td>{{d.contact_no}} </td>
+                            <td>{{moment(d.created_at).format(cs.DATE_TIME_FORMAT.DATE)}}</td>
+                            <td>
+                                <div class=" d-flex justify-content-center align-items-center">
+                                    <button type="button" *ngIf="d.status == 'pending'" class="sm green" (click)="approveConfirmation(approveTemplate,d.id,i)">Approved Claim</button>
+                                    <button type="button" *ngIf="d.status == 'pending'" class="sm red" (click)="rejectConfirmation(rejectTemplate,d.id,i)">Reject Claim</button>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <input [checked]="checkIfExist(d.id)" type="checkbox" [name]="'bus'+d.id" [id]="'bus'+d.id" [value]="d.id" (change)="addDltIds($event.target.value)">
+                                        <label class="check-box" [for]="'bus'+d.id"></label>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #dataModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Reject Claim</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="dataForm" (ngSubmit)="rejectRequest(dataForm, f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-12 mb-1">
+                    <label class="mb-0">Description <span class="mendatory">*</span></label>
+
+                    <textarea formControlName="response_note" class="form-control mt-0" placeholder="Enter Description" [ngClass]="{'form-submitted': f.submitted}"></textarea>
+                    <div *ngIf="ui.checkErrors(g.response_note, f)" class="errors">
+                        <p *ngIf="g.response_note.errors.required">Response Note is required</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="red sm m-1">save</button>
+            <button type="button" class="black sm ml-1" (click)="cancelButton(f)">Cancel</button>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #approveTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to approve?</p>
+        <button type="button" class="sm green" (click)="acceptRequest()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #rejectTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to reject?</p>
+        <button type="button" class="sm green" (click)="rejectRequest()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #approveSelectedTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to approve selected bussiness claims?</p>
+        <button type="button" class="sm green" (click)="approveSelectedClaims()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #rejectSelectedTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to reject selected bussiness claims?</p>
+        <button type="button" class="sm green" (click)="rejectSelectedClaims()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

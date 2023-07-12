@@ -1,0 +1,465 @@
+<section class="signup_wraper" *ngIf="registerStatus ==='inProgress'">
+    <div class="container">
+        <div class="account_logo"><a href="#"><img src="./assets/images/logo.png" class="img-fluid" alt=""></a></div>
+        <h1 class="heading">Sign Up for AVIRATING</h1>
+        <div class="form_holder">
+            <form [formGroup]="registrationFG" (ngSubmit)="reg(registrationFG)" #f="ngForm">
+                <input type="hidden" class="" formControlName="lat" [ngClass]="{'form-submitted': f.submitted}" />
+                <input type="hidden" class="" formControlName="lng" [ngClass]="{'form-submitted': f.submitted}" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="mb-3">Who You Are?</h2>
+                        <div class="small_boxes mb-5">
+                            <ul>
+                                <li>
+                                    <input type="radio" id="owner" (click)="initializeBusinessForm()" checked="true"
+                                        [(ngModel)]="registerUserType" [ngModelOptions]="{standalone: true}"
+                                        value="business" [ngClass]="{'form-submitted': f.submitted}">
+                                    <label for="owner" class="button">
+                                        <img src="./assets/images/business.svg" alt="owner">
+                                        <span>Business Owner</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="reviewer" name="user_type"
+                                        (click)="initializeCustomerForm()" checked="true" [(ngModel)]="registerUserType"
+                                        [ngModelOptions]="{standalone: true}" value="customer"
+                                        [ngClass]="{'form-submitted': f.submitted}">
+                                    <label for="reviewer" class="button">
+                                        <img src="./assets/images/reviewer.svg" alt="reviewer">
+                                        <span>AviRator</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="image_uploader signup_img mb-5">
+                            <h1 class="mb-3">Upload Image</h1>
+                            <label for="file_upload" class="custom_file_upload">
+                                <img [src]="thumbnail" id="banner-img" style="width: 32%;">
+                                <input type="file" style="display: none;" id="thumbnail-image"
+                                    (change)="onThumbnailChange($event, cropperModal)">
+
+                                <span (click)="browseThumbnail($event)">Upload Image</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="registerUserType == 'business'">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Business Name<span class="mendatory">*</span></label>
+                            <input type="text" class="" formControlName="first_name" placeholder="Enter Business Name"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.first_name, f)" class="errors">
+                                <p *ngIf="g.first_name.errors.required">Business Name is required</p>
+                                <p *ngIf="g.first_name.errors.maxlength">Business Name limit is {{
+                                    g.user_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Business Categories<span class="mendatory">*</span></label>
+                            <select formControlName="business_category_id" class="fadeIn"
+                                [ngClass]="{'form-submitted': f.submitted}">
+                                <option [value]="null">Select Category</option>
+                                <option *ngFor="let d of businessCategoriesList" [value]="d.id">{{d.full_name}}</option>
+                            </select>
+                            <div *ngIf="ui.checkErrors(g.business_category_id, f)" class="errors">
+                                <p *ngIf="g.business_category_id.errors.required">Business Category is required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="registerUserType == 'customer'">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First Name <span class="mendatory">*</span></label>
+                            <input type="text" class="" formControlName="first_name" placeholder="Enter First Name"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.first_name, f)" class="errors">
+                                <p *ngIf="g.first_name.errors.required">First Name is required</p>
+                                <p *ngIf="g.first_name.errors.maxlength">First Name limit is {{
+                                    g.first_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name <span class="mendatory">*</span></label>
+                            <input type="text" class="" formControlName="last_name" placeholder="Enter Last Name"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.last_name, f)" class="errors">
+                                <p *ngIf="g.last_name.errors.required">Last Name is requierd</p>
+                                <p *ngIf="g.last_name.errors.maxlength">Last Name limit is {{
+                                    g.last_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="registerUserType == 'customer'">
+                    <div class="col-md-6">
+                        <label class="d-block">Title <span class="mendatory">*</span></label>
+                        <select formControlName="title" [ngClass]="{'form-submitted': f.submitted}">
+                            <option [value]="null">Select Title</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Ms">Ms</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Mr">Mr</option>
+                        </select>
+                        <div *ngIf="ui.checkErrors(g.title, f)" class="errors">
+                            <p *ngIf="g.title.errors.required">Title is required</p>
+                        </div>
+                    </div>
+                    <!-- <div> -->
+                    <div class="col-md-6" *ngIf="registerUserType == 'customer'">
+                        <div class="form-group">
+                            <label>Date of Birth <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="dob" placeholder="Select Date"
+                                bsDatepicker
+                                [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'dddd, MMMM DD, YYYY', containerClass: 'theme-dark-blue' }">
+                            <div *ngIf="ui.checkErrors(g.dob, f)" class="errors">
+                                <p *ngIf="g.dob.errors.required">Date of birth is required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="email" placeholder="Enter Email"
+                                [ngClass]="{'form-submitted': f.submitted}" autocomplete="off" />
+                            <div *ngIf="ui.checkErrors(g.email, f)" class="errors">
+                                <p *ngIf="g.email.errors.required">Email is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Password <span class="mendatory">*</span></label>
+                            <input type="password" class="fadeIn" formControlName="password"
+                                placeholder="Enter Password" [ngClass]="{'form-submitted': f.submitted}"
+                                autocomplete="off" />
+                            <div *ngIf="ui.checkErrors(g.password, f)" class="errors">
+                                <p *ngIf="g.password.errors.required">Password is required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Confirm Password<span class="mendatory">*</span></label>
+                            <input type="password" class="fadeIn" formControlName="password_confirmation"
+                                placeholder="Enter Confirm Password" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.password_confirmation, f)" class="errors">
+                                <p *ngIf="g.password_confirmation.errors.required">Confirm Password is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address
+                                <span class="mendatory" *ngIf="registerUserType == 'business'">*</span></label>
+                            <input type="text" style="margin: 0px; width: 96%;" class="fadeIn"
+                                placeholder="Search location" #search [(ngModel)]="address" formControlName="address">
+                            <a class="marker" (click)="getLocation()"><i class="fas fa-map-marker-alt"></i></a>
+                            <div *ngIf="ui.checkErrors(g.address, f)" class="errors">
+                                <p *ngIf="g.address.errors.required">Address is required</p>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="registerUserType == 'customer'">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Home Airport<span class="mendatory">*</span></label>
+                            <!-- <ng-select2 formControlName="home_airport" [ngClass]="{'form-submitted': f.submitted}"
+                                [data]="airports"></ng-select2> -->
+
+                                <select formControlName="home_airport" [ngClass]="{'form-submitted': f.submitted}">
+                                    <option [value]="null">Select Title</option>
+                                    <option [value]="airport.airport_id" *ngFor="let airport of airports">{{ airport.airport_name }}</option>
+                                </select>
+
+                            <div *ngIf="ui.checkErrors(g.home_airport, f)" class="errors">
+                                <p *ngIf="g.home_airport.errors.required">Home airport is required</p>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+                <div class="row" *ngIf="registerUserType == 'customer'">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aircraft Type<span class="mendatory">*</span></label>
+                            <input type="text" formControlName="aircraft_type" placeholder="Enter Aircraft Airport"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.aircraft_type, f)" class="errors">
+                                <p *ngIf="g.aircraft_type.errors.required">Aircraft type is required</p>
+                                <p *ngIf="g.aircraft_type.errors.maxlength">Aircraft type limit is {{
+                                    g.aircraft_type.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aircraft Tail Number</label>
+                            <input type="text" formControlName="aircraft_tail_number"
+                                placeholder="Enter Aircraft Tail Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.aircraft_tail_number, f)" class="errors">
+                                <p *ngIf="g.aircraft_tail_number.errors.maxlength">Aircraft tail limit is{{
+                                    g.aircraft_tail_number.errors.maxlength.requiredLength
+                                    }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="registerUserType == 'customer'">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Contact #1 <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="contact_1"
+                                placeholder="Enter Contact Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.contact_1, f)" class="errors">
+                                <p *ngIf="g.contact_1.errors.required">Contact #1 is required</p>
+                                <p *ngIf="g.contact_1.errors.maxlength">Contact #1 limit is {{
+                                    g.contact_1.errors.maxlength.requiredLength
+                                    }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Contact #2</label>
+                            <input type="text" class="fadeIn" formControlName="contact_2"
+                                placeholder="Enter Contact Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.contact_2, f)" class="errors">
+                                <p *ngIf="g.contact_2.errors.maxlength">Contact2 Number limit is {{
+                                    g.contact_2.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="registerUserType == 'business'">
+                    <div class="row" *ngIf="registerUserType == 'business'">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Opening Time</label>
+                                <timepicker formControlName="opening_time" [ngModelOptions]="{standalone: true}"
+                                    [showMeridian]="false" (isValid)="requestTimeValid=$event"></timepicker>
+                                <div *ngIf="ui.checkErrors(g.opening_time, f)" class="errors">
+                                    <p *ngIf="g.opening_time.errors.required">Opening Time is required</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Closing Time</label>
+                                <timepicker formControlName="closing_time" [ngModelOptions]="{standalone: true}"
+                                    [showMeridian]="false" (isValid)="requestTimeValid=$event"></timepicker>
+                                <div *ngIf="ui.checkErrors(g.closing_time, f)" class="errors">
+                                    <p *ngIf="g.closing_time.errors.required">Closing Time is required</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="row" *ngIf="registerUserType == 'business'">
+
+                    <input type="hidden" class="fadeIn" formControlName="business_price"
+                        [ngClass]="{'form-submitted': f.submitted}" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Contact Number <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="contact"
+                                placeholder="Enter Contact Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.contact, f)" class="errors">
+                                <p *ngIf="g.contact.errors.required">Contact Number is required</p>
+                                <p *ngIf="g.contact.errors.maxlength">Contact Number limit is {{
+                                    g.contact.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>State <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="state" placeholder="Enter State "
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.state, f)" class="errors">
+                                <p *ngIf="g.state.errors.required">State is required</p>
+                                <p *ngIf="g.state.errors.maxlength">State limit is {{
+                                    g.state.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>City<span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="city" placeholder="Enter City "
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.city, f)" class="errors">
+                                <p *ngIf="g.city.errors.required">City is required</p>
+                                <p *ngIf="g.city.errors.maxlength">City limit is {{
+                                    g.state.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Zip Code<span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="zip_code" placeholder="Enter Zip Code "
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.zip_code, f)" class="errors">
+                                <p *ngIf="g.zip_code.errors.required">Zip Code is required</p>
+                                <p *ngIf="g.zip_code.errors.maxlength">Zip Code limit is {{
+                                    g.zip_code.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" *ngIf="registerUserType == 'business'">
+                    <div class="col-md-12">
+                        <label>Services<span class="mendatory">*</span></label>
+                        <br>
+                    </div>
+                    <div class="col-md-4" *ngFor="let d of servicesList; let i = index">
+                        <div class="form-group">
+                            <input type="checkbox" [id]="i+'services'" (change)="pushSpliceService(d.id)"
+                                [ngModelOptions]="{standalone: true}">
+                            <label [for]="i+'services'">{{d.full_name}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="registerUserType == 'business'">
+                    <div class="col-md-12"><label>Holidays<span class="mendatory">*</span></label>
+                        <br>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="float-left mr-2" *ngFor="let d of days; let i = index">
+                            <div class="form-group">
+                                <input type="checkbox" [id]="i+'day'" [(ngModel)]="schedules[i]"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label [for]="i+'day'">{{days[i]}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Business Type<span class="mendatory">*</span></label>
+                            <select formControlName="business_type_id" class="fadeIn"
+                                [ngClass]="{'form-submitted': f.submitted}" (change)="getPrice($event.target.value)">
+                                <option [value]="null">Select Type</option>
+                                <option *ngFor="let d of businessTypeList" [value]="d.id">{{d.full_name}}</option>
+                            </select>
+                            <div *ngIf="ui.checkErrors(g.business_type_id, f)" class="errors">
+                                <p *ngIf="g.business_type_id.errors.required">Business Type is required</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Airpor ID<span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="airport_id"
+                                placeholder="Enter Airport ID " [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.airport_id, f)" class="errors">
+                                <p *ngIf="g.airport_id.errors.required">Airport ID is required</p>
+                                <p *ngIf="g.airport_id.errors.maxlength">Airport ID limit is {{
+                                    g.airport_id.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" *ngIf="businessPrice>0">
+                        <div class="form-group payment">
+                            <p>Almost there</p>
+                            <p>Place you business for just <b>${{businessPrice}}</b></p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+
+                            <input id="check" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                (change)="termsAndConditionsCheck === true? false: true"
+                                [(ngModel)]="termsAndConditionsCheck" [checked]="termsAndConditionsCheck">
+                            <label for="check">
+                                <p>By continuing, you agree to AVIRATING <a
+                                        (click)="openModalTermsAndCondition(TCTemplate)">Terms & Conditions</a></p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="submit" value="Signup">
+                        </div>
+                        <div class="form-group">
+                            <p>Already have an account? <a href="#">Login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="signup_wraper" *ngIf="registerStatus =='done'">
+    <div class="container">
+        <div class="account_logo"><a [routerLink]="['/']"><img src="/assets/images/logo.png" class="img-fluid"
+                    alt=""></a></div>
+        <h1 class="heading" style="margin-bottom: 20px !important;">Successfull</h1>
+        <p class="font-25">You have been registred successfully.</p>
+        <p class="mb-2">A verification code has been sent to your email address.</p>
+    </div>
+</section>
+
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">ADJUST IMAGE SIZE</h2>
+                        <div>
+                            <button type="button" class="primary" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="240/200" [onlyScaleDown]="true" [roundCropper]="false" format="png"
+                        outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>
+
+<ng-template #TCTemplate>
+    <div class="modal-body">
+        <app-terms-and-conditions></app-terms-and-conditions>
+    </div>
+    <div class="text-right">
+        <button type="button" class="btn btn-primary m-3" (click)="modalRef.hide()">Cancel</button>
+    </div>
+</ng-template>

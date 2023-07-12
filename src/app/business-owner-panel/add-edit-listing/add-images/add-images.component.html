@@ -1,0 +1,43 @@
+<input type="file" style="display: none;" id="other-images" (change)="onImagesChange($event)" multiple>
+<input type="file" style="display: none;" id="document-file" (change)="onDocumentChange($event)" />
+
+<div class="row">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <div>
+                <button (click)="browseImages($event)" class="info sm mb-2  mr-2" *ngIf="uploadedImages.length > 0">Add Image</button>
+                <a [routerLink]="['/business-owner/listing/list']" routerLinkActive="router-link-active" ><button class="primary sm mb-2  mr-2">Save and Exit</button></a>
+                <button (click)="ds.step = 1 " class="warning sm mr-2">Back</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12">
+        <div class="images-containers-wrapper">
+            <div class="images-container">
+                <div class="image-thumbnail" *ngFor="let img of uploadedImages; let i = index">
+                    <img [defaultImage]="spinnerSVG" [lazyLoad]="img.image">
+                    <button type="button" class="xs red delete-image" (click)="deleteImage(i)"><i class="fas fa-trash"></i></button>
+                    <div class="uploader-progress" *ngIf="img.uploading">
+                        <img src="/assets/images/spinner.svg">
+                    </div>
+                </div>
+
+                <div class="upload-images-container" *ngIf="uploadedImages.length === 0">
+                    <div class="icons">
+                        <button (click)="browseImages($event)" class="primary sm mb-2">Add Image</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div>
+    <div class="input-group-append">
+        <button *ngIf="productDetails.quality_certificate == 0" class="lr-major sm" type="button" (click)="chooseFile()">Add Quality Ceritificate</button>
+        <button *ngIf="productDetails.quality_certificate == 1" class="lr-major sm" type="button" (click)="chooseFile()">Change Quality Ceritificate</button>
+        <button *ngIf="productDetails.quality_certificate == 1" class="lr-minor sm" type="button"  (click)="downloadDocument()">Download Ceritificate</button>
+        <button *ngIf="productDetails.quality_certificate == 1" class="lr-minor sm" type="button" (click)="delete()">Delete Ceritificate</button>
+    </div>
+</div> -->

@@ -1,0 +1,102 @@
+.container{
+    margin: auto;
+    max-width: 800px;
+}
+
+
+
+.search_form{
+    margin:15px;
+
+}
+
+.search_input{
+ 
+    padding-left: 30px  !important;
+    border-radius: 20px !important;
+    background-color: #eff1f3 !important;
+}
+
+.card {
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    border: 1px solid #ccc; 
+    font-weight: 400;
+    font-family: 'Roboto';
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card-body{
+    height: 80px;
+}
+.card-footer {
+    padding: .75rem 1.25rem;
+    background-color: rgb(0 0 0 / 0%);
+    border-top: none;
+}
+
+.carousel-item {
+  &.active, &.carousel-item-right, &.carousel-item-next {
+    display: flex !important;
+    flex-wrap: wrap;
+    height: 300px;
+  }
+}
+
+
+.group-tap{
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.add_airparks{
+    font-size: 18px;
+    color: black !important;
+    background-color: #91f38a;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+
+.create-group-module{
+    margin-top: 10px;
+    padding: 20px;
+    text-align: center;
+    border-style: none !important;
+    border-width: 0;
+    box-shadow: 0 0 8px rgb(0 0 0 / 10%);
+    margin-bottom: 8px;
+    border: none;
+}
+
+.carousel-item {
+    &.active,
+    &.carousel-item-right,
+    &.carousel-item-next {
+      display: flex !important;
+      flex-wrap: wrap;
+    }
+  }
+
+  .btn-floating {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    padding: 0;
+    margin: 10px;
+    overflow: hidden;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+    box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    width: 47px;
+    height: 47px;
+}
+
+.search_form{
+    display: flex !important;
+}

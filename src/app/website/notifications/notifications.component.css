@@ -1,0 +1,43 @@
+.notification_span {
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: capitalize;
+}
+
+.post_container {
+    padding: 10px;
+    max-width: 600px !important;
+  }
+  
+.notification_list{
+    padding: 15px;
+    margin: 10px 0px 20px 0px;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    border: 1px solid #0000001a;
+}
+
+.sender_avatar{
+    margin-right: 10px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+.notification_btn{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.notification_msg{
+    min-height: 42px;
+        
+}
+
+.notification_body{
+    width: 100%;
+}
+

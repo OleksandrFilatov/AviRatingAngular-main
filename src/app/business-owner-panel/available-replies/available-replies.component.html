@@ -1,0 +1,75 @@
+<!-- <p>
+  available-replies works!
+</p> -->
+<div class="row" *ngIf="dataStatus">
+    <div *ngIf="respData.business_owner_reply;else purchaseReplies" class="col-md-12">
+        <h3>Available Replies:</h3>
+        <div style="margin-top: 40px;" class="row">
+            <div class="offset-md-1 col-md-5">
+                <div class="box">
+                    <h5>Available Replies</h5>
+                    <h2>{{respData.business_owner_reply.max_replies - respData.business_owner_reply.used_replies}}</h2>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="box">
+                    <h5>Used Replies</h5>
+                    <h2>{{respData.business_owner_reply.used_replies}}</h2>
+                </div>
+            </div>
+        </div>  
+    </div>
+    <ng-template #purchaseReplies>
+        <div class="col-md-12">
+            <h3>You dont have any replies</h3>
+            <button (click)="purchaseModal(replyTemplate)" class="reply-btn" type="button">Purchase Now</button>
+        </div>
+    </ng-template>
+
+    <ng-template #replyTemplate>
+
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Buy Replies</h4>
+        </div>
+        <div class="modal-body">
+            <p class="warning-custom"> Please purchase replies below.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sr. #</th>
+                            <th>No. Of Replies</th>
+                            <th>Price</th>
+                            <th class="col-actions">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="reviewPriceList.length > 0">
+                        <tr *ngFor="let row of reviewPriceList; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ row.no_of_replies }}</td>
+                            <td>{{ row.price | currency:'USD' }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <button type="button" class="sm green" (click)="purchase(row.id)">Purchase</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="reviewPriceList.length == 0">
+                        <tr>
+                            <td colspan="100">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="cancelButton()">Cancel</button>
+        </div>
+
+
+    </ng-template>
+    
+</div>

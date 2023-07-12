@@ -1,0 +1,26 @@
+<main class="container text-center">
+    <section class="signup_wraper" *ngIf="status =='success'">
+        <div class="container">
+            <div class="account_logo"><a [routerLink]="['/']"><img src="/assets/images/logo.png" class="img-fluid" alt=""></a></div>
+            <h1 class="heading success">Successfull</h1>
+            <p class="font-25">You have successfully purchased replies. Please <a [routerLink]="['/business-owner/my-business-reviews']" routerLinkActive="router-link-active"> click here</a> to goto review list.</p>
+        </div>
+    </section>
+
+    <section class="signup_wraper" *ngIf="status =='failed'">
+        <div class="container">
+            <div class="account_logo"><a [routerLink]="['/']"><img src="/assets/images/logo.png" class="img-fluid" alt=""></a></div>
+            <h1 class="heading fail">Failed</h1>
+            <p class="font-25">Your Payment request is failed. <a [routerLink]="['/business-owner/my-business-reviews']" routerLinkActive="router-link-active">Click here</a> to goto List.</p>
+        </div>
+    </section>
+
+    <section class="signup_wraper" *ngIf="status =='canceled'">
+        <div class="container">
+            <div class="account_logo"><a [routerLink]="['/']"><img src="/assets/images/logo.png" class="img-fluid" alt=""></a></div>
+            <h1 class="heading fail">Canceled</h1>
+            <p class="font-25">Your Payment request is canceled. <a [routerLink]="['/business-owner/my-business-reviews']" routerLinkActive="router-link-active">Click here</a> to goto List.</p>
+        </div>
+    </section>
+
+</main>

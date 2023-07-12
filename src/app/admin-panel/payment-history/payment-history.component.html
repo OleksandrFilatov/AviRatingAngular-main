@@ -1,0 +1,54 @@
+<!-- <p>
+    payment-history works!
+</p> -->
+
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-2">
+        <div class="d-flex justify-content-between">
+            <h4>Business Payment History</h4>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Payment ID</th>
+                        <th>Payer ID</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngIf="paymentHistoryData.length > 0 && dataStatus == 'done'; else noDataFound">
+                    <ng-container *ngFor="let history of paymentHistoryData; let i = index">
+                        <tr>
+                            <td>{{history.user.first_name}}</td>
+                            <td>{{history.user.email}}</td>
+                            <td>${{history.price}}</td>
+                            <td>{{history.payment_id}}</td>
+                            <td>{{history.payer_id}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+                <ng-container *ngIf="dataStatus == 'fetching'">
+                    <tbody>
+                        <tr>
+                            <td colspan="100" style="height: 250px;">
+                                <app-component-loader></app-component-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+            </table>
+        </div>
+    </div>
+</div>

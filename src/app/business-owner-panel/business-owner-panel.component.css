@@ -1,0 +1,31 @@
+/*Reviewer Panel*/
+.account_wraper{
+    margin: 60px 0;
+}
+
+/*Panel Content*/
+.panel_content{
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px 20px;
+}
+.panel_content h2{
+    font-size: 24px;
+    font-family: 'Pangram-Bold';
+    margin-bottom: 50px;
+}
+.update_btn{
+    max-width: 200px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pangram-Regular';
+    background: #fcfcfc;
+    color: #222222;
+    font-size: 14px;
+}
+.inner_main{
+	padding-top: 40px;
+}

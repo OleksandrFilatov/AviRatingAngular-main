@@ -1,0 +1,71 @@
+<h2 class="heading" *ngIf="selectedId == -1">Add Listing</h2>
+<h2 class="heading" *ngIf="selectedId > -1">Edit Listing</h2>
+<div class="owner_litings" *ngIf="ds.step == 1">
+    <div class="form_holder">
+        <form [formGroup]="listingForm" (ngSubmit)="saveListing(listingForm, f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" formControlName="title" placeholder="Title goes here" [ngClass]="{'form-submitted': f.submitted}">
+                        <div *ngIf="ui.checkErrors(g.title, f)" class="errors">
+                            <p *ngIf="g.title.errors.required">Title is required</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea formControlName="description"  placeholder="Enter Description" [ngClass]="{'form-submitted': f.submitted}"></textarea> 
+                        <div *ngIf="ui.checkErrors(g.description, f)" class="errors">
+                            <p *ngIf="g.description.errors.required">Description is required</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-1 mb-3">
+                    <div class="image_uploader signup_img">
+                        <h1 class="mb-3">Upload Image</h1> 
+                        <label for="file_upload" class="custom_file_upload">
+                            <img [src]="thumbnail" id="banner-img" class="tut-pro-photo">
+                            <input type="file" style="display: none;" id="thumbnail-image" (change)="onThumbnailChange($event, cropperModal)">
+                            <span><button type="button" class="primary" (click)="browseThumbnail($event)" style="min-width: 140px">Browse Thumbnail</button></span>
+                        </label>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="update_btn" value="Save and Next">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="owner_litings" *ngIf="ds.step == 2">
+    <div class="form_holder">
+        <app-add-images *ngIf="selectedId > -1" [selectedId]="selectedId" [listingDetails]="listingDetails"></app-add-images>
+        <app-add-images *ngIf="selectedId == -1" [selectedId]="listingId" [listingDetails]="listingDetails"></app-add-images>
+    </div>
+</div>        
+
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">Adjust Image size</h2>
+                        <div>
+                            <button type="button" class="primary" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="240/200" [onlyScaleDown]="true" [roundCropper]="false" format="png" outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>

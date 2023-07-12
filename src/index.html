@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="_aJixhZ7ZQi_Fj5ctnLKqiKEgswyP0YL-lg7M_VH9EE" />
+    <title>AviRating</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#1976d2">
+    <script src="https://kit.fontawesome.com/c43b94d307.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/ngx-bootstrap/datepicker/bs-datepicker.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="loader-body" style="z-index: 0;">
+        <div class="loader">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <app-root></app-root>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            loader = document.querySelector('.loader-body')
+            loader.style.transition = '0.8s';
+            loader.style.opacity = 0;
+        });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6RGZBVDXVK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6RGZBVDXVK');
+    </script>
+    <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+
+</html>

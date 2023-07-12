@@ -1,0 +1,74 @@
+
+
+.thumbnail-container{
+    width: 70%;
+    height: 30%;
+    padding: 10px;
+}
+.image-thumbnail{
+    width: 100%;
+}
+.image-thumbnail img{
+    width: 100%;
+}
+label {
+    margin: 0px;
+    padding: 0px;
+}
+
+.flex-md-between, .flex-row-col{   
+    display:flex;  
+    justify-content: space-between; 
+}
+.flex-row-col{
+    flex-wrap: wrap;    
+}
+.flex-md-between{
+    margin-top: 30px;      
+}
+.tut-pro-content{ 
+     width: 73%;     
+}
+.tut-pro-photo{
+    width: 25%;
+    text-align: center;
+}
+.tut-pro-photo img{
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin: 0 auto;
+}
+.half-width{
+    width: 48%;    
+    margin-bottom: 20px;    
+}
+.full-width{
+    width: 100%;
+    margin-bottom: 20px;     
+}
+
+@media only screen and (max-width: 768px) {
+    .flex-row-col{
+        flex-direction: column;              
+    }
+    .half-width{
+        width: 98%;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .flex-md-between{
+        flex-wrap: wrap;
+    }
+    .tut-pro-photo{
+        width: 90%;
+        max-width: 320px;
+        height: auto;
+        margin: auto;        
+        order: 1;        
+    }
+    .tut-pro-content{
+        order: 2;
+        width: 98%;    
+    }
+}

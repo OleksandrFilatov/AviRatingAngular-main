@@ -1,0 +1,27 @@
+.themeCol2 {
+    color: orange
+  }
+
+  .danger {
+    color: red
+  }
+
+  .tut-pro-photo{
+    width: 59%;
+    text-align: center;
+}
+.tut-pro-photo img{
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.td-image-container{
+    width: 52px;
+}
+
+.list-imgs{
+    height: 50px;
+    width: 50px;
+}

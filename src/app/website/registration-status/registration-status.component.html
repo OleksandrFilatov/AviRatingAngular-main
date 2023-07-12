@@ -1,0 +1,20 @@
+<main class="inner_main container-fluid p-5">
+    <section class="signup_wraper" *ngIf="status =='success'">
+        <div class="container">
+            <div class="account_logo"><a  [routerLink]="['/']"><img src="/assets/images/logo.png" class="img-fluid" alt=""></a></div>
+            <h1 class="heading success">Successfull</h1>
+            <p class="font-25">You have been registred successfully.</p>
+            <p class="mb-2">A verification code has been sent at your email address</p>
+        </div>
+    </section>
+
+    <section class="signup_wraper" *ngIf="status =='failed'">
+        <div class="container">
+            <div class="account_logo"><a  [routerLink]="['/']"><img src="/assets/images/logo.png" class="img-fluid" alt=""></a></div>
+            <h1 class="heading fail">Failed</h1>
+            <p class="font-25">Your Payment request is fail.</p>
+            <p class="mb-2"><a  [routerLink]="['/registration']" class="click-here">Click here</a> to create an account</p>
+        </div>
+    </section>
+
+  </main>

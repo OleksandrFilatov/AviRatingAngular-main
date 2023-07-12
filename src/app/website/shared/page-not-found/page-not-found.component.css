@@ -1,0 +1,36 @@
+@media only screen and (min-width: 1024px) {
+  .box {
+    padding: 10% 0 0 40%;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .box {
+    padding: 16% 0 0 35%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .box {
+    padding: 21% 0 0 30%;
+  }
+}
+@media only screen and (max-width: 425px) {
+  .box {
+    padding: 77% 0 0 10%;
+    transform: translate(5%, 10px);
+    height: 115vh;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .box {
+    padding: 85% 0 0 6%;
+    transform: translate(5%, 10px);
+    height: 115vh;
+  }
+}
+@media only screen and (max-width: 320px) {
+  .box {
+    padding: 100% 0 0 0%;
+    transform: translate(5%, 10px);
+    height: 115vh;
+  }
+}

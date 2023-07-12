@@ -1,0 +1,181 @@
+<div class="row justify-content-center" *ngIf="FormStatus === 'done'">
+    <div class="col-md-11">
+        <h4 *ngIf="playGroupId > -1" class="mb-2 text-center font-bold">Edit PlayGroup</h4>
+        <h4 *ngIf="playGroupId === -1" class="mb-2 text-center font-bold">Create PlayGroup Profile</h4>
+        <form [formGroup]="profileFG" (ngSubmit)="save(profileFG)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Name <span class="mendatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="first_name" placeholder="Enter Playgroup Name" [ngClass]="{'form-submitted': f.submitted}" />
+                                <div *ngIf="ui.checkErrors(g.first_name, f)" class="errors">
+                                    <p *ngIf="g.first_name.errors.required">Center Name is required</p>
+                                    <p *ngIf="g.first_name.errors.maxlength">Center Name should not exceeds {{ g.first_name.errors.maxlength.requiredLength }} characters</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Email <span class="mendatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="email" [readonly]="playGroupId > 0" placeholder="Enter Email Address" [ngClass]="{'form-submitted': f.submitted}" />
+                                <div *ngIf="ui.checkErrors(g.email, f)" class="errors">
+                                    <p *ngIf="g.email.errors.required">Email is required</p>
+                                    <p *ngIf="g.email.errors.email">Please enter valid email</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>UserName <span class="mendatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="user_name" placeholder="Enter UserName" [readonly]="playGroupId > 0" [ngClass]="{'form-submitted': f.submitted}" />
+                                <div *ngIf="ui.checkErrors(g.user_name, f)" class="errors">
+                                    <p *ngIf="g.user_name.errors.required">Username is required</p>
+                                    <p *ngIf="g.user_name.errors.maxlength">Username should not exceeds{{ g.user_name.errors.maxlength.requiredLength }} characters</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Contact# 1 <span class="mendatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="contact_1" placeholder="Mobile #" [ngClass]="{'form-submitted': f.submitted}" />
+                                <div *ngIf="ui.checkErrors(g.contact_1, f)" class="errors">
+                                    <p *ngIf="g.contact_1.errors.required">Mobile # is required</p>
+                                    <p *ngIf="g.contact_1.errors.maxlength">Mobile # should not exceeds {{ g.contact_1.errors.maxlength.requiredLength }} characters</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Contact# 2</label>
+                                <input type="text" class="form-control" formControlName="contact_2" placeholder="Landline #" [ngClass]="{'form-submitted': f.submitted}" />
+                                <div *ngIf="ui.checkErrors(g.contact_2, f)" class="errors">
+                                    <p *ngIf="g.contact_2.errors.required">Landline # is required</p>
+                                    <p *ngIf="g.contact_2.errors.maxlength">Landline # should not exceeds {{ g.contact_2.errors.maxlength.requiredLength }} characters</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Region <span class="mendatory">*</span></label>
+                                <select formControlName="region_id" (change)="getDistricts($event.target.value)" [ngClass]="{'form-submitted': f.submitted}">
+                                    <option disabled [value]="null">Region</option>
+                                    <option *ngFor="let d of regionsList" [value]="d.id">{{d.name}}</option>
+                                </select>
+                                <div *ngIf="ui.checkErrors(g.region_id, f)" class="errors">
+                                    <p *ngIf="g.region_id.errors.required">Level is Required</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>District <span class="mendatory">*</span></label>
+                                <select formControlName="district_id" [ngClass]="{'form-submitted': f.submitted}">
+                                    <option disabled [value]="null">District</option>
+                                    <option *ngFor="let d of districtsList" [value]="d.id">{{d.name}}</option>
+                                </select>
+                                <div *ngIf="ui.checkErrors(g.district_id, f)" class="errors">
+                                    <p *ngIf="g.district_id.errors.required">Destrict is Required</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Level</label>
+                                <select formControlName="level_id" [ngClass]="{'form-submitted': f.submitted}">
+                                    <option disabled [value]="null">Level</option>
+                                    <option *ngFor="let d of educationLevelList" [value]="d.id">{{d.name}}</option>
+                                </select>
+                                <div *ngIf="ui.checkErrors(g.level_id, f)" class="errors">
+                                    <p *ngIf="g.level_id.errors.required">Level is Required</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Fee <span class="mendatory">*</span></label>
+                                <input type="number" class="form-control" placeholder="Fee" formControlName="fee" [ngClass]="{'form-submitted': f.submitted}">
+                                <div *ngIf="ui.checkErrors(g.fee, f)" class="errors">
+                                    <p *ngIf="g.fee.errors.required">Fee # is required</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Established <span class="mendatory">*</span></label>
+                                <input class="form-control" type="number" [max]="moment().year()"  placeholder="Established" formControlName="established" >
+                                <div *ngIf="ui.checkErrors(g.established, f)" class="errors">
+                                    <p *ngIf="g.established.errors.required">Established # is required</p>
+                                    <p *ngIf="g.established.errors.max">Established year cant be greater then current year </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" formControlName="description" rows="4" placeholder="Enter Description"></textarea>
+                                <div *ngIf="ui.checkErrors(g.description, f)" class="errors">
+                                    <p *ngIf="g.description.errors.maxlength">Description should not exceeds{{ g.description.errors.maxlength.requiredLength }} characters</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" *ngIf="dataStatus == 'done'">
+                            <label>Locations</label>
+                            <div class="box-container">
+                                <p class="box" *ngFor="let d of selectedPlayGroupData.playgroup.teaching_locations">{{d.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="tut-pro-photo">
+                        <img id="banner-img" [src]="thumbnail">
+                        <input type="file" style="display: none;" id="thumbnail-image" (change)="onThumbnailChange($event, cropperModal)">
+                        <button class="green sm" (click)="browseThumbnail($event)" type="button">Browse Picture</button>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button *ngIf="playGroupId > -1" type="submit" class="blue sm">Update</button>
+                    <button *ngIf="playGroupId === -1" type="submit" class="blue sm">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">Adjust Image Size</h2>
+                        <div>
+                            <button type="button" class="sm red" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="270/225" [onlyScaleDown]="true" [roundCropper]="false" format="png" outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>

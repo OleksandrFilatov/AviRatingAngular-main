@@ -1,0 +1,123 @@
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <h4>Listing Reviews</h4>
+        </div>
+        <div class="row input-fields">
+            <div class="col-md-4">
+                <label>Review From</label>
+                <input type="text" class="form-control" [(ngModel)]="fromDate" placeholder="Select Date" bsDatepicker [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'dddd, MMMM DD, YYYY', containerClass: 'theme-red' }">
+            </div>
+            <div class="col-md-4">
+                <label>Review To</label>
+                <input type="text" class="form-control" [(ngModel)]="toDate" placeholder="Select Date" bsDatepicker [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'dddd, MMMM DD, YYYY', containerClass: 'theme-red' }">
+            </div>
+            <div class="col-md-4" style="display: none;">
+                <label>Name</label>
+                <input type="text" class="form-control" [(ngModel)]="searchName" placeholder="Enter Name">
+            </div>
+            <div class="col-md-2 mt-3">
+                <button class="green sm" (click)="searchReviews()">Search</button>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th width="150px">Review By</th>
+                        <th width="150px">Listing</th>
+                        <th width="150px">Review Date</th>
+                        <th>Feedback</th>
+                        <th class="text-center custom-ratings">Rating</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="userReviewsList.length > 0; else noDataFound">
+                    <tr *ngFor="let d of userReviewsList; let i = index">
+                        <td>{{d.user.first_name+' '+d.user.last_name}} </td>
+                        <td>
+                            <p><a [routerLink]="['/listing/details/'+d.listing.id]" style="text-decoration: underline;">{{d.listing.title}}</a></p>
+
+                        </td>
+                        <td>{{d.created_at}}</td>
+                        <td>
+                            <app-read-more [text]="d.feedback" [maxLength]="130"></app-read-more>
+
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex">
+                                <irating [name]="'review'+d.id" [value]="d.rating" [readonly]="true" [size]="16"></irating>
+                            </div>
+                            <button class="red sm" (click)="confirmingModal(ReviewConfirming, d.id,i)" >Delete Review</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+            </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-left  mt-3">
+                    <li class="page-item">
+                        <small *ngIf="page<10">Current Page: 0{{page}}</small>
+                        <small *ngIf="page>=10">Current Page: {{page}}</small>
+                    </li>
+                </ul>
+                <ul class="pagination justify-content-left">
+                    <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                        <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                    </li>
+                    <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                        <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                    </li>
+                    <ng-container *ngIf="pagination.last_page <= 6">
+    
+                        <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                            <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+    
+                    </ng-container>
+    
+                    <ng-container *ngIf="pagination.last_page >= 7">
+    
+                        <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                            <li *ngIf="i<4" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                            </li>
+                            <li *ngIf="(pagination.last_page-i) == 3" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                <a class="page-link">...</a>
+                            </li>
+                            <li *ngIf="(pagination.last_page-i)==1 || (pagination.last_page-i)==2" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                                <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+    
+                    </ng-container>
+    
+                    <li class="page-item" *ngIf="pagination.next_page_url != null">
+                        <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                    </li>
+                    <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                        <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<ng-template #ReviewConfirming>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="green sm" (click)="deleteReview()">Yes</button>
+        <button type="button" class="red sm" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

@@ -1,0 +1,134 @@
+<main class="inner_main">
+    <section class="business_detail_wraper">
+        <div class="container_large" *ngIf="dataStatus=='done'">
+            <div class="business_detail">
+                <div class="row">
+                    <div class="col-md-8 full_width_detail">
+                        <div class="detail_content">
+                            <h1>{{ details.title }}</h1>
+                            <div class="busniess_rating">
+                                <div class="rating-container">
+                                    <irating [(value)]="details.avg_rating" [size]="16" [readonly]="true"></irating>
+                                </div>
+                                <span>({{details.review.length}} Reviews)</span>
+                            </div>
+                            <div class="write_review">
+                                <a class="cursor" (click)="scroll(leave_review)"><i class="fas fa-star"></i> Write a Review</a>
+                            </div>
+                            <div class="detail_content_row">
+                                <h2>Details</h2>
+                                <p>{{ details.description }}</p>
+                            </div>
+
+                        </div>
+                        <div class="reviews_wraper" #leave_review>
+                            <div class="leave_review">
+                                <h2>Leave a Review</h2>
+                                <div class="review_block">
+                                    <form [formGroup]="ratingForm" (ngSubmit)="sendRating(ratingForm, r)" #r="ngForm">
+                                        <input type="hidden" formControlName="listing_id">
+                                        <div class="form-group mb-5">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Rate Listing</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="rating-container">
+                                                        <irating [(value)]=rating name="rating-name" [size]="20"></irating>
+                                                    </div>
+                                                    <p>Start your review of <strong>{{details.title}}</strong></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-5">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Your Review</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <textarea formControlName="feedback" placeholder="Write your review here..."></textarea>
+                                                    <div *ngIf="ui.checkErrors(g.feedback, r)" class="errors">
+                                                        <p *ngIf="g.feedback.errors.required">Review is required</p>
+                                                        <p *ngIf="g.feedback.errors.maxlength">Maximum {{ g2.feedback.errors.maxlength.requiredLength }} charaters' | translate}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-9">
+                                                    <button type="submit" *ngIf="customerCheck=='customer'">Post Review</button>
+                                                    <div class="w-100 loggin-only" *ngIf="customerCheck=='login'">Please log in to post review...</div>
+                                                    <div class="w-100 loggin-only" *ngIf="customerCheck=='business'">Please log in as reviewer to post review...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="detail_content_row" *ngIf="reviewsList.length > 0;">
+                                <h2>Recommended Reviews</h2>
+                                <!-- Review Block -->
+                                <div class="review_row" *ngFor="let m of reviewsList; let i = index">
+                                    <div class="reviewer_detail">
+                                        <div class="rating_user">
+                                            <div class="rating_user_img"><img [src]="api.userImageUrl(m.user.id)" alt=""></div>
+                                            <div class="rating_user_name">
+                                                <h3>{{m.user.first_name}} {{m.user.last_name}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="reviewer_comments">
+                                        <div class="busniess_rating">
+                                            <div class="d-flex justify-content-between align-items-center w-100">
+                                                <div class="rating-container">
+                                                    <irating [(value)]="m.rating" [name]="'s-' +i" [size]="16" [readonly]="true"></irating>
+                                                </div>
+                                                <div class="review_date">{{moment(m.created_at).fromNow()}}</div>
+                                            </div>
+                                        </div>
+
+                                        <p>{{m.feedback}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 full_width_detail">
+                        <div class="business_contact_info mb-2 list-image text-center">
+                            <div class="ribbon">{{details.listing_images.length+1}}</div>
+                            <a (click)="open(0)" class="cursor">
+                                <img [src]="api.listingSmallThumbnailUrl(details.id)" class="img-fluid cursor" alt="">
+                            </a>
+                        </div>
+                        <div class="business_contact_info mb-2">
+                            <ul>
+                                <li style="display: none;">
+                                    <img src="./assets/images/website-icon.png" alt="">
+                                    <span><a href="#">www.domain.com</a></span>
+                                </li>
+                                <li *ngIf="details.user.business.contact">
+                                    <img src="./assets/images/phone-icon.png" alt="">
+                                    <span>{{details.user.business.contact}}</span>
+                                </li>
+                                <li *ngIf="details.user.business.address">
+                                    <img src="./assets/images/location-icon.png" alt="">
+                                    <span>{{details.user.business.address}}</span>
+                                </li>
+                                <li>
+                                    <img src="./assets/images/hours-icon.png" alt="">
+                                    <span>
+                                        {{moment('2020-08-28 '+details.user.business.opening_time).format("h:mm A")}} - {{moment('2020-08-28 '+details.user.business.closing_time).format("h:mm A")}}
+
+                                        <em style="display: none;">(Closed Now)</em></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>

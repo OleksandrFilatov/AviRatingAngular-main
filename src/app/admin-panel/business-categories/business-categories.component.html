@@ -1,0 +1,123 @@
+<div class="row m-3 no-gutters">
+  <div class="col-md-12 mb-1">
+      <div class="d-flex justify-content-between">
+          <h4>Business Categories</h4>
+          <button class="green sm mb-2" (click)="openModalBusinessCategory(category, -1,-1)">Add Business Category</button>
+      </div>
+      <div class="table-responsive" *ngIf="dataStatus == 'done'">
+          <table class="table table-sm table-hover">
+              <thead>
+                  <tr>
+                    <th>Category Image</th>  
+                    <th>Full Name</th>
+                    <th>Short Name </th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="businessCategoryList.length > 0; else noDataFound">
+                  <tr *ngFor="let d of businessCategoryList; let i = index">
+                      <td><img [src]="api.categoryImageUrl(d.id)" width="100"></td>
+                      <td>{{d.full_name}} </td>
+                      <td>{{d.short_name}} </td>
+                      <td class=" d-flex justify-content-center">
+                          <div class="px-3 danger">
+                              <i class="fa fa-trash" (click)="confirmingModal(CategoryConfirming, d.id,i)"></i>
+                          </div>
+                          <div class="image-upload">
+                              <label for="file-input" (click)="openModalBusinessCategory(category,i,d.id)">
+                                  <span class="themeCol2"><i class="fa fa-edit"></i></span>
+                              </label>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+              <ng-template #noDataFound>
+                  <tbody>
+                      <tr>
+                          <td colspan="4">
+                              <app-no-data-found></app-no-data-found>
+                          </td>
+                      </tr>
+                  </tbody>
+              </ng-template>
+
+          </table>
+      </div>
+  </div>
+</div>
+
+<ng-template #category>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Business Category</h4>
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="businessCategoryForm" (ngSubmit)="saveBusinessCategory(businessCategoryForm, f)" #f="ngForm">
+          <div class="row">
+              <div class="col-md-8">
+                  <div class ="row">
+                    <div class="col-md-12 mb-1">
+                        <label class="mb-0">Full Name <span class="mendatory">*</span></label>
+                        <input formControlName="full_name" class="form-control mt-0" placeholder="Enter Full Name" [ngClass]="{'form-submitted': f.submitted}">
+                        <div *ngIf="ui.checkErrors(g.full_name, f)" class="errors">
+                            <p *ngIf="g.full_name.errors.required">Full name is required</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-1">
+                        <label class="mb-0">Short Name <span class="mendatory">*</span></label>
+                        <input formControlName="short_name" class="form-control mt-0" placeholder="Enter Short Name" [ngClass]="{'form-submitted': f.submitted}">
+                        <div *ngIf="ui.checkErrors(g.short_name, f)" class="errors">
+                            <p *ngIf="g.short_name.errors.required">Short name is required</p>
+                        </div>
+                    </div>
+                </div>    
+              </div> 
+              <div class="col-md-4">
+                <div class="tut-pro-photo">
+                    <div>
+                        <img [src]="thumbnail" id="banner-img" class= "w-100">
+                    </div>
+                    <input type="file" style="display: none;" id="thumbnail-image" (change)="onThumbnailChange($event, cropperModal)">
+                    <div class="text-center">
+                        <button type="button" class="green sm" (click)="browseThumbnail($event)" style="min-width: 140px">Browse Picture</button>
+                    </div>
+                </div>
+            </div> 
+          </div>
+
+          <button type="submit" class="red sm m-1">save</button>
+          <button type="button" class="black sm ml-1" (click)="cancelButton(f)">Cancel</button>
+      </form>
+  </div>
+</ng-template>
+
+<ng-template #CategoryConfirming>
+  <div class="modal-body text-center">
+      <p>Do you want to Delete?</p>
+      <button type="button" class="sm green" (click)="deleteBusinessCategory()">Yes</button>
+      <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+  </div>
+</ng-template>
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">Adjust Image</h2>
+                        <div>
+                            <button type="button" class="sm red" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="150/150" [onlyScaleDown]="true" [roundCropper]="false" format="png" outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>

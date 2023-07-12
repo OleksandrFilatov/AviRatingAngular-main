@@ -1,0 +1,69 @@
+<div class="row m-3 no-gutters">
+  <div class="col-md-12 mb-1">
+      <div class="d-flex justify-content-between">
+          <h4>Settings</h4>
+      </div>
+      <div class="table-responsive" *ngIf="dataStatus == 'done'">
+          <table class="table table-sm table-hover">
+              <thead>
+                  <tr>
+                      <th>Home Banner Price</th>
+                      <th class="text-center">Actions</th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="dataList.length > 0; else noDataFound">
+                  <tr *ngFor="let d of dataList; let i = index">
+                      <td>{{d.home_banner_price}} </td>
+                      <td class=" d-flex justify-content-center">
+                          <div class="image-upload">
+                              <label for="file-input" (click)="openFormModal(form,i, d.id)">
+                                  <span class="themeCol2 edit"><i class="fa fa-edit"></i></span>
+                              </label>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+              <ng-template #noDataFound>
+                  <tbody>
+                      <tr>
+                          <td colspan="4">
+                              <app-no-data-found></app-no-data-found>
+                          </td>
+                      </tr>
+                  </tbody>
+              </ng-template>
+
+          </table>
+      </div>
+  </div>
+</div>
+
+<ng-template #form>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Home Banner Price</h4>
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="dataForm" (ngSubmit)="saveForm(dataForm, f)" #f="ngForm">
+        <div class="row">
+          <div class="col-md-12 mb-1">
+              <label class="mb-0">Price<span class="mendatory">*</span></label>
+              <input type="number" formControlName="home_banner_price" class="form-control mt-0" placeholder="Enter Home Banner Price" [ngClass]="{'form-submitted': f.submitted}">
+              <div *ngIf="ui.checkErrors(g.home_banner_price, f)" class="errors">
+                  <p *ngIf="g.home_banner_price.errors.required">Price is required</p>
+              </div>
+          </div>
+        </div>        
+
+          <button type="submit" class="red sm m-1">save</button>
+          <button type="button" class="black sm ml-1" (click)="cancelButton(f)">Cancel</button>
+      </form>
+  </div>
+</ng-template>
+
+<ng-template #DeleteModal>
+  <div class="modal-body text-center">
+      <p>Do you want to Delete?</p>
+      <button type="button" class="sm green" (click)="deleteRow()">Yes</button>
+      <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+  </div>
+</ng-template>

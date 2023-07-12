@@ -1,0 +1,47 @@
+<html lang="en">
+    <head>
+        <title>Welcome</title>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Neuton:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="website">
+        <ialerts></ialerts>
+        <div *ngIf="isLoading" class="loader-wrapper">
+            <div class="loader-body">
+                <div class="loader">
+                    <div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
+        <ng-scrollbar track="all" pointerEventsMethod="scrollbar">
+            <app-header></app-header>
+            
+                <main class="inner_main">
+                    <section class="account_wraper">
+                        <div class="container_large">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <app-sidebar></app-sidebar>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="panel_content">
+                                        <router-outlet></router-outlet>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            <app-footer></app-footer>
+        </ng-scrollbar>
+    </body>
+</html>

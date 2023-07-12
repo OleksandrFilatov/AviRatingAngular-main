@@ -1,0 +1,124 @@
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <h4>Subjects</h4>
+            <button class="green sm mb-2" (click)="openModalSubject(subject, -1)">Add Subject</button>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>English Name</th>
+                        <th>Chineese Name</th>
+                        <th>Category</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="subjectList.length > 0; else noDataFound">
+                    <tr *ngFor="let d of subjectList; let i = index">
+                        <td class="td-image-container"><img class="list-imgs" [src]="api.subjectImageUrl(d.id)" alt="no image found"></td>
+                        <td>{{d.name_en}} </td>
+                        <td>{{d.name_ch}} </td>
+                        <td>{{d.name}}</td>
+                        <td class=" d-flex justify-content-center">
+                            <div class="px-3 danger">
+                                <i class="fa fa-trash" (click)="confirmingModal(subjectConfirming, d.id,i)"></i>
+                            </div>
+                            <div class="image-upload">
+                                <label for="file-input" (click)="openModalSubject(subject,i)">
+                                    <span class="themeCol2"><i class="fa fa-edit"></i></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #subject>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Subject</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="subjectForm" (ngSubmit)="saveSubject(subjectForm, f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="mb-0">English Name <span class="mendatory">*</span></label>
+                            <input formControlName="name_en" class="form-control mt-0" placeholder="Enter English Name" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.name_en, f)" class="errors">
+                                <p *ngIf="g.name_en.errors.required">English name is required</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <label class="mb-0">Chineese Name <span class="mendatory">*</span></label>
+                            
+                            <input formControlName="name_ch" class="form-control mt-0" placeholder="Enter Chineese Name" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.name_ch, f)" class="errors">
+                                <p *ngIf="g.name_ch.errors.required">Chineese name is required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="mb-0">Subject Category <span class="mendatory">*</span></label>
+
+                                <select formControlName="subject_category_id" class="form-control mt-0" [ngClass]="{'form-submitted': f.submitted}">
+                                    <option [value]="null">Select Option</option>
+                                    <option *ngFor="let d of subjectCategoriesList" [value]="d.id">{{d.name}}</option>
+                                </select>
+
+                            <div *ngIf="ui.checkErrors(g.subject_category_id, f)" class="errors">
+                                <p *ngIf="g.subject_category_id.errors.required">Subject Category is required</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-1">
+                            <label class="mb-0">English Description</label>
+                            <textarea formControlName="description_en" class="form-control mt-0" [ngClass]="{'form-submitted': f.submitted}" placeholder="Enter English Description"></textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <label class="mb-0">Chineese Description</label>
+                            <textarea formControlName="description_ch" class="form-control mt-0" [ngClass]="{'form-submitted': f.submitted}" placeholder="Enter Chineese Description"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tut-pro-photo">
+                        <img [src]="thumbnail" id="banner-img">
+                        <input type="file" style="display: none;" id="thumbnail-image" (change)="onThumbnailChange($event)">
+                        <div class="text-center">
+                            <button type="button" class="green sm" (click)="browseThumbnail($event)" style="min-width: 140px">Browse Picture</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="green sm m-1">save</button>
+            <button type="button" class="red sm ml-1" (click)="cancelSubjectButton(f)">Cancel</button>
+
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #subjectConfirming>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="green sm" (click)="deleteSubject()">Yes</button>
+        <button type="button" class="red sm" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

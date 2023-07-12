@@ -1,0 +1,64 @@
+.admin-panel {
+    color: #292271;
+    font-family: 'Baloo Bhaina 2', cursive;
+
+    .main-container {
+        margin: 10px;
+    }
+
+    .box {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    table{
+        border:1px solid #cccccc;
+    }
+
+    table th {
+        background: var(--ap-black);
+        color: #fff;
+    }
+
+    .title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .title-wrapper .title {
+        color: var(--ap-red);
+    }
+    .table td, .table th {
+        vertical-align: middle !important;
+    }
+    .table td {
+        padding: 2px .75rem;
+    }
+
+    .mat-stepper-label-position-bottom .mat-horizontal-stepper-header {
+        padding-bottom: 0px !important;
+    }
+
+    .mat-stepper-label-position-bottom .mat-horizontal-stepper-header .mat-step-label {
+        padding-top: 5px !important;
+    }
+
+    .ro {
+        border-radius: 0px !important;
+        padding: 1px 12px !important;
+    }
+
+    .stick-top {
+        position: sticky !important;
+        top: 0px !important;
+        z-index: 10;
+    }
+    @media(max-width: 425px){
+        .box {
+            padding: 10px;
+        }   
+    }
+}

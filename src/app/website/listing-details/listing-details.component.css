@@ -1,0 +1,249 @@
+/*Business Detail*/
+.business_detail_wraper{
+	margin: 50px 0;
+}
+.business_detail{
+	background: #fff;
+	padding: 30px 20px;
+}
+.detail_content h1{
+	font-family: 'Pangram-Bold';
+	font-size: 42px;
+	margin-bottom: 10px;
+}
+.write_review{
+	margin: 20px 0;
+}
+.write_review a{
+	border-radius: 5px;
+	display: inline-block;
+	margin-right: 10px;
+	padding: 12px 20px;
+}
+.write_review a:first-child{
+	background: #0f75bc;
+	color: #fff;
+}
+.write_review a:last-child{
+	border: 1px solid #e4e5e4;
+}
+.detail_content_row{
+	margin: 50px 0;
+}
+.detail_content_row h2{
+	font-size: 24px;
+	font-family: 'Pangram-Bold';
+	margin-bottom: 20px;
+}
+.detail_content_row p{
+	color: #898989;
+    margin-bottom: 15px;
+}
+.business_photos{}
+.photo_col {
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 30px;
+    position: relative;
+}
+.photo_col img {
+    border-radius: 5px;
+    height: 140px;
+    width: 100%;
+    object-fit: cover;
+}
+#file_upload {
+    display: none;
+}
+.custom_file_upload span {
+    display: block;
+    margin-top: 20px;
+}
+.custom_file_upload {
+    display: block;
+    padding: 35px 0px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+    color: #C4C4C4;
+    font-size: 14px;
+}
+.amenities ul{}
+.amenities ul li{
+    border: 1px solid #F1F1F1;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: #777777;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.posted_by_business{
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+.posted_by_business_img{}
+.posted_by_business_img img{
+	height: 140px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+.posted_by_business_content{
+	padding: 10px;
+	border: 1px solid #e4e5e4;
+	border-top: none;
+}
+.posted_by_business_content h3{
+	font-family: 'Pangram-Bold';
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+.posted_by_business_content h4{
+	font-size: 12px;
+	color: #777777;
+}
+.business_contact_info{
+	border-radius: 5px;
+    border: 1px solid #e4e5e4;
+    padding: 0 15px;
+}
+.business_contact_info ul li{
+	border-bottom: 1px solid #e4e5e4;
+	padding: 20px 0;
+	display: flex;
+}
+.business_contact_info ul li:last-child{
+	border-bottom: none;
+}
+.business_contact_info ul li a{
+	color: #0f75bc;
+}
+.business_contact_info ul li img{
+	width: 24px;
+	object-fit: contain;
+}
+.business_contact_info ul li span{
+	margin-left: 20px;
+}
+.business_contact_info ul li span em{
+	font-style: normal;
+	color: #f43939;
+}
+.rating_user{
+	display: flex;
+	margin-bottom: 20px;
+}
+.rating_user_img img{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	object-fit: contain;
+}
+.rating_user_name{
+	margin-left: 15px;
+}
+.rating_user_name h3{
+	font-size: 18px;
+	margin-bottom: 5px;
+	font-family: 'Pangram-Bold';
+}
+.rating_user_name h4{
+	color: #777777;
+	font-size: 14px;
+}
+.reviews_wraper{
+	max-width: 900px;
+}
+.leave_review{
+	background: #fcfcfc;
+    padding: 20px;
+}
+.leave_review h2{
+	font-size: 24px;
+	font-family: 'Pangram-Bold';
+	margin-bottom: 40px;
+}
+.review_block label{
+	font-size: 16px;
+	font-family: 'Pangram-Bold';
+}
+.review_block textarea{
+	width: 100%;
+	height: 250px;
+	border-radius: 5px;
+	resize: none;
+	border: 1px solid #F1F1F1;
+	padding: 20px;
+}
+.review_block textarea:focus{
+	outline: none;
+	border: 1px solid #0f75bc;
+}
+.review_block span{
+	font-size: 24px;
+}
+.review_block button,
+.review_block input[type="submit"]{
+	background: #0f75bc;
+	border: none;
+	color: #fff;
+	border-radius: 5px;
+	padding: 10px 15px;
+	font-size: 18px;
+	min-width: 150px;
+}
+.review_row{
+	display: flex;
+	margin: 40px 0;
+	border-bottom: 1px solid #F1F1F1;
+	padding-bottom: 30px;
+}
+.reviewer_detail{
+	width: 30%;
+    max-width: 300px;
+}
+.reviewer_comments{
+	width: 70%;
+}
+.reviewer_comments .busniess_rating{
+	margin-bottom: 15px;
+}
+.reviewer_comments p{
+	color: #898989;
+    margin-bottom: 15px;
+}
+.review_date{
+    margin: 10px;
+	color: #898989;
+}
+.list-image{
+    padding-top:15px;
+    padding-bottom: 10px;
+}
+.rating-container {
+    display: inline-block;
+    margin-left: -5px;
+    margin-bottom: -9px;
+}
+.ribbon {
+    top: 0;
+    right: 16px;
+    width: 86px;
+    height: 24px;
+    position: absolute;
+    background: #065790;
+    color: #fff;
+}
+.cursor{
+    cursor: pointer;
+}
+.loggin-only{
+    background: #ffc107;
+    padding: 12px;
+    color: #fff;
+    border-radius: 5px;
+}

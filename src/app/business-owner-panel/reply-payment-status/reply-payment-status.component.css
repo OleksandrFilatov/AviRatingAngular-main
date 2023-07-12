@@ -1,0 +1,13 @@
+.margin-b-t {
+    margin-top:150px;
+    margin-bottom:75px ;
+}
+.success {
+    margin-bottom: 20px !important; color:#28A745;
+}
+.fail {
+    margin-bottom: 20px !important; color: #e33a505e;
+}
+.click-here{
+    color: #0056b3;
+}

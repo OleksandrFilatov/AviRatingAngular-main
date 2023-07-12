@@ -1,0 +1,26 @@
+/*Sidebar*/
+.sidebar_navigation{
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px 20px;
+}
+.sidebar_navigation ul li{
+    border-bottom: 1px solid #F1F1F1;
+    margin-bottom: 20px;
+}
+.sidebar_navigation ul li a{
+    font-size: 16px;
+    padding: 10px 0;
+    display: block;
+}
+.sidebar_navigation ul li a span{
+    margin-left: 10px;
+}
+.sidebar_navigation ul li:last-child{
+    border-bottom: none;
+    margin-bottom: 0;
+}
+.sidebar_navigation ul li a:hover,
+.sidebar_navigation ul li.active a{
+    color: #0f75bc;
+}

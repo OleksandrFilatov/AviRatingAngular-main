@@ -1,0 +1,37 @@
+/*Listing Page*/
+.advanced_filters{
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+	margin-bottom: 20px;
+	background: #065790;
+	position: relative;
+    top: 80px;
+    padding: 12px 0;
+}
+.filter_col{
+	margin: 0 5px;
+}
+.advanced_filters span{
+	font-size: 18px;
+	font-family: 'Pangram-Bold';
+	color: #fff;
+}
+.advanced_filters label{
+	display: block;
+	margin-bottom: 5px;
+}
+.advanced_filters input[type="text"],
+.advanced_filters select{
+	border: none;
+	background: #fff;
+	border-radius: 50px;
+	min-width: 150px;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+}
+.location_filter{
+	width: 100%;
+    max-width: 350px;
+}

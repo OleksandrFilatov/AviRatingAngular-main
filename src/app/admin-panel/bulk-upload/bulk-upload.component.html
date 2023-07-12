@@ -1,0 +1,153 @@
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <h4>Bulk Upload</h4>
+        </div>
+        <div class="row input-fields">
+           
+            <div class="col-md-6">
+                <input class="d-none" type="file" #f (change)="onFileChange($event)" id="csv-file">
+                <div class="input-group">
+                    <input style="max-height: 38px;" type="text" class="form-control" placeholder="Upload CSV File" [ngModel]="filename" readonly>
+                    <div class="input-group-append">
+                        <button class="btn green" type="button" (click)="browseFile($event)">Browse File</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button class="green" (click)="searchReviews()">Submit</button>
+
+                <a href="/assets/sample/sample-data.csv" target="_blank"><button style="background-color: rebeccapurple;" type="button">Download Sample</button></a>
+                <button style="background-color: yellowgreen;" type="button" (click)="openModal(sample, -1)">View Sample</button>
+            </div>
+        </div>
+        <div class="row mt-2" *ngIf="resultStatus==true">
+            <div class="col-md-4">
+                <h4>Total Users: {{totalUser}}</h4>
+            </div>
+            <div class="col-md-4">
+                <h4 class="success-color">Total Successfull: {{totalSuccess}}</h4>
+            </div>
+            <div class="col-md-4">
+                <h4 class="duplicate-color">Total Duplicate: {{totalFailed}}</h4>
+            </div>
+        </div>
+
+        <div class="row mt-2" *ngIf="existingUsers.length > 0">
+            <div class="col-md-12">
+                <b>Existing Users:</b>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Busniess</th>
+                                <th>Contact</th>
+                                <th>Busniess Category</th>
+                                <th>City</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of existingUsers">
+                                <td>{{d[0]}}</td>
+                                <td>{{d[1]}}</td>
+                                <td>{{d[6]}}</td>
+                                <td>{{d[12]}}</td>
+                                <td>{{d[7]}}</td>
+                                <td>{{d[8]}}</td>
+                                
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row mt-2" *ngIf="CSVDuplicateUsers.length > 0">
+            <div class="col-md-12">
+                <b>Duplicate Users in CSV:</b>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Busniess</th>
+                                <th>Contact</th>
+                                <th>Busniess Category</th>
+                                <th>City</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of CSVDuplicateUsers">
+                                <td>{{d[0]}}</td>
+                                <td>{{d[1]}}</td>
+                                <td>{{d[6]}}</td>
+                                <td>{{d[12]}}</td>
+                                <td>{{d[7]}}</td>
+                                <td>{{d[8]}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-2" *ngIf="latLngStatus === true">
+            <div class="col-md-12">
+                <b>Missing Latitute and Langitute:</b>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Busniess</th>
+                                <th>Contact</th>
+                                <th>Busniess Category</th>
+                                <th>City</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of subjectDistrictList">
+                                <td>{{d[0]}}</td>
+                                <td>{{d[1]}}</td>
+                                <td>{{d[6]}}</td>
+                                <td>{{d[12]}}</td>
+                                <td>{{d[7]}}</td>
+                                <td>{{d[8]}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #sample>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Sample</h4>
+    </div>
+    <div class="modal-body">
+        <table class="table table-sm table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th *ngFor="let col of colArray">{{col}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of userArray">
+                    <td *ngFor="let col of row">{{col}}</td>
+                </tr>
+             </tbody>
+        </table>   
+            <button type="button" class="black sm ml-1" (click)="modalRef.hide()">Cancel</button>
+        
+    </div>
+  </ng-template>

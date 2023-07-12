@@ -1,0 +1,84 @@
+<main class="inner_main">
+    <div class="my_container container">
+        <div class="airport_section">
+            <div class="airport_image">
+                <div>
+                    <img src="/assets/images/plane.jpg" style="width: 100%;">
+                </div>
+                <div style="text-align: center; width: 80%;  margin: auto"  *ngIf="this.api.user.id != 0">
+                    <a mdbBtn (click)="toggleSubscribe(airport_id, 1)" class="round-button-25-state-1 text-center waves-light"
+                    mdbWavesEffect *ngIf="airport_subscribed_state == 0">Subscribe</a>
+                    <a mdbBtn (click)="toggleSubscribe(airport_id, 0)" class="round-button-25-state-2 text-center waves-light"
+                    mdbWavesEffect *ngIf="airport_subscribed_state == 1">Unsubscribe</a>
+                    <a mdbBtn class="round-button-25-state-3 text-center waves-light" mdbWavesEffect
+                    *ngIf="airport_subscribed_state == 2">Home Airport</a>
+                </div>
+                <div  style="text-align: center; width: 80%;  margin: auto"  *ngIf="this.api.user.id == 0">
+                    <a mdbBtn (click)="signup_alert()" class="round-button-25-state-1 text-center waves-light"
+                      mdbWavesEffect *ngIf="airport_subscribed_state == 0">Subscribe</a>
+                   
+                </div>
+            </div>
+            <div class="airport_description">
+                <p>{{ airport_name }}</p>
+                <p>{{ airparks.length }} Airparks</p>
+                <p>{{ airport_latitude }}</p>
+                <p>{{ airport_longitude }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="my_container container">
+        <form class="form-inline md-form form-sm search_form" [formGroup]="airparksForm"
+            (ngSubmit)="submit(airparksForm)" #f="ngForm">
+            <div style="position: absolute; padding-left: 10px;">
+                <mdb-icon fas icon="search" aria-hidden="true"></mdb-icon>
+            </div>
+            <div style="width:100%">
+                <input [ngClass]="{'form-submitted': f.submitted}" formControlName="search_content"
+                    class="form-control form-control-sm" type="text" placeholder="Search" aria-label="Search" mdbInput
+                    class="search_input">
+            </div>
+        </form>
+        <div class="row">
+            <div [class]="'near_group_list group_list home-'+group.home_airport"
+                *ngFor="let group of airparks; let index = index">
+                <div class="css-1chnb96" tabindex="0">
+                    <div class="css-1yndm4c flex-container">
+                        <div class="css-zn2orw">
+                            <img [src]="getImageUrl(group.id)" class="group_image">
+                        </div>
+                        <div class="css-20lpta">
+                            <div>
+                                <a class="group_name" [routerLink]="['/group-post/'+group.id]">
+                                    <div class="css-wezj89">
+                                        <span data-testid="truncate-container">
+                                            <span>{{ group.group_name }}</span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="group_join" *ngIf="this.api.user.id != 0">
+                                <button mdbBtn *ngIf="group.state == 'join'" (click)="join(group.id)" class="join_btn"
+                                aria-disabled="false" type="button">Join</button>
+                                <button mdbBtn *ngIf="group.state == 'in progress'" class="join_btn" aria-disabled="false"
+                                type="button">In Progress</button>
+                                <button mdbBtn *ngIf="group.state == 'request'" (click)="requestJoin(group.id, index)" class="join_btn"
+                                aria-disabled="false" type="button"><i class="fa fa-lock"></i>Request</button>
+                                <button mdbBtn *ngIf="group.state == 'view'" [routerLink]="['/group-post/'+group.id]" class="join_btn" aria-disabled="false"
+                                type="button">View</button>
+                                <span>{{ group.group_member_cnt }} {{ group.group_member_cnt > 1 ? 'members' : 'member'
+                                    }}</span>
+                            </div>
+                            <div class="group_join" *ngIf="this.api.user.id == 0">
+                                <button mdbBtn *ngIf="group.state == 'request'" (click)="signup_alert()" class="join_btn"
+                                aria-disabled="false" type="button"><i class="fa fa-lock"></i></button>
+                                <span>{{ group.group_member_cnt }} {{ group.group_member_cnt > 1 ? 'members' : 'member'
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

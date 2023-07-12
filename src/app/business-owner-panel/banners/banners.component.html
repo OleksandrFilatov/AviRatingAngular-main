@@ -1,0 +1,188 @@
+<h2 class="heading">Banners</h2>
+<div class="owner_litings" *ngIf="dataStatus == 'done'">
+    <div class="add_business"><a (click)="openModal(bannerTemplate, -1)">Add Banner</a></div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="140px">Image</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th class="d-flex justify-content-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="results.length > 0 && dataStatus == 'done'">
+                <tr *ngFor="let d of results; let i = index">
+                    <td><img class="list-imgs" [id]="d.id+'_image'" [src]="api.bannerImageUrl(d.id)" alt="no image found"></td>
+                    <td>{{d.title}} </td>
+                    <td>{{moment(d.start_date).format(cs.DATE_TIME_FORMAT.SHORT_DATE)}} to {{moment(d.end_date).format(cs.DATE_TIME_FORMAT.SHORT_DATE)}}</td>
+                    <td>{{d.status}} </td>
+                    
+                    <td>
+                        <div class="text-center">
+                            <a  style="display: none;" (click)="openModal(bannerTemplate,i)" class="edit_btn"><i class="fas fa-edit"></i></a>
+                            <a style="display: none;" (click)="confirmingModal(confirming, d.id,i)" class="del_btn"><i class="fas fa-trash-alt"></i></a>
+                            <button *ngIf="d.status=='active'" (click)="confirmingModal(confirmingStatus, d.id,i)" class="btn btn-danger">Inactive</button>
+                            <button *ngIf="d.status=='inactive'" (click)="confirmingModal(confirmingStatus, d.id,i)" class="btn btn-primary">Active</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="results.length == 0 && dataStatus == 'done'">
+                <tr>
+                    <td colspan="1000">
+                        <app-no-data-found></app-no-data-found>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left  mt-3">
+                <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                </li>
+                
+                <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                    <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                        <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                    </li>
+                </ng-container>
+    
+                <li class="page-item" *ngIf="pagination.next_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+<ng-template #bannerTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Manage Banner</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="bannerForm" (ngSubmit)="save(bannerForm, f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="mb-1">Price Per Day: <b>${{api.homeBannerPrice}}</b></label>
+                            <br>
+                            <label *ngIf="bannerForm.value.start_date !==  null && bannerForm.value.end_date !==  null; else calTemplate" class="mb-1">Total Price: <b>{{calculate(api.homeBannerPrice)}}</b></label>
+                                <ng-template #calTemplate>
+                                    <label class="mb-1">Total Prices: <b>$0</b></label>
+                                </ng-template>
+                        </div>    
+                        <div class="col-md-6">
+                            <label class="mb-0">Title</label>
+                            <input formControlName="title" class="form-control mt-0" placeholder="Enter Title" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.title, f)" class="errors">
+                                <p *ngIf="g.title.errors.required">Title is required</p>
+                                <p *ngIf="g.title.errors.maxlength">Title limit is {{ g.title.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <label class="mb-0">URL</label>
+                            <input formControlName="banner_link" class="form-control mt-0" placeholder="Enter URL" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.banner_link, f)" class="errors">
+                                <p *ngIf="g.banner_link.errors.required">URL is required</p>
+                                <p *ngIf="g.banner_link.errors.maxlength">URL limit is {{ g.banner_link.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="mb-0">Start Date {{filters.startDate}}</label>
+                            <input formControlName="start_date" [minDate]="minDate"  placeholder="Enter Start Date" class="form-control mt-0" bsDatepicker  [bsConfig]="{placement:'bottom', adaptivePosition: true, dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-dark-blue' }">
+                            <div *ngIf="ui.checkErrors(g.start_date, f)" class="errors">
+                                <p *ngIf="g.start_date.errors.required">Start Date is required</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <label class="mb-0">End Date</label>
+                            <input formControlName="end_date" [minDate]="minDate"  placeholder="Enter End Date" class="form-control mt-0" bsDatepicker  [bsConfig]="{placement:'bottom', adaptivePosition: true, dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-dark-blue' }">
+                            <div *ngIf="ui.checkErrors(g.end_date, f)" class="errors">
+                                <p *ngIf="g.end_date.errors.required">End Date is required</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="mb-0">Description</label>
+                            <textarea class="form-control mt-0" formControlName="description" rows="5" placeholder="Enter Description" [ngClass]="{'form-submitted': f.submitted}"></textarea>
+                            <div *ngIf="ui.checkErrors(g.description, f)" class="errors">
+                                <p *ngIf="g.description.errors.required">Description is required</p>
+                                <p *ngIf="g.description.errors.maxlength">Description limit is {{ g.description.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+                
+                <div class="col-md-12  mt-2">
+                    <div class="tut-pro-photo">
+                        <img [src]="thumbnail" id="banner-img" class="banner">
+                        <input type="file" style="display: none;" id="thumbnail-image" (change)="onThumbnailChange($event, cropperModal)">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" (click)="browseThumbnail($event)" style="min-width: 140px">Upload Image</button>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+           
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" (click)="cancelMembershipButton(f)">Cancel</button>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #confirmingStatus>
+    <div class="modal-body text-center">
+        <p>Do you want to change status?</p>
+        <button type="button" class="btn btn-success mr-2" (click)="changeStatus()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #confirming>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="btn btn-success mr-2" (click)="delete()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">Adjust Image Size</h2>
+                        <div>
+                            <button type="button" class="btn btn-primary" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="8/1" [onlyScaleDown]="true" [roundCropper]="false" format="png" outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>

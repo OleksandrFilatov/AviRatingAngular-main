@@ -1,0 +1,4 @@
+Email,business name,opening time,closing time,zip_code,password,contact,state,city,Address,lat,lng,business_category_name,Sunday holiday,Monday holiday,Tuesday holiday,Wednesday holiday,Thursday holiday,Friday holiday,Saturday holiday,business Type name,airportid
+test14@mail.com,ETHEREDGE AVIATION & FLIGHT TRAINING SERVICE LLC,8:00:00,17:00:00,35128,,(205)218-3334,AL,PELL CITY,537 AIRPORT ROAD,0,0,Flight School,No,No,No,No,No,No,No,Other,
+test21@mail2.com,SANDERS FLIGHT TRAINING CENTER INC,8:00:00,17:00:00,35503,,(205)384-4359,AL,JASPER,20 ELLIS HAYNES DR.,0,0,Flight School,No,No,No,No,No,No,No,Other,114
+test31@mail3.com,TRIDENT AIRCRAFT,8:00:00,17:00:00,36360,,(334)400-2684,AL,OZARK,1110 PARKER DRIVE,0,0,Flight School,No,No,No,No,No,No,No,Other,

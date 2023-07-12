@@ -1,0 +1,10 @@
+.delete{
+    color: red;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.edit{
+    color:rgb(60, 60, 255);
+    cursor: pointer;
+    margin: 0 5px;
+}

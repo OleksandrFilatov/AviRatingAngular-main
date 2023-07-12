@@ -1,0 +1,190 @@
+<h2 class="heading">Profile Settings</h2>
+<div class="form_holder">
+    <form [formGroup]="profileFG" (ngSubmit)="save(profileFG)" #f="ngForm">
+        <input type="hidden" class="" formControlName="lat" [ngClass]="{'form-submitted': f.submitted}" />
+        <input type="hidden" class="" formControlName="lng" [ngClass]="{'form-submitted': f.submitted}" />
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First Name<span class="mendatory">*</span></label>
+                            <input type="text" formControlName="first_name" placeholder="Enter First Name"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.first_name, f)" class="errors">
+                                <p *ngIf="g.first_name.errors.required">First Name is Required</p>
+                                <p *ngIf="g.first_name.errors.maxlength">First Name limit is {{
+                                    g.first_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name<span class="mendatory">*</span></label>
+                            <input type="text" formControlName="last_name" placeholder="Enter Last Name"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.last_name, f)" class="errors">
+                                <p *ngIf="g.last_name.errors.required">Last name is required</p>
+                                <p *ngIf="g.last_name.errors.maxlength">Last Name limit is {{
+                                    g.last_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="d-block">Title <span class="mendatory">*</span></label>
+                        <select formControlName="title" [ngClass]="{'form-submitted': f.submitted}">
+                            <option [value]="null">Select Title</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Ms">Ms</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Mr">Mr</option>
+                        </select>
+                        <div *ngIf="ui.checkErrors(g.title, f)" class="errors">
+                            <p *ngIf="g.title.errors.required">Title is required</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Date of Birth <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="dob" placeholder="Select Date" bsDatepicker
+                                [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'dddd, MMMM DD, YYYY', containerClass: 'theme-dark-blue' }">
+                            <div *ngIf="ui.checkErrors(g.dob, f)" class="errors">
+                                <p *ngIf="g.dob.errors.required">Date of birth is required</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" formControlName="address" placeholder="Search location" #search
+                        [ngClass]="{'form-submitted': f.submitted}" style="width: 96%;" />
+                    <a class="marker" (click)="getLocation()"><i class="fas fa-map-marker-alt"></i></a>
+                    <div *ngIf="ui.checkErrors(g.address, f)" class="errors">
+                        <p *ngIf="g.address.errors.required">address is required</p>
+  
+                    </div>
+                </div>
+               
+                <!-- <div class="form-group">
+                    <label>Home Airport<span class="mendatory">*</span></label>
+                    <ng-select2 formControlName="home_airport" [ngClass]="{'form-submitted': f.submitted}"
+                        [data]="airports"></ng-select2>
+                    <div *ngIf="ui.checkErrors(g.home_airport, f)" class="errors">
+                        <p *ngIf="g.home_airport.errors.required">Home airport is required</p>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <label>Home Airport<span class="mendatory">*</span></label>
+                        <select formControlName="home_airport" [ngClass]="{'form-submitted': f.submitted}">
+                            <option [value]="null">Select Option</option>
+                            <option [value]="airport.airport_id" *ngFor="let airport of airports">{{ airport.airport_name }}</option>
+                        </select>
+
+                    <div *ngIf="ui.checkErrors(g.home_airport, f)" class="errors">
+                        <p *ngIf="g.home_airport.errors.required">Home airport is required</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aircraft Type<span class="mendatory">*</span></label>
+                            <input type="text" formControlName="aircraft_type" placeholder="Enter Aircraft Airport"
+                                [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.aircraft_type, f)" class="errors">
+                                <p *ngIf="g.aircraft_type.errors.required">Aircraft type is required</p>
+                                <p *ngIf="g.aircraft_type.errors.maxlength">Aircraft type limit is {{
+                                    g.aircraft_type.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aircraft Tail Number</label>
+                            <input type="text" formControlName="aircraft_tail_number"
+                                placeholder="Enter Aircraft Tail Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.aircraft_tail_number, f)" class="errors">
+                                <p *ngIf="g.aircraft_tail_number.errors.maxlength">Aircraft tail limit is{{
+                                    g.aircraft_tail_number.errors.maxlength.requiredLength
+                                    }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Contact #1 <span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" formControlName="contact_1"
+                                placeholder="Enter Contact Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.contact_1, f)" class="errors">
+                                <p *ngIf="g.contact_1.errors.required">Contact #1 is required</p>
+                                <p *ngIf="g.contact_1.errors.maxlength">Contact #1 limit is {{
+                                    g.contact_1.errors.maxlength.requiredLength
+                                    }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Contact #2</label>
+                            <input type="text" class="fadeIn" formControlName="contact_2"
+                                placeholder="Enter Contact Number" [ngClass]="{'form-submitted': f.submitted}" />
+                            <div *ngIf="ui.checkErrors(g.contact_2, f)" class="errors">
+                                <p *ngIf="g.contact_2.errors.maxlength">Contact2 Number limit is {{
+                                    g.contact_2.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="image_uploader signup_img" style="margin: 0 0 20px 0;">
+                    <h1 class="mb-3">Upload Image</h1>
+                    <label for="file_upload" class="custom_file_upload">
+                        <img [src]="thumbnail" id="banner-img" class="tut-pro-photo">
+                        <input type="file" style="display: none;" id="thumbnail-image"
+                            (change)="onThumbnailChange($event, cropperModal)">
+                        <span><button type="button" class="primary" (click)="browseThumbnail($event)"
+                                style="min-width: 140px">Browse Thumbnail</button></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="form-group">
+            <input type="submit" class="update_btn" value="Update Profile">
+        </div>
+    </form>
+</div>
+<ng-template #cropperModal>
+    <div class="modal-body">
+        <ng-scrollbar class="modal-scrollbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrapper">
+                        <h2 class="title" style="font-size: 20px;">Adjust Image</h2>
+                        <div>
+                            <button type="button" class="primary" (click)="doneCroppingThumbnail()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="240/200" [onlyScaleDown]="true" [roundCropper]="false" format="png"
+                        outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [alignImage]="'center'">
+                    </image-cropper>
+                </div>
+            </div>
+        </ng-scrollbar>
+    </div>
+</ng-template>

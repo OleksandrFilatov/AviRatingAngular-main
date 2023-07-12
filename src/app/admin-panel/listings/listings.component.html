@@ -1,0 +1,188 @@
+<div class="container-fluid">
+    <h4>Listings</h4>
+
+    <div class="row mb-3">
+        
+        <div class="ng-autocomplete col">
+            <label class="mt-2 mb-1">Busniess Owner</label>
+            <ng-autocomplete 
+                [data]="busniessUsers"
+                [(ngModel)]="busniessModel"
+                [searchKeyword]="busniessSearchKeyword"
+                (selected)='selectedBusniess($event)'
+                [itemTemplate]="itemTemplate"
+                [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+             
+            <ng-template #itemTemplate let-item>
+                <a [innerHTML]="item.first_name"></a>
+            </ng-template>
+             
+            <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+            </ng-template>
+        </div>
+        <div class="col">
+            <label style="margin-top: 9px;">Rating</label>
+            <select [(ngModel)]="avgRating" style="margin-top: 7px;" class="form-control">
+                <option value="">Select Option</option>
+                <option value="1">Less than 1</option>
+                <option value="2">Less than 2</option>
+                <option value="3">Less than 3</option>
+                <option value="4">Less than 4</option>
+                <option value="5">Less than 5</option>
+            </select>
+        </div>
+        <div class="col col d-flex align-items-end">
+            <label>&nbsp;</label>
+            <div class="btn-group" dropdown>
+                <button class="green main" (click)="page = 1;search()">Search</button>
+                <button id="button-split" type="button" dropdownToggle class="btn green dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                    <!-- <span class="caret"></span>
+                    <span class="sr-only">Split button!</span> -->
+                    <img src="/assets/images/downward.png">
+                </button>
+                <ul id="dropdown-split" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-split">
+                    <li role="menuitem"><a [routerLink]="['/admin/profile-student']" routerLinkActive="router-link-active">Add Student</a></li>
+                    <li role="menuitem"><a [routerLink]="['/admin/profile-tutor']" routerLinkActive="router-link-active">Add Tutor</a></li>
+                    <li role="menuitem"><a [routerLink]="['/admin/profile-center']" routerLinkActive="router-link-active">Add Center</a></li>
+                    <li role="menuitem"><a [routerLink]="['/admin/profile-playgroup']" routerLinkActive="router-link-active">Add Playgroup</a></li>
+                </ul>
+            </div>      
+        </div>
+    </div>
+
+    <div class="table-responsive" *ngIf="dataStatus == 'done'">
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr>
+                    <th class="name-custom">Busniess Owner</th>
+                    <th class="email-custom">Busniess Title</th>
+                    <th class="email-custom">Average rating</th>
+                    <th class="user-custom">Status</th>
+                    <th class="action-custom">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="results.length > 0; else noDataFound">
+                <tr *ngFor="let u of results; let i = index">
+                    <td>
+                    <span *ngIf="u.user!=null">{{u.user.first_name}} {{u.user.last_name}}</span>
+                    </td>
+                    <td>{{u.title}} </td>
+                    <td>{{u.avg_rating}} </td>
+                    <td>
+                        <div *ngIf="u.status=='active'" class="button-user active">{{u.status | uppercase}}</div>
+                        <div *ngIf="u.status=='inactive'" class="button-user inactive">{{u.status | uppercase}}</div>
+                        
+                    </td>
+                    <td class=" d-flex justify-content-center">
+                        <div class="d-flex">
+                            <button *ngIf="u.status == 'active'" class="red sm" (click)="inactiveConfirmation(rejectTemplate,u.id,i)">Deactivate</button>
+                            <button *ngIf="u.status == 'inactive'" class="green sm" (click)="activeConfirmation(approveTemplate,u.id,i)">Activate</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <ng-template #noDataFound>
+                <tbody>
+                    <tr>
+                        <td colspan="5">
+                            <app-no-data-found></app-no-data-found>
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left  mt-3">
+                <li class="page-item">
+                    <small *ngIf="page<10">Current Page: 0{{page}}</small>
+                    <small *ngIf="page>=10">Current Page: {{page}}</small>
+                </li>
+            </ul>
+            <ul class="pagination justify-content-left">
+                <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.prev_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Previous</a>
+                </li>
+                <ng-container *ngIf="pagination.last_page <= 6">
+
+                    <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                        <li [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+                <ng-container *ngIf="pagination.last_page >= 7">
+
+                    <ng-container *ngFor="let p of [].constructor(pagination.last_page); let i=index">
+                        <li *ngIf="i<4" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                        <li *ngIf="(pagination.last_page-i) == 3" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link">...</a>
+                        </li>
+                        <li *ngIf="(pagination.last_page-i)==1 || (pagination.last_page-i)==2" [class]="page==(i+1) ? 'page-item active' : 'page-item'">
+                            <a class="page-link" href="javascript: void(0)" (click)="setPagination(i+1)">{{i+1}}</a>
+                        </li>
+                    </ng-container>
+
+                </ng-container>
+
+                <li class="page-item" *ngIf="pagination.next_page_url != null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(+page+1)">Next</a>
+                </li>
+                <li class="page-item disabled" *ngIf="pagination.next_page_url == null">
+                    <a class="page-link" href="javascript: void(0)" tabindex="-1">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<ng-template #userFeatured>
+    <div class="modal-body text-center">
+        <p>Do you want to Featured User?</p>
+        <button type="button" class="sm green" (click)="featuredUser()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #userFeaturedCancel>
+    <div class="modal-body text-center">
+        <p>Do you want to UnFeatured User?</p>
+        <button type="button" class="sm green" (click)="featuredUserCancel()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteUserModal>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete User?</p>
+        <button type="button" class="sm green" (click)="deleteUser()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #approveTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to activate?</p>
+        <button type="button" class="sm green" (click)="active()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #rejectTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to deactivate?</p>
+        <button type="button" class="sm green" (click)="inactive()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

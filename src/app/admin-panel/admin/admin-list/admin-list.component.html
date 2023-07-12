@@ -1,0 +1,58 @@
+<div class="box">
+
+    <div class="title-wrapper">
+        <h2 class="title">Admin List</h2>
+        <button type="button" class="red pull-right" (click)="add(addEditTemplate)">Add Admin</button>
+    </div>
+
+    <div class="table-responsive" *ngIf="(dataService.data$ | async) as data">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>E-mail</th>
+                    <th class="col-actions">Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="data.length == 1 && data[0].fetching">
+                <tr>
+                    <td colspan="100" style="height: 250px;">
+                        <app-component-loader></app-component-loader>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="data.length > 0 && !data[0].fetching">
+                <tr *ngFor="let row of data; let i = index">
+                    <td>{{ row.user_name }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>
+                        <div class="d-flex">
+                            <button type="button" class="sm green" (click)="edit(addEditTemplate, i)">Edit</button>
+                            <button type="button" class="sm red" (click)="deletingIndex=i" [popover]="deleteTemplate" placement="left" [outsideClick]="true">Del</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="data.length == 0">
+                <tr>
+                    <td colspan="100">
+                        <app-no-data-found></app-no-data-found>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #addEditTemplate>
+    <div class="modal-body">
+        <app-admin-registration [index]="selectedIndex" [modalRef]="modalRef"></app-admin-registration>
+    </div>
+</ng-template>
+
+<ng-template #deleteTemplate>
+    <p>Are you sure to delete?</p>
+    <button class="xs black">No</button>
+    <button class="xs red" (click)="delete()">Yes</button>
+</ng-template>
+

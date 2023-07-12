@@ -1,0 +1,71 @@
+<h2>Business Reviews</h2>
+<div class="my_reviews"  *ngIf="dataStatus === 'done'">
+    <!-- Review Block -->
+    <ng-container  *ngIf="reviewsList.length > 0; else noDataFound">
+        <div class="review_row" *ngFor="let m of reviewsList; let i = index">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="my_reviews_img">
+                        <a [routerLink]="['/business-profile/'+m.business.id]"> 
+                            <img [src]="api.userImageUrl(m.business.id)" class="img-fluid" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="business_review">
+                        <h3>{{m.business.first_name}}</h3>
+                        <div class="busniess_rating">
+                            <div class="flex-space-x float-left small-rating">
+                            <irating  [(value)]="m.rating" [name]="'s-' +m.id" [size]="15" [readonly] = "true"></irating>
+                            </div>
+                            <span>({{m.rating}})</span>
+                            
+                        </div>
+                        <div class="review_date">{{m.created_at | date:'medium'}}</div>
+                        <p><app-read-more [text]="m.feedback" [maxLength]="300"></app-read-more></p>
+                        <ng-container *ngIf="m.review_images">
+                        
+                            <div class="gallery-thumbs">
+
+                                <div class="thumbs" *ngFor="let r of m.review_images; let i=index">
+                                    <img [src]="api.reviewImageUrl(r.id)" alt="" (click)="openGallery(i,'review',m.review_images)">
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="reply-box" *ngIf="m.reply">
+                        <p>
+                            <app-read-more [text]="m.reply" [maxLength]="300"></app-read-more>
+                        </p>
+                        <p class="text-right">{{m.reply_date | date:'medium'}}</p>
+                    </div>
+                    <ng-container *ngIf="m.reply_images">
+                        <div class="gallery-thumbs">
+                            <div class="thumbs" *ngFor="let r of m.reply_images; let i = index">
+                                <img [src]="api.replyImageUrl(r.id)" alt="" (click)="openGallery(i,'reply',m.reply_images)">
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-left">
+                    <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                        <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </ng-container>
+    <ng-template #noDataFound>
+        <div class="review_row">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-no-data-found></app-no-data-found>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>

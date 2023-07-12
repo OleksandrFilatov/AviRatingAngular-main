@@ -1,0 +1,90 @@
+<div class="row m-3 no-gutters">
+  <div class="col-md-12 mb-1">
+      <!-- <div class="d-flex justify-content-between">
+          <h4>Contact US Requests</h4>
+          <button class="green sm mb-2" (click)="openFormModal(form, -1)">Add Membership</button>
+      </div> -->
+      <div class="table-responsive" *ngIf="dataStatus == 'done'">
+          <table class="table table-sm table-hover">
+              <thead>
+                  <tr>
+                      <th>User Detail</th>
+                      <th>User Message</th>
+                      <th class="text-center">Actions</th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="dataList.length > 0; else noDataFound">
+                  <tr *ngFor="let d of dataList; let i = index">
+                      <td>
+                          <strong>Name:</strong> {{d.name}} <br> 
+                          <strong> Email:</strong> {{d.email}} <br> 
+                          <strong>Contact No:</strong> {{d.contact_no}} <br>
+                          <strong>Address:</strong> {{d.address}} <br>
+                      </td>
+                      <td>{{d.description}} </td>
+                      <td class=" d-flex justify-content-center">
+                       <span *ngIf="d.status == 'read'"><button type="button" (click)="updateStatus(d.id, 'unread')" class="sm red" >Unread</button></span>
+                       <span *ngIf="d.status == 'unread'"><button type="button" (click)="updateStatus(d.id,'read')" class="sm green" >Read</button></span>
+                      </td>
+                  </tr>
+              </tbody>
+              <ng-template #noDataFound>
+                  <tbody>
+                      <tr>
+                          <td colspan="4">
+                              <app-no-data-found></app-no-data-found>
+                          </td>
+                      </tr>
+                  </tbody>
+              </ng-template>
+
+          </table>
+      </div>
+  </div>
+</div>
+
+<ng-template #form>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Membership</h4>
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="dataForm" (ngSubmit)="saveForm(dataForm, f)" #f="ngForm">
+          <div class="row">
+              <div class="col-md-6 mb-1">
+                  <label class="mb-0">Title<span class="mendatory">*</span></label>
+                  <input formControlName="title" class="form-control mt-0" placeholder="Enter Title" [ngClass]="{'form-submitted': f.submitted}">
+                  <div *ngIf="ui.checkErrors(g.title, f)" class="errors">
+                      <p *ngIf="g.title.errors.required">Title is required</p>
+                  </div>
+              </div>
+
+              <div class="col-md-6 mb-1">
+                  <label class="mb-0">Number OF Listing<span class="mendatory">*</span></label>
+                  <input type="number" formControlName="number_of_listings" class="form-control mt-0" placeholder="Enter Number of Listing" [ngClass]="{'form-submitted': f.submitted}">
+                  <div *ngIf="ui.checkErrors(g.number_of_listings, f)" class="errors">
+                      <p *ngIf="g.number_of_listings.errors.required">Number of Listing is required</p>
+                  </div>
+              </div>
+
+              <div class="col-md-6 mb-1">
+                <label class="mb-0">Monthly Price<span class="mendatory">*</span></label>
+                <input type="number" formControlName="monthly_price" class="form-control mt-0" placeholder="Enter Price" [ngClass]="{'form-submitted': f.submitted}">
+                <div *ngIf="ui.checkErrors(g.monthly_price, f)" class="errors">
+                    <p *ngIf="g.monthly_price.errors.required">Price is required</p>
+                </div>
+            </div>
+          </div>
+
+          <button type="submit" class="red sm m-1">save</button>
+          <button type="button" class="black sm ml-1" (click)="cancelButton(f)">Cancel</button>
+      </form>
+  </div>
+</ng-template>
+
+<ng-template #DeleteModal>
+  <div class="modal-body text-center">
+      <p>Do you want to Delete?</p>
+      <button type="button" class="sm green" (click)="deleteRow()">Yes</button>
+      <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+  </div>
+</ng-template>

@@ -1,0 +1,167 @@
+<main class="inner_main container-fluid p-5">
+<section class="" *ngIf="status =='inprogress'">
+    <div class="container">
+        <h1 class="heading">Add A Business</h1>
+        <div class="form_holder">
+            <form [formGroup]="businessForm" (ngSubmit)="save(businessForm, f)" #f="ngForm">
+                
+                <div class="row">
+                    <div class="col-md-6" >
+                        <div class="form-group">
+                            <label>Business Name<span class="mendatory">*</span></label>
+                            <input type="text" class="fadeIn" placeholder="Enter Business Name"  formControlName="first_name" [ngClass]="{'form-submitted': f.submitted}"/>
+                            <div *ngIf="ui.checkErrors(g.first_name, f)" class="errors">
+                                <p *ngIf="g.first_name.errors.required">Business Name is required</p>
+                                <p *ngIf="g.first_name.errors.maxlength">Business Name limit is {{ g.user_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Phone # <span class="mendatory">*</span></label>
+                            <input type="text" class="" placeholder="Enter Phone #"  formControlName="contact" [ngClass]="{'form-submitted': f.submitted}"/>
+                            <div *ngIf="ui.checkErrors(g.contact, f)" class="errors">
+                                <p *ngIf="g.contact.errors.required">Enter Phone # is required</p>
+                                <p *ngIf="g.contact.errors.maxlength">Enter Phone # is {{ g.user_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6" >
+                        <div class="form-group">
+                            <label>Category Name<span class="mendatory">*</span></label>
+                            <select formControlName="business_category_id" class="fadeIn" [ngClass]="{'form-submitted': f.submitted}">
+                                <option [value]="null">Select Category</option>
+                                <option *ngFor="let d of businessCategoriesList" [value]="d.id">{{d.full_name}}</option>
+                            </select>
+                            <div *ngIf="ui.checkErrors(g.business_category_id, f)" class="errors">
+                                <p *ngIf="g.business_category_id.errors.required">Business Category is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Business Type<span class="mendatory">*</span></label>
+                            <select formControlName="business_type_id" class="fadeIn" [ngClass]="{'form-submitted': f.submitted}" >
+                                <option [value]="null">Select Type</option>
+                                <option *ngFor="let d of businessTypeList" [value]="d.id">{{d.full_name}}</option>
+                            </select>
+                            <div *ngIf="ui.checkErrors(g.business_type_id, f)" class="errors">
+                                <p *ngIf="g.business_type_id.errors.required">Business Type is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>State<span class="mendatory">*</span></label>
+                            <input type="text" class="" placeholder="Enter State Name"  formControlName="state" [ngClass]="{'form-submitted': f.submitted}"/>
+                            <div *ngIf="ui.checkErrors(g.city, f)" class="errors">
+                                <p *ngIf="g.state.errors.required">State Name is required</p>
+                                <p *ngIf="g.state.errors.maxlength">State Name limit is {{ g.state.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>City<span class="mendatory">*</span></label>
+                            <input type="text" class="" placeholder="Enter City Name"  formControlName="city" [ngClass]="{'form-submitted': f.submitted}"/>
+                            <div *ngIf="ui.checkErrors(g.city, f)" class="errors">
+                                <p *ngIf="g.city.errors.required">City Name is required</p>
+                                <p *ngIf="g.city.errors.maxlength">City Name limit is {{ g.city.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Zip Code<span class="mendatory">*</span></label>
+                            <input type="text" class="" placeholder="Enter Zip Code"  formControlName="zip_code" [ngClass]="{'form-submitted': f.submitted}"/>
+                            <div *ngIf="ui.checkErrors(g.zip_code, f)" class="errors">
+                                <p *ngIf="g.zip_code.errors.required">Zip Code is required</p>
+                                <p *ngIf="g.zip_code.errors.maxlength">Zip Code limit is {{ g.user_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address<span class="mendatory">*</span></label>
+                            <input type="text" style="margin: 0px; width: 96%;" class="fadeIn" placeholder="Search location" #search [(ngModel)]="address" formControlName="address">
+                            <a class="marker" (click)="getLocation()"><i class="fas fa-map-marker-alt"></i></a>
+                            <div *ngIf="ui.checkErrors(g.address, f)" class="errors">
+                                <p *ngIf="g.address.errors.required">Address is required</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+              
+                
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class="form-group">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="fadeIn" formControlName="description" placeholder="Description" [ngClass]="{'form-submitted': f.submitted}"></textarea>
+                            <div *ngIf="ui.checkErrors(g.description, f)" class="errors">
+                                <p *ngIf="g.description.errors.required">Description is required</p>
+                                <p *ngIf="g.description.errors.maxlength">Description limit is {{ g.user_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class="form-group">
+                            <div class="rating-container">
+                                <irating [(value)]=rating [size]="20"></irating>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class="form-group">
+                            <label>Feedback <span class="mendatory">*</span></label>
+                            <textarea class="fadeIn" formControlName="feedback" placeholder="Enter Feedback" [ngClass]="{'form-submitted': f.submitted}"></textarea>
+                            <div *ngIf="ui.checkErrors(g.feedback, f)" class="errors">
+                                <p *ngIf="g.feedback.errors.required">Feedback is required</p>
+                                <p *ngIf="g.feedback.errors.maxlength">Feedback limit is {{ g.user_name.errors.maxlength.requiredLength }} Charaters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="submit" value="Add Business">
+                        </div>
+                       
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="" *ngIf="status =='done'">
+    <div class="container mt-5">
+        <h1 class="heading" style="margin-bottom: 20px !important;">Successfull</h1>
+        <p class="font-25">You business has been added successfully.</p>
+        <p class="mb-2"><a href="" [routerLink]="['/add-a-business']">Click here to add more business</a></p>
+    </div>
+</section>
+</main>

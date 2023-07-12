@@ -1,0 +1,84 @@
+<main class="inner_main">
+    <div class="business_header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6 col-12 px-0 top-row">
+                    <div class="business_header_content">
+                        <h2>Grow your business with AviRating</h2>
+                        <p>Add or claim your business, keep your page up to date, respond to reviews, view click and call reports or get ahead of the game with premium upgrades and simple, powerful advertising tools.</p>
+                        <a [routerLink]="['/business-owner/listing/list']" *ngIf="userType=='business'">Manage my free listing</a>
+                        <a [routerLink]="['/registration/business']" *ngIf="userType==''">Register to post free listing</a>
+                        <p  *ngIf="userType=='login'" class="login">Please login as business to post free listing<p>
+                    </div>
+                </div>
+                <div class="col-6 px-0 hide-me">
+                    <div class="business_header_img"><img src="/assets/images/for-business.jpg" class="img-fluid" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="default_holder" style="display: none;">
+        <div class="container">
+            <div class="business_row">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="business_content">
+                            <h2>Help people get to know you</h2>
+                            <p>Manage your page and update info like hours and phone number so people can find you. Add photos to showcase the best of your business.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="business_img"><img src="/assets/images/img-1.png" class="img-fluid" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="business_row">
+                <div class="row align-items-center">
+                    <div class="col-md-6 order">
+                        <div class="business_img"><img src="/assets/images/img-2.png" class="img-fluid" alt=""></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="business_content">
+                            <h2>Connect with your community</h2>
+                            <p>Turn page visitors into customers. Let them get quotes, make appointments, or ask questions right from your business page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="business_row">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="business_content">
+                            <h2>Make customers happy</h2>
+                            <p>Stay on top of feedback and respond to reviews as soon as they come in. Engage with your customers and keep them coming back.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="business_img"><img src="/assets/images/img-3.png" class="img-fluid" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="business_row">
+                <div class="row align-items-center">
+                    <div class="col-md-6 order">
+                        <div class="business_img"><img src="/assets/images/img-4.png" class="img-fluid" alt=""></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="business_content">
+                            <h2>Get the info you need</h2>
+                            <p>See what’s happening on your page in real time. Track clicks, calls, page visits - and learn more about your potential customers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="business_row manage_listing">
+                <div class="business_img"><img src="/assets/images/img-5.png" class="img-fluid" alt=""></div>
+                <h2>Manage your free aviRating page</h2>
+                <p>Reach more customers on the #1 ranked review site for finding local businesses.</p>
+                <a [routerLink]="['/business-owner/listing/list']" *ngIf="userType=='business'">Manage my free listing</a>
+                <a [routerLink]="['/registration/business']" *ngIf="userType==''">Register to post free listing</a>
+                <p  *ngIf="userType=='login'" class="login">Please login as business to post free listing<p></p>
+            </div>
+        </div>
+    </section>
+</main>

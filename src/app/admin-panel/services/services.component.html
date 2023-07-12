@@ -1,0 +1,82 @@
+<div class="row m-3 no-gutters">
+  <div class="col-md-12 mb-1">
+      <div class="d-flex justify-content-between">
+          <h4>Services</h4>
+          <button class="green sm mb-2" (click)="openModalService(service, -1)">Add Service</button>
+      </div>
+      <div class="table-responsive" *ngIf="dataStatus == 'done'">
+          <table class="table table-sm table-hover">
+              <thead>
+                  <tr>
+                      <th>Full Name</th>
+                      <th>Short Name </th>
+                      <th class="text-center">Actions</th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="servicesList.length > 0; else noDataFound">
+                  <tr *ngFor="let d of servicesList; let i = index">
+                      <td>{{d.full_name}} </td>
+                      <td>{{d.short_name}} </td>
+                      <td class=" d-flex justify-content-center">
+                          
+                          <div class="px-2 edit">
+                                  <i class="fa fa-edit" (click)="openModalService(service,i)"></i>  
+                          </div>
+                          <div class="px-2 delete">
+                            <i class="fa fa-trash" (click)="confirmingModal(ServiceConfirming, d.id,i)"></i>
+                        </div>
+                      </td>
+                  </tr>
+              </tbody>
+              <ng-template #noDataFound>
+                  <tbody>
+                      <tr>
+                          <td colspan="4">
+                              <app-no-data-found></app-no-data-found>
+                          </td>
+                      </tr>
+                  </tbody>
+              </ng-template>
+
+          </table>
+      </div>
+  </div>
+</div>
+
+<ng-template #service>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Service</h4>
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="serviceForm" (ngSubmit)="saveService(serviceForm, f)" #f="ngForm">
+          <div class="row">
+              <div class="col-md-6 mb-1">
+                  <label class="mb-0">Full Name <span class="mendatory">*</span></label>
+                  <input formControlName="full_name" class="form-control mt-0" placeholder="Enter Full Name" [ngClass]="{'form-submitted': f.submitted}">
+                  <div *ngIf="ui.checkErrors(g.full_name, f)" class="errors">
+                      <p *ngIf="g.full_name.errors.required">Full name is required</p>
+                  </div>
+              </div>
+
+              <div class="col-md-6 mb-1">
+                  <label class="mb-0">Short Name <span class="mendatory">*</span></label>
+                  <input formControlName="short_name" class="form-control mt-0" placeholder="Enter Short Name" [ngClass]="{'form-submitted': f.submitted}">
+                  <div *ngIf="ui.checkErrors(g.short_name, f)" class="errors">
+                      <p *ngIf="g.short_name.errors.required">Short name is required</p>
+                  </div>
+              </div>
+          </div>
+
+          <button type="submit" class="red sm m-1">save</button>
+          <button type="button" class="black sm ml-1" (click)="cancelServiceButton(f)">Cancel</button>
+      </form>
+  </div>
+</ng-template>
+
+<ng-template #ServiceConfirming>
+  <div class="modal-body text-center">
+      <p>Do you want to Delete?</p>
+      <button type="button" class="sm green" (click)="deleteService()">Yes</button>
+      <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+  </div>
+</ng-template>

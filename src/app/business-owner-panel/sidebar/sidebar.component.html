@@ -1,0 +1,36 @@
+<div class="sidebar_navigation">
+    <ul>
+        <li>
+            <button type="button" class="btn btn-primary w-100">
+                {{currentSubscription}}
+            </button>            
+        </li>
+
+        <!--<li *ngIf="claimBusiness=='0'">
+            <button type="button" (click)="claimBusniess()" class="btn btn-primary w-100">
+                Claim Your Business
+            </button>            
+        </li>
+
+        <li *ngIf="claimBusiness=='2'">
+            <button type="button"  class="btn btn-warning w-100">
+                Your Business Claim In Pending
+            </button>            
+        </li>
+
+        <li *ngIf="claimBusiness=='1'">
+            <button type="button"  class="btn btn-success w-100">
+                Your Business Is Claimed
+            </button>            
+        </li>-->
+        
+        <li><a href="#" [routerLink]="['/business-owner/profile']"><i class="fas fa-cogs"></i> <span>Profile Settings</span></a></li>
+        <li><a href="#" [routerLink]="['/business-owner/subscriptions']"><i class="fas fa-user-plus"></i> <span>Subscriptions</span></a></li>
+        <li><a href="#" [routerLink]="['/business-owner/replies']"><i class="far fa-comment-dots"></i> <span>Available Replies</span></a></li>
+        <li><a href="#" [routerLink]="['/business-owner/listing/list']" [queryParams]="{page: 1}"><i class="fas fa-tasks"></i> <span>Listings Managment</span></a></li>
+        <li><a href="#" [routerLink]="['/business-owner/banners']"><i class="fas fa-flag"></i> <span>Add Banner For (${{api.homeBannerPrice}})</span></a></li>
+        <li><a href="#" [routerLink]="['/business-owner/my-business-reviews']"><i class="fas fa-star"></i> <span>Business Reviews</span></a></li>
+        <li><a href="#" [routerLink]="['/business-owner/change-password']"><i class="fas fa-lock"></i> <span>Change Password</span></a></li>
+        <li><a href="#" (click)="logOut()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+    </ul>
+</div>

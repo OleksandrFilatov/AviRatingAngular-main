@@ -1,0 +1,75 @@
+<div class="container-fluid">
+    <h4>Approval Requests</h4>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label>Status</label>
+            <select [(ngModel)]="approvalStatus.status">
+                <option value="">All</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+        <div>
+            <button (click)="getList()" class="green sm mt-4">Search</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Usertype</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="requestList.length > 0 && dataStatus == 'done'">
+                <tr *ngFor="let d of requestList; let i = index">
+                    <td>{{d.first_name}} {{d.last_name}}</td>
+                    <td>{{d.email}}</td>
+                    <td>{{d.user_type}} </td>
+                    <td>{{d.admin_approved | uppercase}} </td>
+                    <td class=" d-flex justify-content-center">
+                        <div class="d-flex">
+                            <button *ngIf="d.admin_approved == 'pending' || d.admin_approved == 'rejected'" class="green sm" (click)="approveRequestConfirmation(approveTemplate,d.id,i)">Approve</button>
+                            <button *ngIf="d.admin_approved == 'pending' || d.admin_approved == 'approved'" class="red sm" (click)="rejectRequestConfirmation(rejectTemplate,d.id,i)">Reject</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="dataStatus == 'fetching'">
+                <tr>
+                    <td colspan="10000">
+                        <app-component-loader></app-component-loader>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="dataStatus == 'done' && requestList.length == 0">
+                <tr>
+                    <td colspan="4">
+                        <app-no-data-found></app-no-data-found>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<ng-template #approveTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to approve the request?</p>
+        <button type="button" class="sm green" (click)="acceptRequest()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #rejectTemplate>
+    <div class="modal-body text-center">
+        <p>Do you want to reject the request?</p>
+        <button type="button" class="sm green" (click)="rejectRequest()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

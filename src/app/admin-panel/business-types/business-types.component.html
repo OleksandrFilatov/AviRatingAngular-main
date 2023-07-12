@@ -1,0 +1,116 @@
+<!-- <p>
+  business-types works!
+</p> -->
+
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-2">
+        <div class="d-flex justify-content-between">
+            <h4>Business Types</h4>
+            <button type="button" class="green sm mb-2" (click)="openModal(businessTypeTemplate, -1)">Add Business Type</button>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Short Name</th>
+                        <th>Price</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngIf="businessTypeData.length > 0 && dataStatus == 'done'; else noDataFound">
+                    <ng-container *ngFor="let bus of businessTypeData; let i = index">
+                        <tr>
+                            <td>{{bus.full_name}}</td>
+                            <td>{{bus.short_name}}</td>
+                            <td>{{bus.price | currency}}</td>
+
+                            <td class=" d-flex justify-content-center">
+                                <div class="px-3 danger">
+                                    <i class="fa fa-trash" (click)="confirmingModal(businessTypeConfirming, bus.id,i)"></i>
+                                </div>
+                                <div class="image-upload">
+                                    <label for="file-input" (click)="openModal(businessTypeTemplate,i,bus.id)">
+                                        <span class="themeCol2"><i class="fa fa-edit"></i></span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+                <ng-container *ngIf="dataStatus == 'fetching'">
+                    <tbody>
+                        <tr>
+                            <td colspan="100" style="height: 250px;">
+                                <app-component-loader></app-component-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #businessTypeTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Business Type</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="businessTypeForm" (ngSubmit)="saveBusinessType(businessTypeForm, f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <label class="mb-0">Full Name</label>
+                            <input formControlName="full_name" class="form-control mt-0" placeholder="Enter Full Name" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.full_name, f)" class="errors">
+                                <p *ngIf="g.full_name.errors.required">Full name is required</p>
+                                <p *ngIf="g.full_name.errors.maxlength">Full Name should be 100 Characters</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <label class="mb-0">Short Name</label>
+                            <input formControlName="short_name" class="form-control mt-0" placeholder="Enter Short Name" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.short_name, f)" class="errors">
+                                <p *ngIf="g.short_name.errors.required">Short name is required</p>
+                                <p *ngIf="g.short_name.errors.maxlength">Short name should be 50 Characters</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <label class="mb-0">Price</label>
+                            <input formControlName="price" type="number" min="0" class="form-control mt-0" placeholder="Enter Short Name" [ngClass]="{'form-submitted': f.submitted}">
+                            <div *ngIf="ui.checkErrors(g.price, f)" class="errors">
+                                <p *ngIf="g.price.errors.required">Price is required</p>
+                                <p *ngIf="g.price.errors.min">Price should not be less then 0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="red sm m-1">save</button>
+            <button type="button" class="black sm ml-1" (click)="cancelButton(f)">Cancel</button>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #businessTypeConfirming>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="green sm" (click)="deleteBusiType()">Yes</button>
+        <button type="button" class="sm black" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

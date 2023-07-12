@@ -1,0 +1,66 @@
+.list_view_listing{
+	background: #fff;
+	padding: 20px;
+}
+.list_view_column{
+	border-bottom: 1px solid #F1F1F1;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
+}
+.list_view_column:last-child{
+	border-bottom: none;
+}
+.list_view_info li{
+	margin-right: 25px;
+	padding-right: 25px;
+	border-right: 1px solid #F1F1F1;
+}
+.list_view_info li:last-child{
+	margin-right: 0;
+	padding-right: 0;
+}
+.list_view_column .listing_column_content{
+	padding: 0;
+}
+.list_view_column .listing_column_img img{
+	border-radius: 8px;
+}
+.list_view_column .listing_column_content h2{
+	font-size: 28px;
+}
+.sponsored_badge{
+	background: #0f75bc;
+	color: #fff;
+	font-size: 14px;
+	position: absolute;
+	top: 20px;
+	left: 0;
+	z-index: 1;
+	padding: 5px 12px;
+}
+.busniess_rating span {
+    font-size: 12px;
+    margin-left: 5px;
+    color: #979aaa;
+}
+.business_tags ul {
+    list-style: none;
+}
+.business_tags ul li {
+    display: inline-block;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 8em;
+    color: #393949;
+    background: #ececec;
+    margin : 10px 4px 10px;
+}
+.listing_column_content p {
+    color: #898989;
+    margin-bottom: 10px;
+}
+.rating-container {
+    display: inline-block;
+    margin-left: -5px;
+    margin-bottom: -9px;
+}

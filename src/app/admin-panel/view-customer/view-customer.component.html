@@ -1,0 +1,87 @@
+<div class="row justify-content-center" *ngIf="dataStatus=='done'">
+    <div class="col-md-11">
+        <h4  class="mb-2 text-center font-bold">View Customer</h4>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label><b>Name</b></label>
+                            <p>
+                                {{selectedCenterData.title}}. 
+                                {{selectedCenterData.user.first_name}} {{selectedCenterData.user.last_name}}
+                            </p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label><b>Email</b></label>
+                            <p>{{selectedCenterData.user.email}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label><b>Contact 1</b></label>
+                            <p>{{selectedCenterData.contact_1}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label><b>Contact 2</b></label>
+                            <p>{{selectedCenterData.contact_2}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label><b>Date Of Birth</b></label>
+                            <p>{{selectedCenterData.dob}}
+                                {{moment(selectedCenterData.dob).format(dateFormat)}}
+                            </p>
+                        </div>
+                    </div>
+
+                   
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label><b>Address#</b></label>
+                            <p>{{selectedCenterData.address}}</p>
+                        </div>
+                    </div>
+
+                    
+
+                    
+                </div>
+                <div class="row">
+                    <div class="row" *ngIf="selectedCenterData.user.review.length > 0">
+                        <hr> 
+                        <h4  class="col-md-12 mb-2  font-bold">Listings</h4>
+                        <div class="col-md-12" *ngFor="let review of selectedCenterData.user.review">
+                            <p>
+                                <b>List:</b> {{review.listing.title}}<br>
+                                <b>Rating:</b> {{review.rating}}<br>
+                                <b>FeedBack:</b> {{review.feedback}}<br>
+                                <b>To:</b> {{review.listing.user.first_name}} <br>
+                                <b>On:</b> {{moment(review.created_at).format(dateFormat)}}
+                                
+                            </p>
+                            
+                           
+                            
+                            <hr>  
+                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <img class="profile-image" [src]="api.userImageUrl(centerId)" alt="">
+            </div>
+        </div>
+        
+    </div>
+</div>

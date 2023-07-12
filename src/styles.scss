@@ -1,0 +1,192 @@
+/* You can add global styles to this file, and also import other style files */
+//@import url(https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css);
+@import "assets/css/bootstrap.min.css";
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+@import "assets/css/fonts.css";
+@import "assets/css/variables.scss";
+@import "assets/css/application.css";
+@import "assets/css/admin-panel.scss";
+@import "assets/css/website.scss";
+@import "assets/css/buttons.scss";
+@import "assets/css/input.scss";
+@import "assets/css/select.scss";
+@import "assets/css/checkbox.scss";
+@import "assets/css/radio-button.scss";
+@import "assets/css/badges.css";
+@import "assets/css/spinner.css";
+@import "assets/css/ialerts.scss";
+@import "assets/css/on-off-toggle.scss";
+@import "assets/css/typography.scss";
+@import "assets/css/responsive.css";
+
+body {
+    font-size: 0.9rem;
+}
+.page-wrapper.toggled .sidebar {
+    left: -300px;
+}
+.sidebar .ps.ps--scrolling-y > .ps__rail-y,
+.sidebar > .ps.ps--scrolling-x > .ps__rail-x,
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: transparent !important;
+}
+.sidebar .ps.ps--active-y > .ps__rail-y:hover,
+.sidebar > .ps.ps--active-y > .ps__rail-y.ps--clicking {
+  width: 10px !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+a {
+  
+    text-decoration: none !important;
+}
+
+.btn{
+     text-transform: initial !important;
+}
+.round-button-25-state-1 {
+  color: #007bff !important;
+  background-color: white;
+  border: 1px solid #007bff !important;
+  border-radius: 25px !important;
+  width: 100% !important;
+  height: 35px!important;
+  padding: .375rem .75rem!important;
+  margin: 0px !important;
+  text-transform: initial!important;
+}
+.round-button-25-state-1:hover {
+  color: white !important;
+  background-color: #007bff;
+}
+
+.round-button-25-state-2 {
+  color: coral !important;
+  background-color: white;
+  border: 1px solid coral !important;
+  border-radius: 25px !important;
+  width: 100% !important;
+  height: 35px!important;
+  padding: .375rem .75rem!important;
+  margin: 0px !important;
+  text-transform: initial!important;
+}
+.round-button-25-state-2:hover {
+  color: white !important;
+  background-color: coral;
+}
+
+.round-button-25-state-3 {
+  color: green !important;
+  background-color: white;
+  border: 1px solid green !important;
+  border-radius: 25px !important;
+  width: 100% !important;
+  height: 35px!important;
+  padding: .375rem .75rem!important;
+  margin: 0px !important;
+  text-transform: initial!important;
+}
+.round-button-25-state-3:hover {
+  color: white !important;
+  background-color: green;
+}
+
+.my_container{
+  margin-top: 20px;
+  padding: 10px;
+  max-width: 700px;
+}
+
+.badge {
+  padding: .25em .4em !important;
+}
+
+.nav-tabs{
+  border-top: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+  border-bottom:0px;
+  padding: 10px 10px 0px 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.tab-pane{
+  min-height: 200px;
+}
+
+.airparks_list{
+  border-radius: 10px;
+  border-width: 1px;
+  margin: 0px 0px 8px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 8px;
+  display: flex;
+  width: 100%;
+}
+
+.airpark_image{
+  width: 200px;
+  height: auto;
+}
+
+.airpark_image img{
+  width: 100%;
+  height: 100%;
+  border-top-left-radius:10px ;
+  border-bottom-left-radius:10px ;
+}
+
+.airpark_body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  box-sizing: border-box;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  padding: 14px;
+  overflow-wrap: break-word;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.airpark_name{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+  box-sizing: border-box;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  line-height: 20px;
+  padding-top: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+}
+
+.airpark_join{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.join_btn{
+  background-color: #91f38a;
+  color: black !important;
+  font-weight: 600;
+  padding: 10px 30px;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+}

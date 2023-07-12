@@ -1,0 +1,24 @@
+<main>
+    <section class="text_holder">
+        <div class="container_large" *ngIf="codeStatus === 'inProgress'">
+            <h2>Please wait while we are verifying you</h2>
+        </div>
+        <div class="container_large" *ngIf="codeStatus === 'valid'">
+            <h1>Your email has been verified.</h1>
+            <h4>Redirecting you to Dashboard.</h4>
+        </div>
+
+        <div class="container_large" *ngIf="codeStatus === 'expire'">
+            <h2 style="text-transform: none;">The verification code has expired.<br>
+                Please <a style="cursor: pointer;" class="lr-txt-secondary" (click)="resendCode()">click here</a>  to resend a new one.</h2>
+        </div>
+
+        <div class="container_large" *ngIf="codeStatus === 'resent'">
+            <h2 style="text-transform: none;">Verfication code for registration is resent. <br>
+                Please check your email.</h2>
+        </div>
+
+
+
+    </section>
+</main>

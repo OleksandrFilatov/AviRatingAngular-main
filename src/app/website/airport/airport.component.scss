@@ -1,0 +1,202 @@
+.container{
+    margin: auto;
+    max-width: 800px;
+}
+
+
+
+.search_form{
+    margin:15px;
+
+}
+
+.airport_section {
+    /* box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%); */
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.group_list{
+  width: 100%;
+}
+
+.airport_image{
+    width: 40%;
+    padding: 10px;
+}
+
+.airport_description{
+    padding: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: 'Roboto';
+    line-height: 2;
+    
+}
+
+.search_input{
+ 
+    padding-left: 30px  !important;
+    border-radius: 20px !important;
+    background-color: #eff1f3 !important;
+}
+
+
+
+.join_btn{
+    background-color: #91f38a;
+    color: black;
+    font-weight: 600;
+    padding: 10px 30px;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+}
+
+.css-1pliloi{
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: Lato, "Lucida Grande", Tahoma, sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 32px;
+    font-style: italic;
+}
+
+
+.group_list{
+    border-radius: 3px;
+    border-width: 1px;
+
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0px;
+    border: 0px;
+}
+
+.css-1skwaiz {
+    box-sizing: border-box;
+    margin-block-end: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: Lato, "Lucida Grande", Tahoma, sans-serif;
+    font-weight: 900;
+    line-height: 28px;
+    font-style: italic;
+    font-size: 22px;
+    padding-bottom: 16px;
+    margin-block-start: revert;
+}
+
+.css-1chnb96{
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+    padding: 0px;
+    margin: 0px 0px 8px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 100% !important;
+}
+.css-1yndm4c {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    width: 100%;
+}
+.css-zn2orw{
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0px;
+    border: 0px;
+    width: 200px;
+    height: auto;
+
+}
+@media screen and (min-width: 768px){
+    .css-zn2orw {
+        border-radius: 8px;
+    }
+}
+
+.css-20lpta {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 14px;
+    overflow-wrap: break-word;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.group_image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.css-wezj89 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", Helvetica, Roboto, "Segoe UI", Arial, sans-serif;
+    box-sizing: border-box;
+    margin-block: 0px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    line-height: 20px;
+    padding-bottom: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+}
+.group_join{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.search_form{
+    display: flex !important;
+}

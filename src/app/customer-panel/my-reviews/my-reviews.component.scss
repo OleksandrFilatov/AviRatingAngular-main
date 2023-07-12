@@ -1,0 +1,42 @@
+.my_reviews_img img{
+	border: 5px solid #fcfcfc;
+    border-radius: 5px;
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+}
+.business_review{
+	position: relative;
+}
+.business_review h3{
+	font-size: 24px;
+	font-family: 'Pangram-Bold';
+	margin-bottom: 10px;
+}
+.business_review p{
+	color: #898989;
+    margin-bottom: 15px;
+}
+.business_review  .busniess_rating{
+	margin-bottom: 20px;
+}
+.busniess_rating span {
+    font-size: 12px;
+    margin-left: 5px;
+    color: #979aaa;
+}
+.review_date {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #898989;
+}
+.review_row {
+    margin: 40px 0;
+    border-bottom: 1px solid #F1F1F1;
+    padding-bottom: 30px;
+}
+.small-rating {
+    margin-top: -8px;
+    margin-left: -5px;
+}

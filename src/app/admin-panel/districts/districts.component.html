@@ -1,0 +1,99 @@
+<div class="row m-3 no-gutters">
+    <div class="col-md-12 mb-1">
+        <div class="d-flex justify-content-between">
+            <h4>Districts</h4>
+            <button class="green sm mb-2" (click)="openModalDistrict(district, -1)">Add District</button>
+        </div>
+        <div class="table-responsive" *ngIf="dataStatus == 'done'">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Region(English)</th>
+                        <th>Region(Chinese)</th>
+                        <th>District(English)</th>
+                        <th>District(Chineese)</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="districtsList.length > 0; else noDataFound">
+                    <tr *ngFor="let d of districtsList; let i = index">
+                        <td>{{d.region.name_en}}</td>
+                        <td>{{d.region.name_ch}}</td>
+                        <td>{{d.name_en}} </td>
+                        <td>{{d.name_ch}} </td>
+                        <td class=" d-flex justify-content-center">
+                            <div class="px-3 danger">
+                                <i class="fa fa-trash" (click)="confirmingModal(districtConfirming, d.id,i)"></i>
+                            </div>
+                            <div class="image-upload">
+                                <label for="file-input" (click)="openModalDistrict(district,i)">
+                                    <span class="themeCol2"><i class="fa fa-edit"></i></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-template #noDataFound>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
+                                <app-no-data-found></app-no-data-found>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #district>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add District</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="districtForm" (ngSubmit)="saveDistrict(districtForm, f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <label class="mb-0">English Name <span class="mendatory">*</span></label>
+                    <input formControlName="name_en" class="form-control mt-0" placeholder="Enter English Name" [ngClass]="{'form-submitted': f.submitted}">
+                    <div *ngIf="ui.checkErrors(g.name_en, f)" class="errors">
+                        <p *ngIf="g.name_en.errors.required">English name is required</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-1">
+                    <label class="mb-0">Select Region <span class="mendatory">*</span></label>
+                    <select formControlName="region_id" class="form-control mt-0" [ngClass]="{'form-submitted': f.submitted}">
+                        <option [value]="null" disabled>Select Option</option>
+                        <option *ngFor="let d of regionsList" [value]="d.id">{{d.name}}</option>
+                    </select>
+                    <div *ngIf="ui.checkErrors(g.region_id, f)" class="errors">
+                        <p *ngIf="g.region_id.errors.required">Region is required</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-1">
+                    <label class="mb-0">Chineese Name <span class="mendatory">*</span></label>
+                    <input formControlName="name_ch" class="form-control mt-0" placeholder="Enter Chineese Name" [ngClass]="{'form-submitted': f.submitted}">
+                    <div *ngIf="ui.checkErrors(g.name_ch, f)" class="errors">
+                        <p *ngIf="g.name_ch.errors.required">French name is required</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="green sm m-1">save</button>
+            <button type="button" class="red sm ml-1" (click)="cancelDistrictButton(f)">Cancel</button>
+
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #districtConfirming>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="btn btn-success" (click)="deleteDistrict()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()">No</button>
+    </div>
+</ng-template>

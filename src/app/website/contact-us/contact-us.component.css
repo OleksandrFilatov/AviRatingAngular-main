@@ -1,0 +1,54 @@
+.info_col {
+    background: #fff;
+    padding: 20px;
+    min-height: 250px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+.info_col h2 {
+    font-size: 32px;
+    color: #373f53;
+    margin-bottom: 40px;
+}
+.form_holder textarea{
+    resize: none;
+    min-height: 200px;
+}
+.form_holder input[type="submit"] {
+    border-radius: 50px;
+    background: #d51c28;
+    color: #fff;
+    padding: 10px 40px;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+}
+.info_col p {
+    margin-bottom: 20px;
+}
+.info_col p span:first-child {
+    color: #2c0047;
+    margin-right: 10px;
+}
+.follow_us {
+    margin-top: 40px;
+}
+.follow_us ul {
+    list-style: none;
+}
+.follow_us ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+.follow_us ul li a {
+    display: block;
+    font-size: 24px;
+}
+.follow_us ul li a:hover{
+    color: #d51c28;
+}
+
+.top-margin {
+    margin-top: 100px;
+}

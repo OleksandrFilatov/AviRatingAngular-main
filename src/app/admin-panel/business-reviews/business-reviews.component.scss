@@ -1,0 +1,45 @@
+.custom-ratings{
+    width: 168px;
+}
+.gallery-thumbs {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: auto;
+    width: 700px;
+}
+.thumbs {
+    cursor: pointer;
+    margin: 0 3px;
+}
+.thumbs img {
+    width: 100px;
+    height: 100px;
+}
+@media only screen and (max-width: 768px){ 
+    .gallery-thumbs {
+        width: 350px;
+    }
+}
+@media only screen and (max-width: 528px){ 
+    .images-container .image-thumbnail {
+        width: 100%;
+    }
+    .business_detail {
+        padding: 0px; 
+    }
+}
+@media only screen and (max-width: 425px){ 
+    .gallery-thumbs {
+        width: 350px;
+    }
+}
+@media only screen and (max-width:375px){ 
+    .gallery-thumbs {
+        width: 300px;
+    }
+}
+@media only screen and (max-width:320px){ 
+    .gallery-thumbs {
+        width: 250px;
+    }
+}

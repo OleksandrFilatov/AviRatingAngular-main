@@ -1,0 +1,232 @@
+<main class="inner_main">
+    <div class="my_container container">
+        <div class="basic_section">
+            <div class="profile_image">
+                <div>
+                    <img [src]="getUserImageUrl(customer_id)" style="width:70%">
+                </div>
+                <div style="text-align: center; width: 70%;margin-top: 10px;">
+                    <a mdbBtn class="round-button-25-state-1 text-center waves-light" mdbWavesEffect (click) ="addFriend(customer_id)"> <i
+                            class="fa fa-user"></i> Add Friend</a>
+                </div>
+            </div>
+            <div class="profile_info">
+                <div class="info_div">
+                    <div class="info_title"><span>Name:</span></div>
+                    <div class="info_content"><span style="text-transform: capitalize;">{{ customer_first_name }} {{
+                            customer_last_name }}</span></div>
+                </div>
+                <div class="info_div">
+                    <div class="info_title"><span>Home Airport:</span></div>
+                    <div class="info_content"><span style="text-transform: capitalize;">{{ airport_name }}</span></div>
+                </div>
+                <div class="info_div">
+                    <div class="info_title"><span>Aircraft Type:</span></div>
+                    <div class="info_content"><span>{{ customer_aircraft_type }}</span></div>
+                </div>
+                <div class="info_div">
+                    <div class="info_title"><span>Aircraft Tail Number:</span></div>
+                    <div class="info_content"><span>{{ customer_aircraft_tail_number }}</span></div>
+                </div>
+                <!-- <div class="info_div">
+                    <div class="info_title"><span>Birthday:</span></div>
+                    <div class="info_content"><span>{{ customer_dob | date: 'dd-MM-yyyy'}}</span></div>
+                </div> -->
+                <div class="info_div">
+                    <div class="info_title"><span>Address:</span></div>
+                    <div class="info_content"><span>{{ customer_address }}</span></div>
+                </div>
+                <div class="info_div">
+                    <div class="info_title"><span>Contact 1:</span></div>
+                    <div class="info_content"><span>{{ customer_contact_1 }}</span></div>
+                </div>
+                <div class="info_div">
+                    <div class="info_title"><span>Contact 2:</span></div>
+                    <div class="info_content"><span>{{ customer_contact_2 }}</span></div>
+                </div>
+            </div>
+        </div>
+
+          <tabset>
+            <tab heading="Activity">
+                <div class="tab_section">
+                    <div class="activity_info">
+                        <div><a class="button activity_btn" [style]="tab_state == 1 ?  'color: #0f75bc' : 'color: initial'"
+                                (click)="tab_state = 1">{{posts_cnt}} posts</a></div>
+                        <div><a class="button activity_btn" [style]="tab_state == 2 ?  'color: #0f75bc' : 'color: initial'"
+                                (click)="tab_state = 2">{{replies_cnt}} replies</a></div>
+                        <div><a class="button activity_btn" [style]="tab_state == 3 ?  'color: #0f75bc' : 'color: initial'"
+                                (click)="tab_state = 3">{{likes_cnt}} thanks and likes</a></div>
+                    </div>
+                    <div class="posts_info" *ngIf="tab_state == 1">
+                        <div class="posts_list" *ngIf="customer_posts.length == 0" class="css-1chnb96"
+                            style="min-height: 200px; text-align: center;">
+                            <p style="vertical-align: middle;  font-weight: 600">No data found</p>
+                        </div>
+                        <div class="posts_list" *ngFor="let customer_post of customer_posts">
+                            <div class="activity_title col-sm-3"><span><i class="far fa-comment-alt"></i>&nbsp;Created a Post :
+                                </span></div>
+                            <div class="posts_content col-sm-7"><a
+                                    [routerLink]="['/customer-post/'+customer_post.id]">{{customer_post.post_content}}</a></div>
+                            <div class="posts_created_at col-sm-2">{{transform(customer_post.duration)}}</div>
+                        </div>
+                        <div class="posts_list">
+                            <a class="button" style="color: #0f75bc; font-weight: 600; cursor: pointer;" (click)="posts_more()" *ngIf="post_more">See more...</a>
+                        </div>
+                    </div>
+                    <div class="posts_info" *ngIf="tab_state == 2">
+                        <div class="posts_list" *ngIf="customer_replies.length == 0" class="css-1chnb96"
+                            style="min-height: 200px; text-align: center;">
+                            <p style="vertical-align: middle;  font-weight: 600">No data found</p>
+                        </div>
+                        <div class="posts_list" *ngFor="let customer_reply of customer_replies">
+                            <div class="activity_title col-sm-3">
+                                <span><i class="far fa-comments"></i>&nbsp;{{customer_reply.reply_type}} a Post : </span>
+                            </div>
+                            <div class="posts_content col-sm-7"><a
+                                    [routerLink]="['/customer-post/'+customer_reply.post_id]">{{customer_reply.post_content}}</a>
+                            </div>
+                            <div class="posts_created_at col-sm-2">{{transform(customer_reply.duration)}}</div>
+                        </div>
+                        <div class="posts_list">
+                            <a class="button" style="color: #0f75bc; font-weight: 600; cursor: pointer;" (click)="replies_more()" *ngIf="reply_more" >See more...</a>
+                        </div>
+                    </div>
+                    <div class="posts_info" *ngIf="tab_state == 3">
+                        <div class="posts_list" *ngIf="customer_likes.length == 0" class="css-1chnb96"
+                            style="min-height: 200px; text-align: center;">
+                            <p style="vertical-align: middle;  font-weight: 600">No data found</p>
+                        </div>
+                        <div class="posts_list" *ngFor="let customer_like of customer_likes">
+                            <div class="activity_title col-sm-3">
+                                <span><img [src]="'/assets/images/mood-'+customer_like.assessment_type+ '.svg'"
+                                        aria-hidden="true" class="emoticon">&nbsp; Post : </span>
+                            </div>
+                            <div class="posts_content col-sm-7"><a
+                                    [routerLink]="['/customer-post/'+customer_like.post_id]">{{customer_like.post_content}}</a>
+                            </div>
+                            <div class="posts_created_at col-sm-2">{{transform(customer_like.duration)}}</div>
+                        </div>
+                        <div class="posts_list">
+                            <a class="button" style="color: #0f75bc; font-weight: 600; cursor: pointer;" (click)="likes_more()" *ngIf="like_more">See more...</a>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+            <tab heading="Reviews">
+                <div class="tab_section">
+                    <ng-container *ngIf="reviewsList.length > 0; else noDataFound">
+                        <div class="review_row" *ngFor="let m of reviewsList; let i = index">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="my_reviews_img">
+                                        <img [src]="api.userImageUrl(m.user.id)" class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="business_review">
+                                        <h3>{{m.user.first_name}} {{m.user.last_name}}</h3>
+                                        <div class="busniess_rating">
+                                            <div class="flex-space-x float-left small-rating">
+                                                <irating [(value)]="m.rating" [name]="'s-' +m.id" [size]="15" [readonly]="true"></irating>
+                                            </div>
+                                            <span>({{m.rating}})</span>
+                                        </div>
+                                        <div class="review_date">{{m.created_at | date:'medium'}}</div>
+                                        <p>
+                                            <app-read-more [text]="m.feedback" [maxLength]="300"></app-read-more>
+                                        </p>
+                                        <ng-container *ngIf="m.review_images">
+                                        
+                                            <div class="gallery-thumbs">
+                
+                                                <div class="thumbs" *ngFor="let r of m.review_images; let i = index">
+                                                    <img [src]="api.reviewImageUrl(r.id)" alt="" (click)="openGallery(i,'review',m.review_images)">
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <!-- <p *ngIf="m.reply==null"><button (click)="openModal(replyTemplate,i)" class="reply-btn" type="button">Reply</button></p> -->
+                                        <p *ngIf="m.reply==null">
+                                            <button (click)="checkRemainingReplies(replyTemplate,i)" class="reply-btn" type="button">Reply</button>
+                                        </p>
+                                        <div class="reply-box" *ngIf="m.reply">
+                                            <p>
+                                                <app-read-more [text]="m.reply" [maxLength]="300"></app-read-more>
+                                            </p>
+                                            <p class="text-right">{{m.reply_date | date:'medium'}}</p>
+                
+                                           
+                                        </div>
+                                        <ng-container *ngIf="m.reply_images">
+                                        
+                                            <div class="gallery-thumbs">
+                
+                                                <div class="thumbs" *ngFor="let r of m.reply_images; let i = index">
+                                                    <img [src]="api.replyImageUrl(r.id)" alt="" (click)="openGallery(i,'reply',m.reply_images)">
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                
+                                </div>
+                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-left">
+                                    <li class="page-item" *ngIf="pagination.prev_page_url != null">
+                                        <a class="page-link" href="javascript: void(0)" tabindex="-1" (click)="setPagination(page-1)">Previous</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </ng-container>
+                </div>
+            </tab>
+            <tab heading="Community"> 
+                <div class="tab_section">
+                    <div class="airparks_list" *ngFor="let group of customer_airparks; let index = index">
+                        <div class="airpark_image">
+                            <img [src]="getGroupImageUrl(group.id)" class="group_image">
+                        </div>
+                        <div class="airpark_body">
+                            <a class="airpark_name" [routerLink]="['/group-post/'+group.id]">
+                                <span data-testid="truncate-container">
+                                    <span>{{ group.group_name }}</span>
+                                </span>
+                            </a>    
+                            <div class="airpark_join">
+                                <!-- <button mdbBtn *ngIf="group.state == 'join'" [routerLink]="['/group-post/'+group.id]" class="join_btn"
+                                aria-disabled="false" type="button">Join</button> -->
+                                <button mdbBtn *ngIf="group.state == 'join'" (click)="join(group.id)" class="join_btn"
+                                aria-disabled="false" type="button">Join</button>
+                                <button mdbBtn *ngIf="group.state == 'in progress'" class="join_btn" aria-disabled="false"
+                                type="button">In Progress</button>
+                                <button mdbBtn *ngIf="group.state == 'request'" (click)="joinRequest(group.id, index)" class="join_btn"
+                                aria-disabled="false" type="button"><i class="fa fa-lock"></i>Request</button>
+                                <span>{{ group.group_member_cnt }} {{ group.group_member_cnt > 1 ? 'members' : 'member' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="button" style="color: #0f75bc; font-weight: 600; cursor: pointer;" (click)="airparks_more()" *ngIf="airpark_more">See more...</a>
+                </div>
+            </tab>
+            <tab heading="Photos/Videos"> 
+                <div class="media_section">
+                    <div class ="media_item" *ngFor="let media of customer_medias; let index = index" >
+                        <img [src]="getPostImageUrl(media.image_name)" class="post_image"  *ngIf="media.type =='image'">
+                        <img [src]="getPostVideoUrl(media.video_name)" class="post_image"  *ngIf="media.type =='video'">
+                        <div class="media_mask" ><span>{{ media.post_content }}</span></div>
+                    </div>
+                </div>
+            </tab>
+         </tabset>
+    </div>
+</main>
+<ng-template #noDataFound>
+    <div class="review_row">
+        <div class="row">
+            <div class="col-md-12">
+                <app-no-data-found></app-no-data-found>
+            </div>
+        </div>
+    </div>
+</ng-template>

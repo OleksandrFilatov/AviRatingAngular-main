@@ -1,0 +1,256 @@
+<main class="inner_main">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mysidebar">
+        <div class="row">
+          <button [routerLink]="['/airparks']" mdbBtn type="button"
+            style="background-color: white; color: black; width: 100%;" class="waves-light group-tap"
+            mdbWavesEffect>Airports/Airparks</button>
+          <button [routerLink]="['/my-posts']" mdbBtn type="button"
+            style="background-color: white; color: black; width: 100%;" class="waves-light group-tap"
+            mdbWavesEffect>Posts</button>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <!-- <div class="post_list" *ngFor="let post of customer_posts; let postindex = index"> -->
+        <div class="post_list">
+          <div class="post_header">
+            <div class="post_avatar">
+              <img class="avatar_photo" [src]="getUserImageUrl(user_id)" alt="" [routerLink]="['/customer-profile/'+user_id]" />
+            </div>
+            <span class="avatar_name">
+              <span class="post-avatar-name">{{ first_name }} {{ last_name }}</span>
+
+              <span data-testid="author-children-test" class="_2P02evKh _3AsYwNHz">
+                <div class="post-byline post-byline-redesign">{{ transform(duration) }}
+                </div>
+              </span>
+            </span>
+          </div>
+          <div class='post_body'>
+            <div style="margin-bottom: 10px;">
+              <mdb-carousel [isControls]="true" [animation]="'slide'" *ngIf="image_cnt > 1">
+                <mdb-slide *ngFor="let url of getSliderObject(image_cnt, post.id)">
+                  <img class="d-block w-100" [src]="url" alt="">
+                </mdb-slide>
+              </mdb-carousel>
+              <img [src]="getSliderObject(image_cnt, customer_post.id)[0]" *ngIf="image_cnt == 1" width="100%" />
+              <video [src]="getVideoUrl(customer_post.id)" controls autoplay width="100%" *ngIf="video_cnt > 0"></video>
+            </div>
+            <div>
+              <p style="word-break: break-all;">
+                {{(isShowMore || 180 > post_content_length) ? post_content :
+                post_content |  slice:0:180}} 
+                <span *ngIf="!isShowMore && post_content_length > 180">... <a href="javascript:;"
+                    (click)="isShowMore=true" style="color: #007fed;">Read
+                    more</a></span>
+              </p>
+            </div>
+          </div>
+          <div class='post-action'>
+            <div class='post-action-button-group'>
+              <div class="css-1biwvap">
+                <button aria-live="off" aria-label="Like" type="button" class="post-action-button tooltip">
+                  <i class='far fa-heart' style="margin-right: 5px;"></i>
+                  <span>Like</span>
+                  <span class="tooltiptext">
+                    <button class="post-action-button" *ngFor="let kudo of kudoList" [title]="kudo.content"
+                      (click)="postLikeFunc(customer_post.id, kudo.content)">
+                      <img [alt]="kudo.content" aria-hidden="true" [src]="kudo.source" class="emoticon">
+                    </button>
+                  </span>
+                </button>
+              </div>
+              <div class="css-1biwvap">
+                <button aria-live="off" aria-label="Like" type="button" class="post-action-button">
+                  <i class='far fa-comment-alt' style="margin-right: 5px;"></i>
+                  <span *ngIf="comment.length == 0"> Commnet</span>
+                  <span *ngIf="comment.length == 1">{{ comment.length }} Commnet</span>
+                  <span *ngIf="comment.length > 1">{{ comment.length }} Commnets</span>
+                </button>
+              </div>
+            </div>
+            <div class="post-action-count-container">
+              <div class="css-1biwvap">
+                <div class="post-assessments-view" style="z-index: 1;" *ngIf="getKudoRank().length > 2">
+                  <img aria-hidden="true" [src]="getKudoRank()[2]" style="width: 16px;">
+                </div>
+                <div class="post-assessments-view" style="z-index: 3;" *ngIf="getKudoRank().length > 0">
+                  <img aria-hidden="true" [src]="getKudoRank()[0]" style="width: 18px;">
+                </div>
+                <div class="post-assessments-view" style="z-index: 2;" *ngIf="getKudoRank().length > 1">
+                  <img aria-hidden="true" [src]="getKudoRank()[1]" style="width: 16px;">
+                </div>
+                <div style="margin-left: 5px;" *ngIf="assessment.length > 0">
+                  <span>{{ assessment.length }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='comment_container'>
+            <div *ngFor="let cmt of comment; let cmtindex = index">
+
+              <div class="comment_list">
+                <div class="comment_avatar">
+                  <img class="avatar_photo" [src]="getUserImageUrl(cmt.user_id)" alt="" [routerLink]="['/customer-profile/'+cmt.user_id]"/>
+                </div>
+                <div class='comment_body'>
+                  <div>
+                    <span class="avatar_name">
+                      <span class="comment-avatar-name">{{ cmt.user.first_name }} {{ cmt.user.last_name }}</span>
+                    </span>
+                  </div>
+                  <div>
+                    <p style="word-break: break-all;" class="content-body">
+                      <span data-testid="truncate-container">
+                        {{ cmt.comment_content }}
+                      </span>
+                    </p>
+                  </div>
+                  <div class='comment-action'>
+                    <div class='post-action-button-group'>
+                      <div class="css-1biwvap">
+                        <div class="post-byline post-byline-redesign" style="padding: 5px;">{{ transform(cmt.duration)
+                          }}
+                        </div>
+                        <button aria-live="off" aria-label="Like" type="button" class="post-action-button tooltip">
+                          <span style="color: #008fb2; font-weight: 600;">Like</span>
+                          <span class="tooltiptext">
+                            <button class="post-action-button" *ngFor="let kudo of kudoList" [title]="kudo.content"
+                              (click)="commentLike(cmtindex, cmt.id, kudo.content)">
+                              <img [alt]="kudo.content" aria-hidden="true" [src]="kudo.source" class="emoticon">
+                            </button>
+                          </span>
+                        </button>
+                        <button aria-live="off" aria-label="Reply" type="button" class="post-action-button">
+                          <span style="color: #008fb2; font-weight: 600;"
+                            (click)="toggleShowReplyAdd(cmt.id)">Reply</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="post-action-count-container">
+                      <div class="css-1biwvap">
+                        <div class="post-assessments-view" style="z-index: 1;"
+                          *ngIf="getCmtKudoRank(cmtindex).length > 2">
+                          <img aria-hidden="true" [src]="getCmtKudoRank(cmtindex)[2]" style="width: 16px;">
+                        </div>
+                        <div class="post-assessments-view" style="z-index: 3;"
+                          *ngIf="getCmtKudoRank(cmtindex).length > 0">
+                          <img aria-hidden="true" [src]="getCmtKudoRank(cmtindex)[0]" style="width: 18px;">
+                        </div>
+                        <div class="post-assessments-view" style="z-index: 2;"
+                          *ngIf="getCmtKudoRank(cmtindex).length > 1">
+                          <img aria-hidden="true" [src]="getCmtKudoRank(cmtindex)[1]" style="width: 16px;">
+                        </div>
+                        <div style="margin-left: 5px;" *ngIf="cmt.assessment.length > 0">
+                          <span>{{ cmt.assessment.length }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='comment_container'>
+                    <div *ngFor="let reply of cmt.reply; let replyindex = index">
+                      <div class="comment_list">
+                        <div class="comment_avatar">
+                          <img class="avatar_photo" [src]="getUserImageUrl(reply.user_id)" alt="" [routerLink]="['/customer-profile/'+reply.user_id]" />
+                        </div>
+                        <div class='comment_body'>
+                          <div>
+                            <span class="avatar_name">
+                              <span class="comment-avatar-name">{{ reply.user.first_name }} {{ reply.user.last_name }}</span>
+                            </span>
+                          </div>
+                          <div>
+                            <p style="word-break: break-all;" class="content-body">
+                              <span data-testid="truncate-container">
+                                {{ reply.reply_content }}
+                              </span>
+                            </p>
+                          </div>
+                          <div class='comment-action'>
+                            <div class='post-action-button-group'>
+                              <div class="css-1biwvap">
+                                <div class="post-byline post-byline-redesign" style="padding: 5px;">{{
+                                  transform(reply.duration) }}
+                                </div>
+                                <button aria-live="off" aria-label="Like" type="button"
+                                  class="post-action-button tooltip">
+                                  <span style="color: #008fb2; font-weight: 600;">Like</span>
+                                  <span class="tooltiptext">
+                                    <button class="post-action-button" *ngFor="let kudo of kudoList"
+                                      [title]="kudo.content"
+                                      (click)="replyLike(cmtindex, replyindex, reply.id, kudo.content)">
+                                      <img [alt]="kudo.content" aria-hidden="true" [src]="kudo.source" class="emoticon">
+                                    </button>
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="post-action-count-container">
+                              <div class="css-1biwvap">
+                                <div class="post-assessments-view" style="z-index: 1;"
+                                  *ngIf="getReplyKudoRank(cmtindex, replyindex).length > 2">
+                                  <img aria-hidden="true" [src]="getReplyKudoRank(cmtindex, replyindex)[2]"
+                                    style="width: 16px;">
+                                </div>
+                                <div class="post-assessments-view" style="z-index: 3;"
+                                  *ngIf="getReplyKudoRank(cmtindex, replyindex).length > 0">
+                                  <img aria-hidden="true" [src]="getReplyKudoRank(cmtindex, replyindex)[0]"
+                                    style="width: 18px;">
+                                </div>
+                                <div class="post-assessments-view" style="z-index: 2;"
+                                  *ngIf="getReplyKudoRank(cmtindex, replyindex).length > 1">
+                                  <img aria-hidden="true" [src]="getReplyKudoRank(cmtindex, replyindex)[1]"
+                                    style="width: 16px;">
+                                </div>
+                                <div style="margin-left: 5px;" *ngIf="reply.assessment.length > 0">
+                                  <span>{{ reply.assessment.length }}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <form class='post_footer form form-inline d-none' [class]="'create-reply-form'+cmt.id"
+                    [formGroup]="createReplyForm"
+                    (ngSubmit)="createReply(cmtindex, createReplyForm, customer_post.id, cmt.id)" #f="ngForm">
+                    <div class="add_comment">
+                      <div class="comment_avatar">
+                        <img class="avatar_photo" data-pin-nopin="true" [src]="getUserImageUrl(api.user.id)" [routerLink]="['/customer-profile/'+api.user.id]"
+                          style="height: 40px; width: 40px;">
+                      </div>
+                      <div class='comment_input'>
+                        <input type="text" [ngClass]="{'form-submitted': f.submitted}" formControlName="reply_content"
+                          class="comment-composer-text-input-prompt redesign" placeholder="Add a reply....">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <form class='post_footer form form-inline' [formGroup]="createCommentForm"
+            (ngSubmit)="createComment(createCommentForm, customer_post.id)" #f="ngForm">
+            <div class="add_comment">
+              <div class="comment_avatar">
+                <img class="avatar_photo" data-pin-nopin="true" [src]="getUserImageUrl(api.user.id)"
+                  style="height: 40px; width: 40px;" [routerLink]="['/customer-profile/'+api.user.id]">
+              </div>
+              <div class='comment_input'>
+                <input type="text" [ngClass]="{'form-submitted': f.submitted}" formControlName="comment_content"
+                  class="comment-composer-text-input-prompt redesign" placeholder="Add a comment....">
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- </div> -->
+      </div>
+
+    </div>
+
+  </div>
+</main>
